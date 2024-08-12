@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 public enum Category {
     A01 ("자연"),
     A02 ("인문(문화/예술/역사"),
-    A03 ("자연"),
+    A03 ("스포츠"),
     A04 ("쇼핑"),
     A05 ("음식"),
     B02 ("숙박"),

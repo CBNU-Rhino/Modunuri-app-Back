@@ -2,13 +2,13 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/app?serverTimezone=UTC&characterEncoding=utf8
-    username: root
+    username: myuser
     password: 1234
   jpa:
     hibernate:
       ddl-auto: update
     properties:
-      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+      hibernate.dialect: org.hibernate.dialect.MySQLDialect
     show-sql: true
 
 
@@ -28,3 +28,6 @@ spring:
           token-uri: https://kauth.kakao.com/oauth/token
           user-info-uri: https://kapi.kakao.com/v2/user/me
           user-name-attribute: id
+  publicdata:
+    api:
+      key: 2Gg03XhptQP5XMHb41ax7xhXwo%2F6CYGp32tip9JD8HXBj067jjfvAXLLmXbN0H2EqGFoM2NXoUdCVCL6mb7I2Q%3D%3D

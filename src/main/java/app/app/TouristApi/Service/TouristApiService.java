@@ -32,7 +32,7 @@ public class TouristApiService {
         this.touristInfoRepository = touristInfoRepository;
         this.objectMapper = objectMapper;
         // 서비스 키를 수동으로 인코딩
-        this.serviceKey = "fHhnNwA7fGBGdq%2FTX99FNNLQJh6pa3CQTHUPpKpk%2FyNHVqEzIDueYm2EKXOq7%2BfjY4fS4KpjCEQBoG3oQ0tTaQ%3D%3D";
+        this.serviceKey = "2Gg03XhptQP5XMHb41ax7xhXwo/6CYGp32tip9JD8HXBj067jjfvAXLLmXbN0H2EqGFoM2NXoUdCVCL6mb7I2Q==";
     }
 
     public String getTouristData(int contentTypeId, int areaCode, int sigunguCode) {
