@@ -11,7 +11,7 @@ import lombok.Setter;
 @Table(name = "area")
 @Getter
 @Setter
-public class Area{
+public class AreaEntity {
 
     @Id
     private String code;

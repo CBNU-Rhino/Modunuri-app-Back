@@ -1,4 +1,4 @@
-package app.app.TouristApi;
+package app.app.TouristApi.Entity;
 
 
 import jakarta.persistence.Entity;

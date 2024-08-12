@@ -1,6 +1,6 @@
 package app.app.TouristApi.Repository;
 
-import app.app.TouristApi.TouristInfo;
+import app.app.TouristApi.Entity.TouristInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
