@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Category {
+public enum Category { //25번 추천코스 - 무장애여행 없음
     A01 ("자연", 12),
     A02 ("인문(문화/예술/역사)", 14),
     A03 ("스포츠", 28),
