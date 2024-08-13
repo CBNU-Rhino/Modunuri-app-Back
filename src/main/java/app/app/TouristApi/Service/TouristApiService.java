@@ -139,4 +139,68 @@ public class TouristApiService {
             logger.error("Failed to retrieve data from API");
         }
     }
+    public String getTouristDataByRegionAndSigungu(int contentTypeId, String regionName, String sigunguName) {
+        int regionCode = getRegionCodeByRegionName(regionName);
+        String sigunguCode = getSigunguCode(regionCode, sigunguName);
+
+        if (regionCode == -1) {
+            logger.error("Invalid region name: " + regionName);
+            return null;
+        }
+
+        if (sigunguCode == null) {
+            logger.error("Invalid sigungu name: " + sigunguName);
+            return null;
+        }
+
+        return getTouristData(contentTypeId, regionCode, Integer.parseInt(sigunguCode));
+    }
+    private int getRegionCodeByRegionName(String regionName) {
+        switch (regionName) {
+            case "서울특별시":
+                return 1;
+            case "인천광역시":
+                return 2;
+            case "대전광역시":
+                return 3;
+            case "대구광역시":
+                return 4;
+            case "광주광역시":
+                return 5;
+            case "부산광역시":
+                return 6;
+            case "울산광역시":
+                return 7;
+            case "경기도":
+                return 31;
+            case "강원도":
+                return 32;
+            case "충청북도":
+                return 33;
+            case "충청남도":
+                return 34;
+            case "경상북도":
+                return 35;
+            case "경상남도":
+                return 36;
+            case "전라북도":
+                return 37;
+            case "전라남도":
+                return 38;
+            case "제주도":
+                return 39;
+            default:
+                return -1; // 유효하지 않은 지역명
+        }
+    }
+
+    private String getSigunguCode(int regionCode, String sigunguName) {
+        for (Area enumArea : Area.values()) {
+            if (enumArea.getRegionCode() == regionCode && enumArea.getRegionName().equalsIgnoreCase(sigunguName)) {
+                return enumArea.getSigunguCode();
+            }
+        }
+        return null;
+    }
+
 }

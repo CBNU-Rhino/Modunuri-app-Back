@@ -1,5 +1,6 @@
 package app.app.TouristApi.Controller;
 
+import app.app.TouristApi.DTO.TouristRequestDTO;
 import app.app.TouristApi.Service.TouristApiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,10 +34,11 @@ public class TouristController {
 
     // 새로운 코드: 지역명을 입력받아 지역코드와 시군구코드를 매핑해주는 엔드포인트
     @PostMapping("/api/tourist-info-by-name")
-    public ResponseEntity<String> getTouristInfoByName(@RequestBody TouristRequestByName touristRequest) {
-        String touristData = touristApiService.getTouristDataByRegionName(
+    public ResponseEntity<String> getTouristInfoByRegionAndSigungu(@RequestBody TouristRequestDTO touristRequest) {
+        String touristData = touristApiService.getTouristDataByRegionAndSigungu(
+                touristRequest.getContentTypeId(),
                 touristRequest.getRegionName(),
-                touristRequest.getContentTypeId()
+                touristRequest.getSigunguName()
         );
 
         if (touristData != null) {
