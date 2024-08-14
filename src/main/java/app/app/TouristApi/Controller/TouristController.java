@@ -3,9 +3,7 @@ package app.app.TouristApi.Controller;
 import app.app.TouristApi.DTO.TouristRequestDTO;
 import app.app.TouristApi.Service.TouristApiService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TouristController {
@@ -100,4 +98,5 @@ public class TouristController {
             this.regionName = regionName;
         }
     }
+
 }

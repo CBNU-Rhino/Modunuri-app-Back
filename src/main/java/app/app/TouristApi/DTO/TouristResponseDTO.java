@@ -59,6 +59,7 @@ public class TouristResponseDTO {
                     private String tel;
                     private String title;
                     private String zipCode;
+                    private String cpyrhtDivCd;
                 }
             }
         }
