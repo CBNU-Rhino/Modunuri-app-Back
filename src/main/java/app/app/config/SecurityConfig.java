@@ -19,7 +19,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/tourist-info").permitAll() // 관광지 정보 조회 경로를 허용
                         .requestMatchers("/api/tourist-info-by-name").permitAll() // 지역명으로 관광지 정보 조회 경로를 허용
                         .requestMatchers("/api/save-tourist-info").permitAll() // saveTouristInfo 경로를 허용
-                        .requestMatchers("/api/tourist-info/{contentId}", "/api/tourist-info/{contentId}/accessible-info").permitAll() // 관광지 정보와 무장애 정보 조회 경로를 허용
+                        .requestMatchers("/api/tourist-info/**").permitAll() // 관광지 정보와 무장애 정보 조회 경로를 허용
                         .anyRequest().authenticated() // 그 외 요청은 인증 필요
                 );
 
