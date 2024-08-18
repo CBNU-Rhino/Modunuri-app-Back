@@ -6,6 +6,7 @@ import app.app.TouristApi.DTO.TouristDetailDTO;
 import app.app.TouristApi.Entity.AccessibleInfo;
 import app.app.TouristApi.Entity.TouristInfo;
 import app.app.TouristApi.Repository.TouristInfoRepository;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class TouristApiService {
@@ -25,7 +28,7 @@ public class TouristApiService {
     private final TouristInfoRepository touristInfoRepository;
     private final AccessibleInfoRepository accessibleInfoRepository;
     private final ObjectMapper objectMapper;
-    private final String serviceKey = "fHhnNwA7fGBGdq%2FTX99FNNLQJh6pa3CQTHUPpKpk%2FyNHVqEzIDueYm2EKXOq7%2BfjY4fS4KpjCEQBoG3oQ0tTaQ%3D%3D"; // 실제 API 키로 변경
+    private final String serviceKey = "fHhnNwA7fGBGdq%2FTX99FNNLQJh6pa3CQTHUPpKpk%2FyNHVqEzIDueYm2EKXOq7%2BfjY4fS4KpjCEQBoG3oQ0tTaQ%3D%3D";
 
     public TouristApiService(RestTemplate restTemplate, TouristInfoRepository touristInfoRepository, AccessibleInfoRepository accessibleInfoRepository, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
@@ -154,15 +157,30 @@ public class TouristApiService {
         }
         return null;
     }
+    public TouristDetailDTO getTouristInfo(String contentId, String contentTypeId) {
+        try {
+            String encodedContentId = URLEncoder.encode(contentId, StandardCharsets.UTF_8.toString());
+            String encodedContentTypeId = URLEncoder.encode(contentTypeId, StandardCharsets.UTF_8.toString());
 
-    public TouristDetailDTO getTouristDetails(String contentId) {
-        TouristInfo touristInfo = touristInfoRepository.findByContentId(contentId);
-        AccessibleInfo accessibleInfo = accessibleInfoRepository.findByContentId(contentId);
+            String url = String.format(
+                    "https://apis.data.go.kr/B551011/KorWithService1/detailCommon1" +
+                            "?serviceKey=%s&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest" +
+                            "&contentId=%s&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y" +
+                            "&_type=json&contentTypeId=%s",
+                    serviceKey, encodedContentId, encodedContentTypeId);
 
-        TouristDetailDTO detailDTO = new TouristDetailDTO();
-        detailDTO.setTouristInfo(touristInfo);
-        detailDTO.setAccessibleInfo(accessibleInfo);
+            String jsonResponse = restTemplate.getForObject(new URI(url), String.class);
+            System.out.println("JSON Response: " + jsonResponse);  // JSON 응답 출력
 
-        return detailDTO;
+            JsonNode rootNode = objectMapper.readTree(jsonResponse);
+            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
+            TouristDetailDTO touristDetail = objectMapper.treeToValue(itemNode, TouristDetailDTO.class);
+            System.out.println("Tourist Detail: " + touristDetail);  // 변환된 객체 출력
+            return touristDetail;
+        } catch (Exception e) {
+            System.out.println("예외 발생: " + e.getMessage());
+            return null;
+        }
     }
+
 }

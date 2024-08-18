@@ -2,8 +2,8 @@ package app.app.TouristApi.Controller;
 
 import app.app.TouristApi.DTO.TouristDetailDTO;
 import app.app.TouristApi.DTO.TouristRequestDTO;
+import app.app.TouristApi.Entity.CombinedTouristInfo;
 import app.app.TouristApi.Service.TouristApiService;
-import app.app.TouristApi.Service.TouristService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.*;
 public class TouristController {
 
     private final TouristApiService touristApiService;
-    private final TouristService touristService;
 
-    public TouristController(TouristApiService touristApiService, TouristService touristService) {
+    public TouristController(TouristApiService touristApiService) {
         this.touristApiService = touristApiService;
-        this.touristService = touristService;
     }
 
     // 기존 코드: 지역코드와 시군구코드를 직접 입력받는 엔드포인트
@@ -51,14 +49,12 @@ public class TouristController {
         }
     }
 
-    @GetMapping("/tourist-info/{contentId}/details")
-    public ResponseEntity<TouristDetailDTO> getTouristAndAccessibleInfo(
-            @PathVariable String contentId,
-            @RequestParam int contentTypeId) {
+    @GetMapping("/tourist-information")
+    public TouristDetailDTO getTouristInfo(@RequestParam String contentId, @RequestParam String contentTypeId) {
+        return touristApiService.getTouristInfo(contentId, contentTypeId);
 
-        TouristDetailDTO details = touristService.getTouristAndAccessibleInfo(contentId, contentTypeId);
-        return ResponseEntity.ok(details);
     }
+
     // TouristRequest 클래스 정의
     public static class TouristRequest {
         private int contentTypeId;
