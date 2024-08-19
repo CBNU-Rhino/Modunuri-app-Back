@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class TouristDetailDTO {
+
     @JsonProperty("contentid")
     private String contentId;
 

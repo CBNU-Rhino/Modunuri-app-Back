@@ -201,4 +201,31 @@ public class TouristApiService {
             return null;
         }
     }
+
+    public void fetchAndSaveTouristData() {
+        int[] contentTypes = {12, 14, 15, 25, 28, 32, 38, 39};
+
+        for (int contentTypeId : contentTypes) {
+            for (Area area : Area.values()) {
+                String jsonResponse = getTouristData(contentTypeId, area.getRegionCode(), Integer.parseInt(area.getSigunguCode()));
+                if (jsonResponse != null) {
+                    saveTouristDataToDB(jsonResponse);
+                }
+            }
+        }
+    }
+
+    public void saveTouristDataToDB(String jsonResponse) {
+        try {
+            JsonNode rootNode = objectMapper.readTree(jsonResponse);
+            JsonNode itemsNode = rootNode.path("response").path("body").path("items").path("item");
+
+            for (JsonNode itemNode : itemsNode) {
+                TouristInfo touristInfo = objectMapper.treeToValue(itemNode, TouristInfo.class);
+                touristInfoRepository.save(touristInfo);
+            }
+        } catch (Exception e) {
+            logger.error("Error saving tourist data to database", e);
+        }
+    }
 }

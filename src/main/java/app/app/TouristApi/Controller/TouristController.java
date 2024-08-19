@@ -58,6 +58,11 @@ public class TouristController {
         return touristApiService.getTouristInfoWithAccessibility(contentId, contentTypeId);
     }
 
+    @GetMapping("/fetch-tourist-data")
+    public String fetchTouristData() {
+        touristApiService.fetchAndSaveTouristData();
+        return "Tourist data fetching and saving initiated.";
+    }
     // TouristRequest 클래스 정의
     public static class TouristRequest {
         private int contentTypeId;
