@@ -1,6 +1,7 @@
 package app.app.TouristApi.Controller;
 
 import app.app.TouristApi.DTO.TouristDetailDTO;
+import app.app.TouristApi.DTO.TouristInfoWithAccessibilityDTO;
 import app.app.TouristApi.DTO.TouristRequestDTO;
 import app.app.TouristApi.Entity.CombinedTouristInfo;
 import app.app.TouristApi.Service.TouristApiService;
@@ -50,9 +51,11 @@ public class TouristController {
     }
 
     @GetMapping("/tourist-information")
-    public TouristDetailDTO getTouristInfo(@RequestParam String contentId, @RequestParam String contentTypeId) {
-        return touristApiService.getTouristInfo(contentId, contentTypeId);
+    public TouristInfoWithAccessibilityDTO getTouristInformation(
+            @RequestParam String contentId,
+            @RequestParam String contentTypeId) {
 
+        return touristApiService.getTouristInfoWithAccessibility(contentId, contentTypeId);
     }
 
     // TouristRequest 클래스 정의

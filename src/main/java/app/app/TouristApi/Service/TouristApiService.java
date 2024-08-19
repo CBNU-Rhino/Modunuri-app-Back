@@ -1,6 +1,8 @@
 package app.app.TouristApi.Service;
 
 import app.app.Code.Area;
+import app.app.TouristApi.DTO.AccessibilityInfoDTO;
+import app.app.TouristApi.DTO.TouristInfoWithAccessibilityDTO;
 import app.app.TouristApi.Repository.AccessibleInfoRepository;
 import app.app.TouristApi.DTO.TouristDetailDTO;
 import app.app.TouristApi.Entity.AccessibleInfo;
@@ -157,30 +159,46 @@ public class TouristApiService {
         }
         return null;
     }
-    public TouristDetailDTO getTouristInfo(String contentId, String contentTypeId) {
+
+
+    public TouristInfoWithAccessibilityDTO getTouristInfoWithAccessibility(String contentId, String contentTypeId) {
         try {
+            // 관광지 정보 가져오기
             String encodedContentId = URLEncoder.encode(contentId, StandardCharsets.UTF_8.toString());
             String encodedContentTypeId = URLEncoder.encode(contentTypeId, StandardCharsets.UTF_8.toString());
-
-            String url = String.format(
+            String urlTourist = String.format(
                     "https://apis.data.go.kr/B551011/KorWithService1/detailCommon1" +
                             "?serviceKey=%s&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest" +
                             "&contentId=%s&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y" +
                             "&_type=json&contentTypeId=%s",
                     serviceKey, encodedContentId, encodedContentTypeId);
 
-            String jsonResponse = restTemplate.getForObject(new URI(url), String.class);
-            System.out.println("JSON Response: " + jsonResponse);  // JSON 응답 출력
+            String jsonResponseTourist = restTemplate.getForObject(new URI(urlTourist), String.class);
+            JsonNode rootNodeTourist = objectMapper.readTree(jsonResponseTourist);
+            JsonNode itemNodeTourist = rootNodeTourist.path("response").path("body").path("items").path("item").get(0);
+            TouristDetailDTO touristDetail = objectMapper.treeToValue(itemNodeTourist, TouristDetailDTO.class);
 
-            JsonNode rootNode = objectMapper.readTree(jsonResponse);
-            JsonNode itemNode = rootNode.path("response").path("body").path("items").path("item").get(0);
-            TouristDetailDTO touristDetail = objectMapper.treeToValue(itemNode, TouristDetailDTO.class);
-            System.out.println("Tourist Detail: " + touristDetail);  // 변환된 객체 출력
-            return touristDetail;
+            // 무장애 정보 가져오기
+            String urlAccessibility = String.format(
+                    "https://apis.data.go.kr/B551011/KorWithService1/detailWithTour1" +
+                            "?serviceKey=%s&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest" +
+                            "&contentId=%s&_type=json",
+                    serviceKey, encodedContentId);
+
+            String jsonResponseAccessibility = restTemplate.getForObject(new URI(urlAccessibility), String.class);
+            JsonNode rootNodeAccessibility = objectMapper.readTree(jsonResponseAccessibility);
+            JsonNode itemNodeAccessibility = rootNodeAccessibility.path("response").path("body").path("items").path("item").get(0);
+            AccessibilityInfoDTO accessibilityInfo = objectMapper.treeToValue(itemNodeAccessibility, AccessibilityInfoDTO.class);
+
+            // 두 정보를 합쳐서 반환
+            TouristInfoWithAccessibilityDTO result = new TouristInfoWithAccessibilityDTO();
+            result.setTouristDetail(touristDetail);
+            result.setAccessibilityInfo(accessibilityInfo);
+            return result;
+
         } catch (Exception e) {
             System.out.println("예외 발생: " + e.getMessage());
             return null;
         }
     }
-
 }

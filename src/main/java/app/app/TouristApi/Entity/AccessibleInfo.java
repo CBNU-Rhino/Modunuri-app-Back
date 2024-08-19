@@ -105,7 +105,4 @@ public class AccessibleInfo { // 무장애 정보 엔티티
 
     @XmlElement(name = "infantsfamilyetc")
     private String infantsFamilyEtc;  // 유아 동반 가족 관련 기타 정보
-
-    @XmlElement(name = "overview")
-    private String overview; // 개요 정보
 }
