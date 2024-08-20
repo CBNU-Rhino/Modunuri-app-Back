@@ -30,8 +30,7 @@ public class TouristApiService {
     private final TouristInfoRepository touristInfoRepository;
     private final AccessibleInfoRepository accessibleInfoRepository;
     private final ObjectMapper objectMapper;
-    private final String serviceKey = "fHhnNwA7fGBGdq%2FTX99FNNLQJh6pa3CQTHUPpKpk%2FyNHVqEzIDueYm2EKXOq7%2BfjY4fS4KpjCEQBoG3oQ0tTaQ%3D%3D";
-
+    private final String serviceKey = "knONR4se32EgjmISYqGMQbJCkBc9C87i0zlzG%2Bt9N7SR43fKuFo1MbcessO2UKHqt6HY0%2FN8UmrHHQ9WNwSwdw%3D%3D";
     public TouristApiService(RestTemplate restTemplate, TouristInfoRepository touristInfoRepository, AccessibleInfoRepository accessibleInfoRepository, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.touristInfoRepository = touristInfoRepository;
@@ -43,7 +42,7 @@ public class TouristApiService {
         try {
             String url = String.format(
                     "https://apis.data.go.kr/B551011/KorWithService1/areaBasedList1" +
-                            "?serviceKey=%s&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest" +
+                            "?serviceKey=%s&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest" +
                             "&listYN=Y&arrange=C&_type=json&contentTypeId=%d&areaCode=%d&sigunguCode=%d",
                     serviceKey, contentTypeId, areaCode, sigunguCode);
 
@@ -204,16 +203,34 @@ public class TouristApiService {
 
     public void fetchAndSaveTouristData() {
         int[] contentTypes = {12, 14, 15, 25, 28, 32, 38, 39};
+        boolean startSaving = false;
 
         for (int contentTypeId : contentTypes) {
             for (Area area : Area.values()) {
-                String jsonResponse = getTouristData(contentTypeId, area.getRegionCode(), Integer.parseInt(area.getSigunguCode()));
-                if (jsonResponse != null) {
-                    saveTouristDataToDB(jsonResponse);
+                // 오산 이후 지역부터 저장 시작
+                if (area == Area.A3133) {
+                    startSaving = true;
+                }
+
+                if (startSaving) {
+                    // 중복 확인
+                    boolean exists = touristInfoRepository.existsByContentTypeIdAndAreaCodeAndSigunguCode(
+                            String.valueOf(contentTypeId),
+                            String.valueOf(area.getRegionCode()),
+                            area.getSigunguCode()
+                    );
+
+                    if (!exists) {
+                        String jsonResponse = getTouristData(contentTypeId, area.getRegionCode(), Integer.parseInt(area.getSigunguCode()));
+                        if (jsonResponse != null) {
+                            saveTouristDataToDB(jsonResponse);
+                        }
+                    }
                 }
             }
         }
     }
+
 
     public void saveTouristDataToDB(String jsonResponse) {
         try {

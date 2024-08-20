@@ -63,6 +63,7 @@ public class TouristController {
         touristApiService.fetchAndSaveTouristData();
         return "Tourist data fetching and saving initiated.";
     }
+
     // TouristRequest 클래스 정의
     public static class TouristRequest {
         private int contentTypeId;
