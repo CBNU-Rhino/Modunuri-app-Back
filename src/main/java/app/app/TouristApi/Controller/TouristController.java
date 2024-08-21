@@ -64,6 +64,13 @@ public class TouristController {
         return "Tourist data fetching and saving initiated.";
     }
 
+    // 새로운 엔드포인트: 무장애 정보 가져오기 및 저장하기
+    @GetMapping("/fetch-accessible-info")
+    public String fetchAndSaveAccessibleInfo() {
+        touristApiService.fetchAndSaveAccessibilityInfo();
+        return "Accessible info fetching and saving initiated.";
+    }
+
     // TouristRequest 클래스 정의
     public static class TouristRequest {
         private int contentTypeId;

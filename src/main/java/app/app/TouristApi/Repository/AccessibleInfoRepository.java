@@ -7,4 +7,5 @@ import app.app.TouristApi.Entity.AccessibleInfo;
 @Repository
 public interface AccessibleInfoRepository extends JpaRepository<AccessibleInfo, Long> {
     AccessibleInfo findByContentId(String contentId);
+    boolean existsByContentId(String contentId);
 }

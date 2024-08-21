@@ -20,6 +20,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Service
 public class TouristApiService {
@@ -30,7 +31,7 @@ public class TouristApiService {
     private final TouristInfoRepository touristInfoRepository;
     private final AccessibleInfoRepository accessibleInfoRepository;
     private final ObjectMapper objectMapper;
-    private final String serviceKey = "knONR4se32EgjmISYqGMQbJCkBc9C87i0zlzG%2Bt9N7SR43fKuFo1MbcessO2UKHqt6HY0%2FN8UmrHHQ9WNwSwdw%3D%3D";
+    private final String serviceKey = "fHhnNwA7fGBGdq%2FTX99FNNLQJh6pa3CQTHUPpKpk%2FyNHVqEzIDueYm2EKXOq7%2BfjY4fS4KpjCEQBoG3oQ0tTaQ%3D%3D";
     public TouristApiService(RestTemplate restTemplate, TouristInfoRepository touristInfoRepository, AccessibleInfoRepository accessibleInfoRepository, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.touristInfoRepository = touristInfoRepository;
@@ -231,7 +232,6 @@ public class TouristApiService {
         }
     }
 
-
     public void saveTouristDataToDB(String jsonResponse) {
         try {
             JsonNode rootNode = objectMapper.readTree(jsonResponse);
@@ -243,6 +243,69 @@ public class TouristApiService {
             }
         } catch (Exception e) {
             logger.error("Error saving tourist data to database", e);
+        }
+    }
+
+    public void fetchAndSaveAccessibilityInfo() {
+        // TouristInfo 테이블에서 모든 데이터 조회
+        List<TouristInfo> touristInfos = touristInfoRepository.findAll();
+
+        for (TouristInfo touristInfo : touristInfos) {
+            String contentId = touristInfo.getContentId();
+
+            // accessible_info 테이블에 이미 contentId가 있는지 확인
+            if (accessibleInfoRepository.existsByContentId(contentId)) {
+                // 이미 존재하면 API 호출을 생략하고 다음 contentId로 이동
+                continue;
+            }
+
+            // 존재하지 않으면 API 호출
+            String jsonResponse = getAccessibilityData(contentId);
+
+            if (jsonResponse != null) {
+                saveAccessibilityInfoToDB(contentId, jsonResponse);
+            }
+        }
+    }
+
+    private String getAccessibilityData(String contentId) {
+        try {
+            String url = String.format(
+                    "https://apis.data.go.kr/B551011/KorWithService1/detailWithTour1" +
+                            "?serviceKey=%s&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId=%s&_type=json",
+                    serviceKey, contentId);
+
+            URI uri = new URI(url);
+            String jsonResponse = restTemplate.getForObject(uri, String.class);
+
+            if (jsonResponse != null && jsonResponse.startsWith("<")) {
+                logger.error("Received an XML response instead of JSON. Likely an API key issue.");
+                logger.error("Response: {}", jsonResponse);
+                return null;
+            }
+
+            return jsonResponse;
+
+        } catch (URISyntaxException e) {
+            logger.error("Invalid URI Syntax", e);
+            return null;
+        } catch (Exception e) {
+            logger.error("Error occurred during API request", e);
+            return null;
+        }
+    }
+
+    private void saveAccessibilityInfoToDB(String contentId, String jsonResponse) {
+        try {
+            JsonNode rootNode = objectMapper.readTree(jsonResponse);
+            JsonNode itemsNode = rootNode.path("response").path("body").path("items").path("item").get(0);
+
+            AccessibleInfo accessibilityInfo = objectMapper.treeToValue(itemsNode, AccessibleInfo.class);
+            accessibilityInfo.setContentId(contentId);  // 연관 contentId 설정
+
+            accessibleInfoRepository.save(accessibilityInfo);
+        } catch (Exception e) {
+            logger.error("Error saving accessibility info to database", e);
         }
     }
 }

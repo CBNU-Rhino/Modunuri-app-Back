@@ -22,6 +22,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/tourist-info/**").permitAll()
                         .requestMatchers("/api/tourist-information").permitAll()// 관광지 정보와 무장애 정보 조회 경로를 허용
                         .requestMatchers("/api/fetch-tourist-data").permitAll()
+                        .requestMatchers("/api/fetch-accessible-info").permitAll()
                         .anyRequest().authenticated() // 그 외 요청은 인증 필요
                 );
         return http.build();
