@@ -4,105 +4,103 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-@XmlRootElement(name = "accessibleItem")
 public class AccessibleInfo { // 무장애 정보 엔티티
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @XmlElement(name = "contentid")
+    @JsonProperty("contentid")
     private String contentId;         // 컨텐츠 ID (TouristInfo와 연결)
 
-    @XmlElement(name = "parking")
+    @JsonProperty("parking")
     private String parking;           // 주차 가능 여부
 
-    @XmlElement(name = "route")
+    @JsonProperty("route")
     private String route;             // 경로 정보
 
-    @XmlElement(name = "publictransport")
+    @JsonProperty("publictransport")
     private String publicTransport;   // 대중교통 정보
 
-    @XmlElement(name = "ticketoffice")
+    @JsonProperty("ticketoffice")
     private String ticketOffice;      // 매표소 정보
 
-    @XmlElement(name = "promotion")
+    @JsonProperty("promotion")
     private String promotion;         // 홍보물 정보
 
-    @XmlElement(name = "wheelchair")
+    @JsonProperty("wheelchair")
     private String wheelchair;        // 휠체어 정보
 
-    @XmlElement(name = "exitInfo")
+    @JsonProperty("exitInfo")
     private String exitInfo;  // 수정된 필드 이름
 
-    @XmlElement(name = "elevator")
+    @JsonProperty("elevator")
     private String elevator;          // 엘리베이터 정보
 
-    @XmlElement(name = "restroom")
+    @JsonProperty("restroom")
     private String restroom;          // 화장실 정보
 
-    @XmlElement(name = "auditorium")
+    @JsonProperty("auditorium")
     private String auditorium;        // 강당 정보
 
-    @XmlElement(name = "room")
+    @JsonProperty("room")
     private String room;              // 객실 정보
 
-    @XmlElement(name = "handicapetc")
+    @JsonProperty("handicapetc")
     private String handicapEtc;       // 기타 장애 관련 정보
 
-    @XmlElement(name = "braileblock")
+    @JsonProperty("braileblock")
     private String brailleBlock;      // 점자블록 정보
 
-    @XmlElement(name = "helpdog")
+    @JsonProperty("helpdog")
     private String helpDog;           // 도우미견 가능 여부
 
-    @XmlElement(name = "guidehuman")
+    @JsonProperty("guidehuman")
     private String guideHuman;        // 안내인 정보
 
-    @XmlElement(name = "audioguide")
+    @JsonProperty("audioguide")
     private String audioGuide;        // 오디오 가이드 정보
 
-    @XmlElement(name = "bigprint")
+    @JsonProperty("bigprint")
     private String bigPrint;          // 큰 글씨 안내문 정보
 
-    @XmlElement(name = "brailepromotion")
+    @JsonProperty("brailepromotion")
     private String braillePromotion;  // 점자 홍보물 정보
 
-    @XmlElement(name = "guidesystem")
+    @JsonProperty("guidesystem")
     private String guideSystem;       // 안내 시스템 정보
 
-    @XmlElement(name = "blindhandicapetc")
+    @JsonProperty("blindhandicapetc")
     private String blindHandicapEtc;  // 시각장애 관련 기타 정보
 
-    @XmlElement(name = "signguide")
+    @JsonProperty("signguide")
     private String signGuide;         // 수화 안내 정보
 
-    @XmlElement(name = "videoguide")
+    @JsonProperty("videoguide")
     private String videoGuide;        // 비디오 안내 정보
 
-    @XmlElement(name = "hearingroom")
+    @JsonProperty("hearingroom")
     private String hearingRoom;       // 청각장애 객실 정보
 
-    @XmlElement(name = "hearinghandicapetc")
+    @JsonProperty("hearinghandicapetc")
     private String hearingHandicapEtc;// 청각장애 관련 기타 정보
 
-    @XmlElement(name = "stroller")
+    @JsonProperty("stroller")
     private String stroller;          // 유모차 대여 정보
 
-    @XmlElement(name = "lactationroom")
+    @JsonProperty("lactationroom")
     private String lactationRoom;     // 수유실 정보
 
-    @XmlElement(name = "babysparechair")
+    @JsonProperty("babysparechair")
     private String babySpareChair;    // 아기 여분 의자 정보
 
-    @XmlElement(name = "infantsfamilyetc")
+    @JsonProperty("infantsfamilyetc")
     private String infantsFamilyEtc;  // 유아 동반 가족 관련 기타 정보
 }
