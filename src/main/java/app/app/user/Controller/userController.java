@@ -8,14 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class userController {
 
     @Autowired
     private UserService userService;
 
 
-    @PostMapping("/register")
+    @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
         try {
             // UserDTO를 사용하여 사용자 등록
