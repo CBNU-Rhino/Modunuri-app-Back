@@ -28,8 +28,4 @@ public class UserDTO {
     @Size(min = 6, message = "비밀번호는 최소 6자 이상이어야 합니다.")
     private String password;
 
-    @NotBlank(message = "전화번호는 필수입니다.")
-    @Size(min = 8, message = "전화번호를 형식에 맞게 입력하세요.")
-    private String phoneNumber; // 전화번호
-
 }

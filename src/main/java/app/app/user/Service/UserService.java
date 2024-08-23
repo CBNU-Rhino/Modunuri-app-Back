@@ -15,7 +15,7 @@ public class UserService {
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public User registerUser(String username, String password, String email, String phoneNumber) {
+    public User registerUser(String username, String password, String email) {
         // 이메일 중복 체크
         if (userRepository.findByEmail(email) != null) {
             throw new RuntimeException("이미 사용 중인 이메일입니다.");
@@ -23,7 +23,7 @@ public class UserService {
 
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(password);
-        User newUser = new User(username, encodedPassword, email,phoneNumber);
+        User newUser = new User(username, encodedPassword, email);
         return userRepository.save(newUser); // 사용자 저장
     }
 
