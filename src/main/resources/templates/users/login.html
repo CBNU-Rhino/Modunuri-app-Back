@@ -3,24 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}"> <!-- External CSS 파일 연결 -->
-    <script>
-        function checkLogin() {
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-
-            const userData = JSON.parse(localStorage.getItem(username));
-
-            if (userData && userData.password === password) {
-                localStorage.setItem('loggedInUser', username); // 로그인 상태 저장
-                alert('로그인 성공!');
-                window.location.href = 'index.html'; // 로그인 후 이동할 페이지
-            } else {
-                alert('아이디 또는 비밀번호가 잘못되었습니다.');
-            }
-        }
-    </script>
+    <title>Log In</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <!-- Header Section -->
@@ -31,33 +15,21 @@
             MODUNURI
         </a>
     </div>
-    <form class="search-container" action="/search" method="GET">
-        <input type="text" placeholder="Search..." class="search-input" name="query">
-    </form>
-
-    <nav>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Travel Tips</a></li>
-            <li><a href="#">Community</a></li>
-            <li><a href="#">Support Center</a></li>
-            <li class="nav-item-right"><a href="signup.html" class="sign-in-button">Sign In</a></li>
-        </ul>
-    </nav>
 </header>
 
-<!-- Login Section -->
+<!-- Log In Section -->
 <div class="login-container">
-    <h1>Login</h1>
-    <form onsubmit="checkLogin(); return false;">
-        <label for="login-username">Username:</label>
-        <input type="text" id="login-username" required>
+    <h1>Log In</h1>
+    <form action="/users/login" method="post">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
 
-        <label for="login-password">Password:</label>
-        <input type="password" id="login-password" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
 
         <button type="submit" class="login-button">Log In</button>
     </form>
+    <p>Don't have an account? <a href="/users/signup" class="link-to-signup">Sign Up</a></p>
 </div>
 </body>
 </html>

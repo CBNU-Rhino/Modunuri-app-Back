@@ -4,7 +4,6 @@ import app.app.user.DTO.UserDTO;
 import app.app.user.User;
 import app.app.user.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,14 +46,21 @@ public class userController {
     }
 
 
-    // 로그인 요청을 처리하는 POST 메서드
+
+    @GetMapping("/login")
+    public String showLoginPage() {
+        return "users/login"; // resources/templates/users/login.html을 렌더링
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+    public String login(@ModelAttribute UserDTO userDTO, RedirectAttributes redirectAttributes) {
         User user = userService.login(userDTO.getEmail(), userDTO.getPassword());
         if (user != null) {
-            return ResponseEntity.ok(user); // 로그인 성공 시 사용자 정보 반환
+            redirectAttributes.addFlashAttribute("message", "로그인 성공!");
+            return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
         } else {
-            return ResponseEntity.status(401).body("이메일 또는 비밀번호가 잘못되었습니다."); // 로그인 실패 시 오류 메시지 반환
+            redirectAttributes.addFlashAttribute("error", "이메일 또는 비밀번호가 잘못되었습니다.");
+            return "redirect:/users/login"; // 로그인 실패 시 로그인 페이지로 리다이렉트
         }
     }
 }
