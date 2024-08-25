@@ -19,7 +19,7 @@
 <div class="login-container">
     <h1>Log In</h1>
     <form action="/users/login" method="post">
-        <label for="email">Email:</label>
+        <label for="email">ID:</label>
         <input type="email" id="email" name="username" required> <!-- name="username"으로 변경 -->
 
         <label for="password">Password:</label>
@@ -31,7 +31,7 @@
 
     <!-- 로그인 실패 시 에러 메시지 표시 -->
     <div th:if="${param.error}" class="error">
-        Invalid email or password.
+        Invalid email or password. <!-- 테스토 용으로 쓴거임(변경가능) -->
     </div>
 </div>
 </body>

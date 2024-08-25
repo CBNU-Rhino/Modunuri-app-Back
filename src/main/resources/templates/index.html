@@ -25,7 +25,14 @@
             <li><a href="#">Travel Tips</a></li>
             <li><a href="#">Community</a></li>
             <li><a href="#">Support Center</a></li>
-            <li class="nav-item-right"><a href="users/signup" class="sign-in-button">Sign In</a></li>
+            <!-- 로그인 상태 확인 -->
+            <li class="nav-item-right">
+                <span th:if="${username != null}">
+                    <a th:text="${username} + '님 안녕하세요'"></a>
+                    <a href="/users/logout" class="sign-out-button">Logout</a>
+                </span>
+                <a th:if="${username == null}" href="users/signup" class="sign-in-button">Sign In</a>
+            </li>
         </ul>
     </nav>
 </header>
