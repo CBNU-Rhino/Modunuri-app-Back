@@ -11,7 +11,6 @@ spring:
       hibernate.dialect: org.hibernate.dialect.MySQLDialect
     show-sql: true
 
-
   kakao:
     client_id: 9e7786142c02ceecc7551f66b0d94383
     client-secret: sshFcbRxOgpfqUirZlcWx4Qa4KmuZuxL
@@ -20,14 +19,24 @@ spring:
     client-authentication-method: POST
     client-name: Kakao
     scope:
-        - profile_nickname
-        - profile_image
+      - profile_nickname
+      - profile_image
   provider:
-        kakao:
-          authorization-uri: https://kauth.kakao.com/oauth/authorize
-          token-uri: https://kauth.kakao.com/oauth/token
-          user-info-uri: https://kapi.kakao.com/v2/user/me
-          user-name-attribute: id
+    kakao:
+      authorization-uri: https://kauth.kakao.com/oauth/authorize
+      token-uri: https://kauth.kakao.com/oauth/token
+      user-info-uri: https://kapi.kakao.com/v2/user/me
+      user-name-attribute: id
+
   publicdata:
     api:
       key: 2Gg03XhptQP5XMHb41ax7xhXwo%2F6CYGp32tip9JD8HXBj067jjfvAXLLmXbN0H2EqGFoM2NXoUdCVCL6mb7I2Q%3D%3D
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web:
+          authentication: DEBUG
+          access: DEBUG

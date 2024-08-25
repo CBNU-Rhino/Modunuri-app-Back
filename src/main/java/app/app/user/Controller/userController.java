@@ -36,22 +36,24 @@ public class userController {
             return "redirect:/users/signup_complete"; // 회원가입 완료 페이지로 리다이렉트
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/signup"; // 오류 시 다시 회원가입 페이지로 리다이렉트
+            return "redirect:/users/signup"; // 오류 시 다시 회원가입 페이지로 리다이렉트
         }
     }
+
 
     @GetMapping("/signup_complete")
     public String signupComplete() {
         return "users/signup_complete"; // resources/templates/signup_complete.html을 렌더링
     }
 
-
-
+   // 로그인 폼을 표시하는 GET 메서드
     @GetMapping("/login")
-    public String showLoginPage() {
-        return "users/login"; // resources/templates/users/login.html을 렌더링
+    public String showLoginForm(Model model) {
+        model.addAttribute("user", new UserDTO()); // UserDTO 객체를 생성하여 모델에 추가
+        return "users/login"; // 로그인 템플릿 반환
     }
 
+  /*  // 로그인 요청을 처리하는 POST 메서드
     @PostMapping("/login")
     public String login(@ModelAttribute UserDTO userDTO, RedirectAttributes redirectAttributes) {
         User user = userService.login(userDTO.getEmail(), userDTO.getPassword());
@@ -62,5 +64,5 @@ public class userController {
             redirectAttributes.addFlashAttribute("error", "이메일 또는 비밀번호가 잘못되었습니다.");
             return "redirect:/users/login"; // 로그인 실패 시 로그인 페이지로 리다이렉트
         }
-    }
+    }*/
 }

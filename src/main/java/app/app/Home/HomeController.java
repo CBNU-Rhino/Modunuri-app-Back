@@ -11,6 +11,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "index";
+        return "index";  // resources/templates/index.html을 렌더링
     }
 }

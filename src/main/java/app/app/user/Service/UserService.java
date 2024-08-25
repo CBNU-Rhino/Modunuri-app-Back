@@ -4,8 +4,13 @@ package app.app.user.Service;
 import app.app.user.User;
 import app.app.user.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class UserService {
@@ -27,19 +32,26 @@ public class UserService {
         return userRepository.save(newUser); // 사용자 저장
     }
 
-    public User login(String email, String password) { //로그인 서비스
+    public User login(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
             System.out.println("사용자를 찾을 수 없습니다: " + email);
             return null; // 인증 실패
         }
 
+        // 암호 검증을 Spring Security의 PasswordEncoder와 함께 수행
         if (passwordEncoder.matches(password, user.getPassword())) {
+            // Spring Security의 Authentication 객체를 생성하고 SecurityContext에 설정
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(), new ArrayList<>());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            System.out.println("로그인 성공: " + email);
             return user; // 인증 성공
         } else {
             System.out.println("비밀번호 불일치: " + email);
             return null; // 인증 실패
         }
     }
+
 
 }

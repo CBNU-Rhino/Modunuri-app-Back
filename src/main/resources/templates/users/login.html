@@ -7,22 +7,20 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<!-- Header Section -->
 <header class="navbar">
     <div class="logo">
-        <a href="index.html"> <!-- 로고 클릭 시 index.html로 이동 -->
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
             <img src="test.png"> <!-- 이미지 추가 -->
             MODUNURI
         </a>
     </div>
 </header>
 
-<!-- Log In Section -->
 <div class="login-container">
     <h1>Log In</h1>
     <form action="/users/login" method="post">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="username" required> <!-- name="username"으로 변경 -->
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
@@ -30,6 +28,11 @@
         <button type="submit" class="login-button">Log In</button>
     </form>
     <p>Don't have an account? <a href="/users/signup" class="link-to-signup">Sign Up</a></p>
+
+    <!-- 로그인 실패 시 에러 메시지 표시 -->
+    <div th:if="${param.error}" class="error">
+        Invalid email or password.
+    </div>
 </div>
 </body>
 </html>
