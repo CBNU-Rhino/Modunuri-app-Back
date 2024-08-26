@@ -4,6 +4,8 @@ import app.app.user.DTO.UserDTO;
 import app.app.user.User;
 import app.app.user.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,16 +55,16 @@ public class userController {
         return "users/login"; // 로그인 템플릿 반환
     }
 
-  /*  // 로그인 요청을 처리하는 POST 메서드
-    @PostMapping("/login")
-    public String login(@ModelAttribute UserDTO userDTO, RedirectAttributes redirectAttributes) {
-        User user = userService.login(userDTO.getEmail(), userDTO.getPassword());
-        if (user != null) {
-            redirectAttributes.addFlashAttribute("message", "로그인 성공!");
-            return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
-        } else {
-            redirectAttributes.addFlashAttribute("error", "이메일 또는 비밀번호가 잘못되었습니다.");
-            return "redirect:/users/login"; // 로그인 실패 시 로그인 페이지로 리다이렉트
-        }
-    }*/
+
+    // My Page를 표시하는 GET 메서드
+    @GetMapping("/mypage")
+    public String showMyPage(Model model) {
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // 모델에 사용자 이름 추가
+        model.addAttribute("username", username);
+        return "users/mypage"; // My Page 템플릿 반환
+    }
 }

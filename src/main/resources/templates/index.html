@@ -28,6 +28,7 @@
             <!-- 로그인 상태 확인 -->
             <li class="nav-item-right">
                 <span th:if="${username != null}">
+                    <a href="/users/mypage" class="my-page-button">My Page</a> <!-- My Page 버튼 추가 -->
                     <a th:text="${username} + '님 안녕하세요'"></a>
                     <a href="/users/logout" class="sign-out-button">Logout</a>
                 </span>
@@ -65,6 +66,7 @@
         <a href="#" class="button">Button 1</a>
         <a href="#" class="button">Button 2</a>
         <a href="#" class="button">Button 3</a>
+        <a href="/users/mypage" class="button">My Page</a> <!-- My Page 버튼 추가 -->
     </div>
 </main>
 

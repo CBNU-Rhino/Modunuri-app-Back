@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"> <!-- External CSS 파일 연결 -->
+</head>
+<body>
+<!-- Header Section -->
+<header class="navbar">
+    <div class="logo">
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+            <img src="test.png"> <!-- 이미지 추가 -->
+            MODUNURI
+        </a>
+    </div>
+    <form class="search-container" action="/search" method="GET">
+        <input type="text" placeholder="Search..." class="search-input" name="query">
+    </form>
+
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Travel Tips</a></li>
+            <li><a href="#">Community</a></li>
+            <li><a href="#">Support Center</a></li>
+            <li class="nav-item-right">
+                <span th:if="${username != null}">
+                    <a th:text="${username} + '님 안녕하세요'"></a>
+                    <a href="/users/logout" class="sign-out-button">Logout</a>
+                </span>
+                <a th:if="${username == null}" href="/users/login" class="sign-in-button">Sign In</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main class="mypage-container">
+    <h1>Welcome to My Page</h1>
+    <p th:text="'Hello, ' + ${username} + '!'"></p>
+    <p>Here you can view and manage your personal information.</p>
+    <a href="/users/logout" class="logout-button">Log Out</a>
+</main>
+
+<!-- Footer Section -->
+<footer>
+    <p>&copy; 2024 MODUNURI. All rights reserved.</p>
+</footer>
+</body>
+</html>
