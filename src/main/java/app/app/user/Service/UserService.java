@@ -1,6 +1,5 @@
 package app.app.user.Service;
 
-
 import app.app.user.User;
 import app.app.user.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -20,6 +20,7 @@ public class UserService {
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    // 사용자 등록 메서드
     public User registerUser(String username, String password, String email) {
         // 이메일 중복 체크
         if (userRepository.findByEmail(email) != null) {
@@ -32,6 +33,7 @@ public class UserService {
         return userRepository.save(newUser); // 사용자 저장
     }
 
+    // 사용자 로그인 메서드
     public User login(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
@@ -53,5 +55,35 @@ public class UserService {
         }
     }
 
+    // 관심 관광지 추가 메서드
+    public void addFavoriteContent(String email, String contentId) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.addFavoriteContent(contentId);
+            userRepository.save(user); // 변경사항 저장
+        } else {
+            throw new RuntimeException("사용자를 찾을 수 없습니다: " + email);
+        }
+    }
 
+    // 관심 관광지 제거 메서드
+    public void removeFavoriteContent(String email, String contentId) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.removeFavoriteContent(contentId);
+            userRepository.save(user); // 변경사항 저장
+        } else {
+            throw new RuntimeException("사용자를 찾을 수 없습니다: " + email);
+        }
+    }
+
+    // 관심 관광지 목록 조회 메서드
+    public List<String> getFavoriteContents(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            return user.getFavoriteContents();
+        } else {
+            throw new RuntimeException("사용자를 찾을 수 없습니다: " + email);
+        }
+    }
 }

@@ -41,7 +41,23 @@
     <h1>Welcome to My Page</h1>
     <p th:text="'Hello, ' + ${username} + '!'"></p>
     <p>Here you can view and manage your personal information.</p>
-    <a href="/users/logout" class="logout-button">Log Out</a>
+
+    <!-- 관심 관광지 목록 -->
+    <section class="favorite-contents">
+        <h2>Your Favorite Places</h2>
+        <ul>
+            <!-- 관심 관광지 목록이 있을 때 -->
+            <li th:each="content : ${favoriteContents}" th:unless="${#lists.isEmpty(favoriteContents)}">
+                <span th:text="${content}"></span>
+                <form action="/users/removeFavorite" method="post" style="display:inline;">
+                    <input type="hidden" name="contentId" th:value="${content}" />
+                    <button type="submit" class="remove-button">Remove</button>
+                </form>
+            </li>
+            <!-- 관심 관광지가 없을 때 -->
+            <p th:if="${#lists.isEmpty(favoriteContents)}">관심 관광지가 없습니다.</p>
+        </ul>
+    </section>
 </main>
 
 <!-- Footer Section -->
