@@ -39,7 +39,7 @@ function showNextSlide() {
     showSlide(currentIndex + 1);
 }
 
-// 슬라이드 자동 변경 간격 설정 (예: 3초)
-setInterval(showNextSlide, 3000);
+// 슬라이드 자동 변경 간격 설정 (5초)
+setInterval(showNextSlide, 5000);
 
 updateDots();
