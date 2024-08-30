@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/users/signup", "/users/login", "/users/signup_complete").permitAll()
+                        .requestMatchers("/api/fetch-tourist-data").permitAll() // 이 줄을 추가하여 URL을 허용합니다.
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
