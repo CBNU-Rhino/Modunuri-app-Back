@@ -25,12 +25,17 @@
             <li><a href="#">Travel Tips</a></li>
             <li><a href="#">Community</a></li>
             <li><a href="#">Support Center</a></li>
+            <!-- 로그인 상태 확인 -->
             <li class="nav-item-right">
                 <span th:if="${username != null}">
+                    <a href="/users/mypage" class="my-page-button">My Page</a> <!-- My Page 버튼 추가 -->
                     <a th:text="${username} + '님 안녕하세요'"></a>
-                    <a href="/users/logout" class="sign-out-button">Logout</a>
+                    <a href="/users/logout" class="auth-button">Logout</a>
                 </span>
-                <a th:if="${username == null}" href="/users/login" class="sign-in-button">Sign In</a>
+                <span th:if="${username == null}">
+                    <a href="users/signup" class="auth-button">Sign Up</a>
+                    <a href="users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+                </span>
             </li>
         </ul>
     </nav>
@@ -61,8 +66,16 @@
 </main>
 
 <!-- Footer Section -->
-<footer>
-    <p>&copy; 2024 MODUNURI. All rights reserved.</p>
+<footer class="footer">
+    <div class="footer-links">
+        <ul>
+            <li><a href="#">Find a Store</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+        </ul>
+    </div>
 </footer>
+<script src="/static/script/script.js"></script>
 </body>
 </html>

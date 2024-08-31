@@ -10,9 +10,9 @@
 <!-- Header Section -->
 <header class="navbar">
     <div class="logo">
-        <a href="#">
-            <img src="test.png"> <!-- 이미지 추가 -->
-            MODUNURI
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+            <img src="/templates/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+            <span class="a">MODUNURI</span>
         </a>
     </div>
     <form class="search-container" action="/search" method="GET">
@@ -30,9 +30,12 @@
                 <span th:if="${username != null}">
                     <a href="/users/mypage" class="my-page-button">My Page</a> <!-- My Page 버튼 추가 -->
                     <a th:text="${username} + '님 안녕하세요'"></a>
-                    <a href="/users/logout" class="sign-out-button">Logout</a>
+                    <a href="/users/logout" class="auth-button">Logout</a>
                 </span>
-                <a th:if="${username == null}" href="users/signup" class="sign-in-button">Sign In</a>
+                <span th:if="${username == null}">
+                    <a href="users/signup" class="auth-button">Sign Up</a>
+                    <a href="users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+                </span>
             </li>
         </ul>
     </nav>
