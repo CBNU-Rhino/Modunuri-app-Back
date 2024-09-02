@@ -46,7 +46,7 @@
         <div class="login-container">
             <h1>Login</h1>
             <!-- form 태그에 action과 method 추가 -->
-            <form action="/index" method="POST">
+            <form action="/users/login" method="POST">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
 
@@ -61,10 +61,10 @@
 </div>
 
 
-    <!-- 로그인 실패 시 에러 메시지 표시 -->
-    <div th:if="${param.error}" class="error">
-        Invalid email or password. <!-- 테스토 용으로 쓴거임(변경가능) -->
-    </div>
+<!-- 로그인 실패 시 에러 메시지 표시 -->
+<div th:if="${param.error}" class="error">
+    Invalid email or password. <!-- 테스토 용으로 쓴거임(변경가능) -->
+</div>
 
 
 <!-- Footer Section -->

@@ -17,7 +17,7 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
 
     // 서버에 데이터를 전송하거나 추가 처리를 한 후
     // 성공 시 signup_complete.html로 이동
-    window.location.href = '/users/signup_complete';
+    window.location.href = "/users/signup_complete";
 });
 
 
