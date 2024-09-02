@@ -10,7 +10,7 @@
 <!-- Header Section -->
 <header class="navbar">
     <div class="logo">
-        <a href="index.html"> <!-- 로고 클릭 시 index.html로 이동 -->
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
             <img src="test.png"> <!-- 이미지 추가 -->
             MODUNURI
         </a>
@@ -25,27 +25,52 @@
             <li><a href="#">Travel Tips</a></li>
             <li><a href="#">Community</a></li>
             <li><a href="#">Support Center</a></li>
-            <li class="nav-item-right"><a href="/users/signup" class="sign-in-button">Sign In</a></li>
+            <!-- 로그인 상태 확인 -->
+            <li class="nav-item-right">
+                <span th:if="${username != null}">
+                    <a href="/users/mypage" class="my-page-button">My Page</a> <!-- My Page 버튼 추가 -->
+                    <a th:text="${username} + '님 안녕하세요'"></a>
+                    <a href="/users/logout" class="auth-button">Logout</a>
+                </span>
+                <span th:if="${username == null}">
+                    <a href="users/signup" class="auth-button">Sign Up</a>
+                    <a href="users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+                </span>
+            </li>
         </ul>
     </nav>
 </header>
 
-<!-- Sign Up Section -->
-<div class="signup-container">
-    <h1>Sign Up</h1>
-    <form action="/users/signup" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+<div class="back-container">
+    <div class="content-container">
+        <div class="signup-container">
+            <h1>Sign Up</h1>
+            <!-- form 태그에 action과 method 추가 -->
+            <form action="signup_complete.html" method="POST">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
 
-        <label for="email">ID:</label>
-        <input type="email" id="email" name="email" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <button type="submit" class="signup-button">Sign Up</button>
-    </form>
-    <p>Already have an account? <a href="/users/login" class="link-to-login">Log In</a></p>
+                <button type="submit" class="signup-button">Sign Up</button>
+            </form>
+            <a href="users/login.html" class="link-to-login">Already have an account? Log in</a>
+        </div>
+    </div>
 </div>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-links">
+        <ul>
+            <li><a href="#">Find a Store</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+        </ul>
+    </div>
+</footer>
+<script src="/static/script/script.js"></script>
 </body>
 </html>

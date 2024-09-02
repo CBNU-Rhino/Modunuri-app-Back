@@ -204,33 +204,26 @@ public class TouristApiService {
 
     public void fetchAndSaveTouristData() {
         int[] contentTypes = {12, 14, 15, 25, 28, 32, 38, 39};
-        boolean startSaving = false;
 
         for (int contentTypeId : contentTypes) {
             for (Area area : Area.values()) {
-                // 오산 이후 지역부터 저장 시작
-                if (area == Area.A3133) {
-                    startSaving = true;
-                }
+                // 중복 확인
+                boolean exists = touristInfoRepository.existsByContentTypeIdAndAreaCodeAndSigunguCode(
+                        String.valueOf(contentTypeId),
+                        String.valueOf(area.getRegionCode()),
+                        area.getSigunguCode()
+                );
 
-                if (startSaving) {
-                    // 중복 확인
-                    boolean exists = touristInfoRepository.existsByContentTypeIdAndAreaCodeAndSigunguCode(
-                            String.valueOf(contentTypeId),
-                            String.valueOf(area.getRegionCode()),
-                            area.getSigunguCode()
-                    );
-
-                    if (!exists) {
-                        String jsonResponse = getTouristData(contentTypeId, area.getRegionCode(), Integer.parseInt(area.getSigunguCode()));
-                        if (jsonResponse != null) {
-                            saveTouristDataToDB(jsonResponse);
-                        }
+                if (!exists) {
+                    String jsonResponse = getTouristData(contentTypeId, area.getRegionCode(), Integer.parseInt(area.getSigunguCode()));
+                    if (jsonResponse != null) {
+                        saveTouristDataToDB(jsonResponse);
                     }
                 }
             }
         }
     }
+
 
     public void saveTouristDataToDB(String jsonResponse) {
         try {

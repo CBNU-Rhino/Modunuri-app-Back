@@ -2,8 +2,13 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/app?serverTimezone=UTC&characterEncoding=utf8
+<<<<<<< HEAD
     username: root
+    password: 160828
+=======
+    username: myuser
     password: 1234
+>>>>>>> 17c28d843d4369801285f881036b0c5c2af368ba
   jpa:
     hibernate:
       ddl-auto: update
