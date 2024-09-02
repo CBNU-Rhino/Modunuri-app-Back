@@ -1,4 +1,3 @@
-// script.js
 document.querySelector('.search-input').addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         event.preventDefault(); // 기본 폼 제출을 막음
@@ -10,7 +9,7 @@ document.querySelector('.search-input').addEventListener('keydown', function(eve
     }
 });
 
-// scripts.js
+// 슬라이드 코드
 let currentIndex = 0;
 const slides = document.querySelector('.slides');
 const dots = document.querySelectorAll('.dot');

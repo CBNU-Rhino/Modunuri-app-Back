@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer { // 정적 페이지 접근 오류를 해결하기 위해 만들었음.
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
