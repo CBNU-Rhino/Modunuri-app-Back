@@ -11,7 +11,7 @@
 <header class="navbar">
     <div class="logo">
         <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
-            <img src="/templates/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+            <img src="../static/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
             <span class="a">MODUNURI</span>
         </a>
     </div>
@@ -21,7 +21,7 @@
 
     <nav>
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
+            <li><a href="/users/Search">지역 별 검색</a></li>
             <li><a href="#">Travel Tips</a></li>
             <li><a href="#">Community</a></li>
             <li><a href="#">Support Center</a></li>
@@ -33,8 +33,8 @@
                     <a href="/users/logout" class="auth-button">Logout</a>
                 </span>
                 <span th:if="${username == null}">
-                    <a href="users/signup" class="auth-button">Sign Up</a>
-                    <a href="users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+                    <a href="/users/signup" class="auth-button">Sign Up</a>
+                    <a href="/users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
                 </span>
             </li>
         </ul>

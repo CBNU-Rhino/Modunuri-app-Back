@@ -17,7 +17,7 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
 
     // 서버에 데이터를 전송하거나 추가 처리를 한 후
     // 성공 시 signup_complete.html로 이동
-    window.location.href = 'signup_complete.html';
+    window.location.href = '/users/signup_complete';
 });
 
 
@@ -37,7 +37,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     // 로그인 성공 시 index.html로 리다이렉트
     if (username === "testuser" && password === "password") {
         // 가정: username이 "testuser"이고, password가 "password"일 때 로그인 성공
-        window.location.href = "index.html";
+        window.location.href = "/index";
     } else {
         alert("Invalid username or password"); // 로그인 실패 시 경고창 표시
     }
