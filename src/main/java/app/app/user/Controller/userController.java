@@ -103,4 +103,10 @@ public class userController {
         }
         return "redirect:/users/mypage"; // My Page로 리다이렉트
     }
+
+        @GetMapping("/users/Search")
+        public String showSearchPage() {
+            return "Search";  // 여기서 "search"는 src/main/resources/templates/search.html 파일을 가리킵니다.
+        }
+
 }

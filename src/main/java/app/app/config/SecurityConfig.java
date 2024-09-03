@@ -28,7 +28,8 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/css/**", "/script/**", "/images/**", "/static/**").permitAll() // /static/** 또는 /script/** 경로 허용
-                        .requestMatchers("/users/signup", "/users/login", "/users/signup_complete", "/users/Search", "/users/Search_seoul").permitAll()
+                        .requestMatchers("/users/signup", "/users/login", "/users/signup_complete").permitAll()
+                        .requestMatchers("/users/Search", "/users/Search_seoul", "/users/searchresult").permitAll() // 이 줄을 추가하여 URL을 허용합니다.
                         .requestMatchers("/api/fetch-tourist-data").permitAll() // 이 줄을 추가하여 URL을 허용합니다.
                         .anyRequest().authenticated()
                 )

@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log In</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script>
+        function checkLogin() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const userData = JSON.parse(localStorage.getItem(username));
+
+            if (userData && userData.password === password) {
+                localStorage.setItem('loggedInUser', username); // 로그인 상태 저장
+                alert('로그인 성공!');
+                window.location.href = 'index.html'; // 로그인 후 이동할 페이지
+            } else {
+                alert('아이디 또는 비밀번호가 잘못되었습니다.');
+            }
+        }
+    </script>
 </head>
 <body>
 <!-- Header Section -->
@@ -43,18 +59,18 @@
 
 <div class="back-container">
     <div class="content-container">
+        <!-- Login Section -->
         <div class="login-container">
             <h1>Login</h1>
-            <!-- form 태그에 action과 method 추가 -->
-            <form id="loginForm" th:action="@{/users/login}" method="POST">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+            <form onsubmit="checkLogin(); return false;">
+                <label for="login-username">Username:</label>
+                <input type="text" id="login-username" required>
 
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" required>
 
                 <button type="submit" class="login-button">Log In</button>
-            </form>
+                </form>
             <a href="/users/signup" class="link-to-login">Don't have an account? Sign up</a>
         </div>
     </div>
@@ -71,10 +87,8 @@
 <footer class="footer">
     <div class="footer-links">
         <ul>
-            <li><a href="#">Find a Store</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
+            <li><p>(주)코뿔소코퍼레이션</p></li>
+
         </ul>
     </div>
 </footer>
