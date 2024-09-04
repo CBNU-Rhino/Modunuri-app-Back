@@ -31,6 +31,11 @@ public class CustomUserDetails implements UserDetails {
         return user.getUserId();
     }
 
+    // 새로운 메서드 추가: 실제 username 반환
+    public String getRealUsername() {
+        return user.getUsername(); // username을 반환
+    }
+
 
     @Override
     public boolean isAccountNonExpired() {

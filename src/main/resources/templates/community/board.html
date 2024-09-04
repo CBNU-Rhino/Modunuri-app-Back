@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Board</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .board-section {
+            min-height: 700px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .new-post-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #B4D5A8;
+            color: white;
+        }
+
+        td a {
+            color: #89B873;
+            text-decoration: none;
+        }
+
+        .edit-link {
+            color: #4CAF4F;
+            text-decoration: none;
+        }
+
+        .delete-link {
+            color: #d9534f;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<!-- Header Section -->
+<header class="navbar">
+    <div class="logo">
+        <a href="#">
+            <img src="/images/test.png">
+            <span style="color: #89B873; font-size: 24px; font-weight: 900;">MODUNURI</span>
+        </a>
+    </div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Travel Tips</a></li>
+            <li><a href="#" class="active">Community</a></li>
+            <li><a href="#">Support Center</a></li>
+            <li class="nav-item-right">
+                <span th:if="${username != null}">
+                    <a href="/users/mypage" class="my-page-button">My Page</a>
+                    <a th:text="${username} + '님 안녕하세요'"></a>
+                    <a href="/users/logout" class="sign-out-button">Logout</a>
+                </span>
+                <a th:if="${username == null}" href="/users/signup" class="sign-in-button">Sign In</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Main Content Section -->
+<main style="margin-top: 100px;">
+    <section class="board-section">
+        <h1 style="text-align: center; padding: 20px 0; color: #656565;">Community Board</h1>
+        <div class="post-list">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="post-list">
+                <!-- 게시물 목록이 이곳에 동적으로 추가됩니다 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- New Post 버튼 -->
+        <div class="new-post-button">
+            <a href="#" id="newPostLink" class="button" style="background-color: #89B873; color: white; padding: 10px 20px;">Create New Post</a>
+        </div>
+    </section>
+</main>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-links">
+        <ul>
+            <li><a href="#">Find a Store</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+        </ul>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="/static/script/script.js"></script> <!-- 수정된 스크립트 경로 -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create New Post 버튼 클릭 시 게시물 작성 페이지로 이동
+        const newPostLink = document.getElementById('newPostLink');
+        newPostLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            window.location.href = '/board/new'; // 게시물 작성 페이지로 이동
+        });
+
+        // 서버에서 게시물 목록 가져오기
+        fetch('/api/posts')
+            .then(response => response.json())
+            .then(posts => {
+                const postList = document.getElementById('post-list');
+                postList.innerHTML = ''; // 기존 목록 초기화
+
+                if (posts.length === 0) {
+                    const emptyRow = document.createElement('tr');
+                    emptyRow.innerHTML = `<td colspan="5" style="text-align: center;">No posts available</td>`;
+                    postList.appendChild(emptyRow);
+                } else {
+                    posts.forEach(post => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${post.id}</td>
+                            <td><a href="/board/post/${post.id}/detail">${post.title}</a></td> <!-- 수정된 링크 -->
+                            <td>${post.author}</td>
+                            <td>${new Date(post.createdAt).toLocaleString()}</td>
+                            <td>
+                                <a href="/board/edit/${post.id}" class="edit-link">Edit</a> |
+                                <a href="/board/delete/${post.id}" class="delete-link">Delete</a>
+                            </td>
+                        `;
+                        postList.appendChild(row);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+                const postList = document.getElementById('post-list');
+                const errorRow = document.createElement('tr');
+                errorRow.innerHTML = `<td colspan="5" style="text-align: center; color: red;">Failed to load posts</td>`;
+                postList.appendChild(errorRow);
+            });
+    });
+</script>
+</body>
+</html>

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,9 +25,9 @@ public class PostDTO {
 
     private String author; // 작성자 이름
 
-    private String createdAt; // 작성일
+    private LocalDateTime createdAt; // 작성일
 
-    private String updatedAt; // 수정일
+    private LocalDateTime updatedAt; // 수정일
 
     private String location;
 }

@@ -19,10 +19,6 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
     // 성공 시 signup_complete.html로 이동
     window.location.href = 'signup_complete.html';
 });
-
-
-
-
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault(); // 기본 폼 제출 동작을 막음
 
@@ -76,9 +72,49 @@ function showNextSlide() {
 setInterval(showNextSlide, 5000);
 
 updateDots();
-//community 클릭시
-document.getElementById('community-link').addEventListener('click', function(event) {
-    event.preventDefault(); // 기본 링크 동작을 막음
-    window.location.href = '/community'; // /community로 이동
+//
+document.addEventListener('DOMContentLoaded', function() {
+    // 서버에서 게시물 목록 가져오기
+    fetch('/api/posts')
+        .then(response => response.json())
+        .then(posts => {
+            const postList = document.getElementById('post-list');
+            postList.innerHTML = ''; // 기존 목록 초기화
+            console.log(posts); // 게시물 데이터 출력 (확인용)
+
+            if (posts.length === 0) {
+                const emptyRow = document.createElement('tr');
+                emptyRow.innerHTML = `<td colspan="5" style="text-align: center;">No posts available</td>`;
+                postList.appendChild(emptyRow);
+            } else {
+                posts.forEach(post => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                            <td>${post.id}</td>
+                            <td><a href="/board/post/${post.id}">${post.title}</a></td>
+                            <td>${post.author}</td>
+                            <td>${new Date(post.createdAt).toLocaleString()}</td>
+                            <td>
+                                <a href="/board/edit/${post.id}" class="edit-link">Edit</a> |
+                                <a href="/board/delete/${post.id}" class="delete-link">Delete</a>
+                            </td>
+                        `;
+                    postList.appendChild(row);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching posts:', error);
+            const postList = document.getElementById('post-list');
+            const errorRow = document.createElement('tr');
+            errorRow.innerHTML = `<td colspan="5" style="text-align: center; color: red;">Failed to load posts</td>`;
+            postList.appendChild(errorRow);
+        });
 });
+
+
+
+
+
+
 
