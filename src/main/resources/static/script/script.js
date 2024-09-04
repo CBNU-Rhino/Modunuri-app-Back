@@ -73,15 +73,7 @@ setInterval(showNextSlide, 5000);
 
 updateDots();
 //
-document.addEventListener('DOMContentLoaded', function () {
-    const communityLink = document.getElementById('community-link');
-    if (communityLink) {
-        communityLink.addEventListener('click', function(event) {
-            event.preventDefault(); // 기본 링크 동작을 막음
-            window.location.href = '/community'; // /community 경로로 이동
-        });
-    }
-});
+
 
 
 
