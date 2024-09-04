@@ -156,9 +156,8 @@
         const sigungu = document.getElementById('sido').value;
         const contentTypeId = getSelectedContentType();
         const gallery = document.getElementById('gallery');
-        gallery.innerHTML = '';  // 기존 항목 초기화
+        gallery.innerHTML = '';  // 기존 검색 결과 초기화
 
-        // 콘텐츠 타입 ID 필터를 적용한 URL 구성
         if (!contentTypeId) {
             alert("하나 이상의 카테고리를 선택하세요.");
             return;
@@ -170,18 +169,21 @@
             const response = await fetch(apiUrl);
             const data = await response.json();
 
-            // API에서 받은 데이터를 갤러리에 표시합니다.
+            // 검색 결과를 갤러리로 표시
             data.forEach(item => {
                 const galleryItem = document.createElement('div');
                 galleryItem.classList.add('gallery-item');
 
                 const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="placeholder.jpg" alt="No Image">';
 
+                // 각 검색 결과를 링크로 만들어 클릭하면 상세 페이지로 이동하도록 설정
                 galleryItem.innerHTML = `
+                <a href="searchresult.html?contentId=${item.contentid}">
                     ${image}
                     <p>${item.title}</p>
                     <p>${item.addr1}</p>
-                `;
+                </a>
+            `;
 
                 gallery.appendChild(galleryItem);
             });
@@ -194,6 +196,7 @@
             gallery.innerHTML = '<p>데이터를 불러오는 중 오류가 발생했습니다.</p>';
         }
     }
+
 </script>
 
 </body>
