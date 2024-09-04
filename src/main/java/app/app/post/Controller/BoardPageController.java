@@ -8,6 +8,7 @@ public class BoardPageController {
 
     @GetMapping("/community")
     public String getCommunityPage() {
-        return "users/board";  // src/main/resources/templates/board.html이 반환됨
+        return "community/board";  // src/main/resources/templates/community/board.html이 반환됨
     }
 }
+

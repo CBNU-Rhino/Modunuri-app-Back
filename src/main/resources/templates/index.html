@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MODUNURI</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 <!-- Header Section -->
@@ -23,6 +23,7 @@
         <ul class="nav-links">
             <li><a href="#">Home</a></li>
             <li><a href="#">Travel Tips</a></li>
+            <!-- 로그인 여부에 관계없이 community 클릭 시 board.html로 이동 -->
             <li><a href="#" id="community-link">Community</a></li>
             <li><a href="#">Support Center</a></li>
             <!-- 로그인 상태 확인 -->
@@ -85,6 +86,18 @@
     </div>
 </footer>
 
+<!-- script.js를 연결 -->
 <script src="/static/script/script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const communityLink = document.getElementById('community-link');
+        if (communityLink) {
+            communityLink.addEventListener('click', function(event) {
+                event.preventDefault(); // 기본 링크 동작을 막음
+                window.location.href = '/community'; // /community 경로로 이동
+            });
+        }
+    });
+</script>
 </body>
 </html>

@@ -19,10 +19,6 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
     // 성공 시 signup_complete.html로 이동
     window.location.href = 'signup_complete.html';
 });
-
-
-
-
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault(); // 기본 폼 제출 동작을 막음
 
@@ -76,9 +72,18 @@ function showNextSlide() {
 setInterval(showNextSlide, 5000);
 
 updateDots();
-//community 클릭시
-document.getElementById('community-link').addEventListener('click', function(event) {
-    event.preventDefault(); // 기본 링크 동작을 막음
-    window.location.href = '/community'; // /community로 이동
+//
+document.addEventListener('DOMContentLoaded', function () {
+    const communityLink = document.getElementById('community-link');
+    if (communityLink) {
+        communityLink.addEventListener('click', function(event) {
+            event.preventDefault(); // 기본 링크 동작을 막음
+            window.location.href = '/community'; // /community 경로로 이동
+        });
+    }
 });
+
+
+
+
 

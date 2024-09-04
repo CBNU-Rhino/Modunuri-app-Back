@@ -8,7 +8,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/app?serverTimezone=UTC&characterEncoding=utf8
 
-    username: root
+    username: myuser
+
     password: 1234
   jpa:
     hibernate:
