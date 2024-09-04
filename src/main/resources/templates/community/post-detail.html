@@ -4,46 +4,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Details</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css"> <!-- 기본 스타일을 유지 -->
     <style>
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
         .post-section {
             padding: 20px;
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 100px auto;
+            width: 80%; /* 화면의 80% 정도로 넓게 설정 */
+            font-family: Arial, sans-serif;
+            color: #333;
         }
 
         .post-title {
-            font-size: 32px;
-            color: #333;
-            margin-bottom: 10px;
+            font-size: 26px;
+            font-weight: bold;
+            color: #1d1d1f;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
         }
 
-        .post-author {
-            font-size: 16px;
-            color: #888;
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #999;
             margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
         }
 
         .post-content {
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .button-group a {
+            background-color: #f1f3f5;
+            color: #333;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin-left: 10px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        .button-group a:hover {
+            background-color: #e5e5e5;
+        }
+
+        .comment-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .comment-title {
             font-size: 18px;
-            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .comment-box {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .comment-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .comment-button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .comment-button:hover {
+            background-color: #45a049;
+        }
+
+        .comment-list {
+            margin-top: 20px;
+        }
+
+        .comment-item {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .comment-content {
+            font-size: 14px;
             color: #555;
         }
 
-        .back-button {
-            margin-top: 20px;
-            background-color: #89B873;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
+        .comment-meta {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
         }
+
     </style>
 </head>
 <body>
@@ -62,25 +150,62 @@
             <li><a href="#">Travel Tips</a></li>
             <li><a href="#" class="active">Community</a></li>
             <li><a href="#">Support Center</a></li>
-            <li class="nav-item-right">
-                <span th:if="${username != null}">
-                    <a href="/users/mypage" class="my-page-button">My Page</a>
-                    <a th:text="${username} + '님 안녕하세요'"></a>
-                    <a href="/users/logout" class="sign-out-button">Logout</a>
-                </span>
-                <a th:if="${username == null}" href="/users/signup" class="sign-in-button">Sign In</a>
-            </li>
         </ul>
     </nav>
 </header>
 
 <!-- Main Content Section -->
-<main style="margin-top: 100px;">
+<main>
     <section class="post-section">
-        <h1 class="post-title" id="post-title">Loading...</h1>
-        <p class="post-author" id="post-author">Loading...</p>
-        <div class="post-content" id="post-content">Loading...</div>
-        <a href="/board" class="back-button">Back to Board</a>
+        <!-- Post Title -->
+        <h1 class="post-title" th:text="${post.title}">Loading title...</h1>
+
+        <!-- Post Metadata (Author, Date, 조회수 등) -->
+        <div class="post-meta">
+            <span>작성자: <strong th:text="${post.author}">Author</strong></span>
+            <span>작성일: <strong th:text="${post.createdAt}">Date</strong></span>
+        </div>
+
+        <!-- Post Content -->
+        <div class="post-content" th:text="${post.content}">
+            Loading content...
+        </div>
+
+        <!-- Button Group -->
+        <div class="button-group">
+            <a href="/community">목록</a>
+
+            <!-- 수정/삭제 버튼은 로그인한 사용자와 작성자가 일치할 때만 표시 -->
+            <a th:if="${currentUserId == post.author}" href="#">수정</a>
+            <a th:if="${currentUserId == post.author}" href="#">삭제</a>
+        </div>
+
+
+        <!-- Comment Section -->
+        <div class="comment-section">
+            <div class="comment-title">댓글</div>
+
+            <!-- Comment Input Box -->
+            <div class="comment-box">
+                <input type="text" class="comment-input" placeholder="댓글을 입력하세요">
+                <button class="comment-button">댓글 작성</button>
+            </div>
+
+            <!-- Comment List -->
+            <div class="comment-list">
+                <div class="comment-item">
+                    <div class="comment-author">홍길동</div>
+                    <div class="comment-content">좋은 글 감사합니다!</div>
+                    <div class="comment-meta">2024-09-04 12:00 | 좋아요 3</div>
+                </div>
+
+                <div class="comment-item">
+                    <div class="comment-author">김철수</div>
+                    <div class="comment-content">유용한 정보네요!</div>
+                    <div class="comment-meta">2024-09-04 13:45 | 좋아요 5</div>
+                </div>
+            </div>
+        </div>
     </section>
 </main>
 
@@ -96,26 +221,5 @@
     </div>
 </footer>
 
-<!-- JavaScript -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // 현재 URL에서 게시물 ID 추출
-        const postId = window.location.pathname.split("/").pop();
-
-        // 서버에서 해당 게시물 정보 가져오기
-        fetch(`/api/posts/${postId}`)
-            .then(response => response.json())
-            .then(post => {
-                document.getElementById('post-title').textContent = post.title;
-                document.getElementById('post-author').textContent = `By ${post.author} on ${new Date(post.createdAt).toLocaleDateString()}`;
-                document.getElementById('post-content').textContent = post.content;
-            })
-            .catch(error => {
-                console.error('Error fetching post:', error);
-                document.getElementById('post-title').textContent = 'Error loading post';
-                document.getElementById('post-content').textContent = 'There was an error loading the post. Please try again later.';
-            });
-    });
-</script>
 </body>
 </html>
