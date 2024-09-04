@@ -152,7 +152,7 @@
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${post.id}</td>
-                            <td><a href="/board/post/${post.id}">${post.title}</a></td>
+                            <td><a href="/board/post/${post.id}/detail">${post.title}</a></td> <!-- 수정된 링크 -->
                             <td>${post.author}</td>
                             <td>${new Date(post.createdAt).toLocaleString()}</td>
                             <td>

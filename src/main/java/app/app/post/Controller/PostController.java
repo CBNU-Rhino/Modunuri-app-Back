@@ -2,6 +2,7 @@ package app.app.post.Controller;
 
 import app.app.post.Post;
 import app.app.post.Service.PostService;
+import app.app.user.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,10 +73,17 @@ public class PostController {
     // 현재 로그인한 사용자의 이름을 가져오는 유틸리티 메서드
     private String getCurrentUsername() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
+
+        // CustomUserDetails가 principal인 경우 실제 username을 반환
+        if (principal instanceof CustomUserDetails) {
+            return ((CustomUserDetails) principal).getRealUsername(); // 실제 username 반환
+        } else if (principal instanceof UserDetails) {
+            // 일반적인 UserDetails인 경우 기본 username 반환 (이 경우 userId일 가능성이 있음)
             return ((UserDetails) principal).getUsername();
         } else {
+            // 그 외의 경우 principal의 toString() 값을 반환
             return principal.toString();
         }
     }
+
 }
