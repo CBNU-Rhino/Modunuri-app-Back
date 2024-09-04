@@ -163,7 +163,7 @@
             return;
         }
 
-        const apiUrl = `http://localhost:8080/touristSpot/Json/api/tourist-info?region=${region}&sigungu=${sigungu}&contentTypeId=${contentTypeId}`;
+        const apiUrl = `/touristSpot/Json/api/tourist-info?region=${region}&sigungu=${sigungu}&contentTypeId=${contentTypeId}`;
 
         try {
             const response = await fetch(apiUrl);
@@ -178,12 +178,12 @@
 
                 // 각 검색 결과를 링크로 만들어 클릭하면 상세 페이지로 이동하도록 설정
                 galleryItem.innerHTML = `
-                <a href="searchresult.html?contentId=${item.contentid}">
-                    ${image}
-                    <p>${item.title}</p>
-                    <p>${item.addr1}</p>
-                </a>
-            `;
+    <a href="searchresult.html?contentId=${item.contentid}&contentTypeId=${item.contenttypeid}">
+        ${image}
+        <p>${item.title}</p>
+        <p>${item.addr1}</p>
+    </a>
+`;
 
                 gallery.appendChild(galleryItem);
             });
