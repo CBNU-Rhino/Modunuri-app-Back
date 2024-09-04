@@ -25,6 +25,37 @@
             bottom: 20px;
             right: 20px;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #B4D5A8;
+            color: white;
+        }
+
+        td a {
+            color: #89B873;
+            text-decoration: none;
+        }
+
+        .edit-link {
+            color: #4CAF4F;
+            text-decoration: none;
+        }
+
+        .delete-link {
+            color: #d9534f;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -59,14 +90,14 @@
     <section class="board-section">
         <h1 style="text-align: center; padding: 20px 0; color: #656565;">Community Board</h1>
         <div class="post-list">
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <table>
                 <thead>
-                <tr style="background-color: #B4D5A8; color: white;">
-                    <th style="padding: 10px; text-align: left;">ID</th>
-                    <th style="padding: 10px; text-align: left;">Title</th>
-                    <th style="padding: 10px; text-align: left;">Author</th>
-                    <th style="padding: 10px; text-align: left;">Date</th>
-                    <th style="padding: 10px; text-align: left;">Actions</th>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody id="post-list">
@@ -95,10 +126,10 @@
 </footer>
 
 <!-- JavaScript -->
-<script src="/script/script.js"></script>
+<script src="/static/script/script.js"></script> <!-- 수정된 스크립트 경로 -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Create New Post 버튼 클릭 시 new-post.html로 이동
+        // Create New Post 버튼 클릭 시 게시물 작성 페이지로 이동
         const newPostLink = document.getElementById('newPostLink');
         newPostLink.addEventListener('click', function(event) {
             event.preventDefault();
@@ -110,22 +141,36 @@
             .then(response => response.json())
             .then(posts => {
                 const postList = document.getElementById('post-list');
-                posts.forEach(post => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td style="padding: 10px;">${post.id}</td>
-                        <td style="padding: 10px;"><a href="/board/post/${post.id}" style="color: #89B873; text-decoration: none;">${post.title}</a></td>
-                        <td style="padding: 10px;">${post.author}</td>
-                        <td style="padding: 10px;">${new Date(post.createdAt).toLocaleString()}</td>
-                        <td style="padding: 10px;">
-                            <a href="/board/edit/${post.id}" style="color: #4CAF4F; text-decoration: none;">Edit</a> |
-                            <a href="/board/delete/${post.id}" style="color: #d9534f; text-decoration: none;">Delete</a>
-                        </td>
-                    `;
-                    postList.appendChild(row);
-                });
+                postList.innerHTML = ''; // 기존 목록 초기화
+
+                if (posts.length === 0) {
+                    const emptyRow = document.createElement('tr');
+                    emptyRow.innerHTML = `<td colspan="5" style="text-align: center;">No posts available</td>`;
+                    postList.appendChild(emptyRow);
+                } else {
+                    posts.forEach(post => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${post.id}</td>
+                            <td><a href="/board/post/${post.id}">${post.title}</a></td>
+                            <td>${post.author}</td>
+                            <td>${new Date(post.createdAt).toLocaleString()}</td>
+                            <td>
+                                <a href="/board/edit/${post.id}" class="edit-link">Edit</a> |
+                                <a href="/board/delete/${post.id}" class="delete-link">Delete</a>
+                            </td>
+                        `;
+                        postList.appendChild(row);
+                    });
+                }
             })
-            .catch(error => console.error('Error fetching posts:', error));
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+                const postList = document.getElementById('post-list');
+                const errorRow = document.createElement('tr');
+                errorRow.innerHTML = `<td colspan="5" style="text-align: center; color: red;">Failed to load posts</td>`;
+                postList.appendChild(errorRow);
+            });
     });
 </script>
 </body>

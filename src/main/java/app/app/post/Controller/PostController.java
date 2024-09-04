@@ -4,8 +4,11 @@ import app.app.post.Post;
 import app.app.post.Service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -36,6 +39,13 @@ public class PostController {
     // 게시물 생성하기
     @PostMapping
     public Post createPost(@RequestBody Post post) {
+        // 현재 로그인한 사용자의 ID를 가져와서 author 필드에 설정
+        String currentUsername = getCurrentUsername();
+        post.setAuthor(currentUsername);
+
+        // 게시물 생성일 자동 설정
+        post.setCreatedAt(LocalDateTime.now());
+
         return postService.createPost(post);
     }
 
@@ -43,6 +53,8 @@ public class PostController {
     @PutMapping("/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post postDetails) {
         try {
+            // 게시물 수정 시 수정 날짜를 현재 시각으로 갱신
+            postDetails.setUpdatedAt(LocalDateTime.now());
             Post updatedPost = postService.updatePost(id, postDetails);
             return ResponseEntity.ok(updatedPost);
         } catch (IllegalArgumentException e) {
@@ -55,5 +67,15 @@ public class PostController {
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         postService.deletePost(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // 현재 로그인한 사용자의 이름을 가져오는 유틸리티 메서드
+    private String getCurrentUsername() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
     }
 }
