@@ -5,239 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>지역별 관광지 찾기</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #EDF4E1;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar {
-            background-color: #E6F2D9;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 2px solid #D0D8C0;
-        }
-
-        .navbar .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar .logo img {
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        .navbar .logo span {
-            font-size: 24px;
-            color: #6C7A40;
-            font-weight: bold;
-        }
-
-        .navbar .search-container {
-            flex-grow: 1;
-            margin-left: 20px;
-            margin-right: 20px;
-            position: relative;
-        }
-
-        .navbar .search-container input {
-            width: 100%;
-            padding: 10px 15px;
-            border: 2px solid #BCC7A3;
-            border-radius: 20px;
-            background-color: #F3F8E6;
-            font-size: 16px;
-            color: #6C7A40;
-            outline: none;
-        }
-
-        .navbar .search-container input::placeholder {
-            color: #A0A98C;
-        }
-
-        .navbar .search-container button {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .navbar .search-container button img {
-            width: 20px;
-            height: 20px;
-            filter: invert(36%) sepia(6%) saturate(1999%) hue-rotate(69deg) brightness(93%) contrast(89%);
-        }
-
-        .navbar .menu {
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar .menu a {
-            color: #6C7A40;
-            margin-left: 20px;
-            text-decoration: none;
-            font-size: 16px;
-        }
-
-        .navbar .menu a:hover {
-            color: #4C5A30;
-        }
-
-        .navbar .login-btn {
-            background-color: #A3AE79;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
-        .navbar .login-btn:hover {
-            background-color: #8F9D65;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 50px auto;
-            background-color: #E6F2D9;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-            border: 1px solid #D0D8C0;
-        }
-
-        .header {
-            font-size: 24px;
-            font-weight: bold;
-            color: #6C7A40;
-            margin-bottom: 30px;
-        }
-
-        .filter-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .filter-section > div {
-            flex-grow: 1;
-            margin-right: 20px;
-        }
-
-        .filter-section > div:last-child {
-            margin-right: 0;
-        }
-
-        .search-bar {
-            position: relative;
-            display: flex;
-            align-items: center;
-            border: 2px solid #BCC7A3;
-            border-radius: 8px;
-            background-color: #F3F8E6;
-            padding: 12px;
-            margin-bottom: 20px;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: transparent;
-            font-size: 16px;
-            outline: none;
-            color: #6C7A40;
-        }
-
-        .search-bar button {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .search-bar button img {
-            width: 20px;
-            height: 20px;
-            filter: invert(36%) sepia(6%) saturate(1999%) hue-rotate(69deg) brightness(93%) contrast(89%);
-        }
-
-        .location-filters {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .location-filters select {
-            width: 30%;
-            padding: 12px;
-            border: 2px solid #BCC7A3;
-            border-radius: 8px;
-            background-color: #F3F8E6;
-            font-size: 16px;
-            color: #6C7A40;
-            appearance: none;
-        }
-
-        .checkbox-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .checkbox-container label {
-            display: flex;
-            align-items: center;
-            margin-right: 15px;
-            font-size: 16px;
-            color: #6C7A40;
-        }
-
-        .checkbox-container label input {
-            margin-right: 5px;
-        }
-
-        .selected-area {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            padding: 10px;
-            border-top: 2px solid #D0D8C0;
-            color: #6C7A40;
-        }
-
-        .selected-area button {
-            background-color: #C8D5A6;
-            border: 2px solid #A3AE79;
-            border-radius: 8px;
-            padding: 8px 16px;
-            cursor: pointer;
-            color: #4C5A30;
-            font-size: 16px;
-        }
-
-        .selected-area button:hover {
-            background-color: #B8C793;
-        }
+        /* 기존 스타일 */
+        /* 중략 */
 
         .gallery {
-            display: none; /* 초기에는 숨김 처리 */
             margin-top: 30px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -265,69 +36,6 @@
             margin: 0;
             color: #6C7A40;
         }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            margin-bottom: 40px; /* 페이지 하단에 추가적인 여백을 줍니다 */
-        }
-
-        .pagination .page-number {
-            background-color: #F3F8E6;
-            border: 2px solid #BCC7A3;
-            border-radius: 8px;
-            padding: 10px 15px;
-            margin: 0 5px;
-            color: #6C7A40;
-            font-size: 16px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .pagination .page-number:hover {
-            background-color: #E6F2D9;
-        }
-
-        .pagination .page-number.active {
-            background-color: #A3AE79;
-            color: white;
-        }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            margin-bottom: 40px;
-        }
-
-        .pagination .page-number,
-        .pagination .page-arrow {
-            background-color: #F3F8E6;
-            border: 2px solid #BCC7A3;
-            border-radius: 8px;
-            padding: 10px 15px;
-            margin: 0 5px;
-            color: #6C7A40;
-            font-size: 16px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .pagination .page-number:hover,
-        .pagination .page-arrow:hover {
-            background-color: #E6F2D9;
-        }
-
-        .pagination .page-number.active {
-            background-color: #A3AE79;
-            color: white;
-        }
-
-        .pagination .page-arrow img {
-            width: 16px;
-            height: 16px;
-        }
     </style>
 </head>
 <body>
@@ -338,15 +46,8 @@
         <span>MODUNURI</span>
     </div>
     <div class="search-container">
-        <input type="text" placeholder="Search">
-        <button><img src="search-icon.png" alt="Search"></button>
-    </div>
-    <div class="menu">
-        <a href="#">Home</a>
-        <a href="#">Travel Tips</a>
-        <a href="#">Community</a>
-        <a href="#">Support Center</a>
-        <a href="#" class="login-btn">Sign Up/Log In</a>
+        <input type="text" id="searchQuery" placeholder="Search">
+        <button><img src="search-icon.png" alt="Search" onclick="searchItems()"></button>
     </div>
 </div>
 
@@ -379,84 +80,31 @@
         </div>
         <div class="dropdown">
             <label for="sido">시/구/군</label>
-            <select id="sido" onchange="updateDong()">
+            <select id="sido">
                 <option value="">시/구/군을 선택하세요</option>
             </select>
         </div>
     </div>
 
-    <!-- 체크박스 추가된 부분 -->
+    <!-- 체크박스 추가된 부분 (콘텐츠 타입 필터링) -->
     <div class="checkbox-container">
-        <label><input type="checkbox" name="category" value="tourist_attraction"> 관광지</label> <!-- 지역 코드 : 12-->
-        <label><input type="checkbox" name="category" value="cultural_facilities"> 문화시설</label> <!-- 지역 코드 : 14-->
-        <label><input type="checkbox" name="category" value="festival_event"> 축제공연행사</label> <!-- 지역 코드 : 15-->
-        <label><input type="checkbox" name="category" value="travel_course"> 여행코스</label> <!-- 지역 코드 : 25-->
-        <label><input type="checkbox" name="category" value="leisure_sports"> 레포츠</label> <!-- 지역 코드 : 28-->
-        <label><input type="checkbox" name="category" value="accommodation"> 숙박</label> <!-- 지역 코드 : 32-->
-        <label><input type="checkbox" name="category" value="shopping"> 쇼핑</label> <!-- 지역 코드 : 38-->
-        <label><input type="checkbox" name="category" value="restaurant"> 음식점</label> <!-- 지역 코드 : 39-->
+        <label><input type="checkbox" name="category" value="12"> 관광지</label>
+        <label><input type="checkbox" name="category" value="14"> 문화시설</label>
+        <label><input type="checkbox" name="category" value="15"> 축제공연행사</label>
+        <label><input type="checkbox" name="category" value="25"> 여행코스</label>
+        <label><input type="checkbox" name="category" value="28"> 레포츠</label>
+        <label><input type="checkbox" name="category" value="32"> 숙박</label>
+        <label><input type="checkbox" name="category" value="38"> 쇼핑</label>
+        <label><input type="checkbox" name="category" value="39"> 음식점</label>
     </div>
 
+    <!-- 검색 버튼 -->
     <div class="search-bar">
-        <input type="text" placeholder="검색">
-        <button><img src="search-icon.png" alt="Search" /></button>
+        <button onclick="searchItems()">검색</button>
     </div>
 
-    <div class="selected-area">
-        <span>선택된 지역 없음</span>
-        <button onclick="resetFilters()">초기화</button>
-    </div>
-
-    <div id="gallery" class="gallery">
-        <div class="gallery-item">
-            <img src="common.jpeg" alt=" ">
-            <p>관광지 1</p>
-        </div>
-        <div class="gallery-item">
-            <img src="image2.jpg" alt=" ">
-            <p>Item 2</p>
-        </div>
-        <div class="gallery-item">
-            <img src="image3.jpg" alt=" ">
-            <p>Item 3</p>
-        </div>
-        <div class="gallery-item">
-            <img src="image4.jpg" alt=" ">
-            <p>Item 4</p>
-        </div>
-        <div class="gallery-item">
-            <img src="common.jpeg" alt=" ">
-            <p>Item 5</p>
-        </div>
-        <div class="gallery-item">
-            <img src="image6.jpg" alt=" ">
-            <p>Item 6</p>
-        </div>
-        <div class="gallery-item">
-            <img src="image7.jpg" alt=" ">
-            <p>Item 7</p>
-        </div>
-        <div class="gallery-item">
-            <img src="image8.jpg" alt=" ">
-            <p>Item 8</p>
-        </div>
-        <div class="gallery-item">
-            <img src="common.jpeg" alt=" ">
-            <p>Item 9</p>
-        </div>
-        <div class="gallery-item">
-            <img src="image10.jpg" alt=" ">
-            <p>Item 10</p>
-        </div>
-        <div class="gallery-item">
-            <img src="image11.jpg" alt=" ">
-            <p>Item 11</p>
-        </div>
-        <div class="gallery-item">
-            <img src="image12.jpg" alt=" ">
-            <p>Item 12</p>
-        </div>
-    </div>
+    <!-- 결과를 보여줄 갤러리 -->
+    <div id="gallery" class="gallery"></div>
 </div>
 
 <script>
@@ -479,14 +127,6 @@
         '경상남도': ['창원시', '진주시', '통영시', '사천시', '김해시', '밀양시', '거제시', '양산시', '의령군', '함안군', '창녕군', '고성군', '남해군', '하동군', '산청군', '함양군', '거창군', '합천군'],
         '제주특별자치도': ['제주시', '서귀포시']
     };
-
-    const dongOptions = {
-        '종로구': ['청운동', '신교동', '궁정동', '효자동', '창성동'],
-        '중구': ['소공동', '회현동', '명동', '충무로1가', '충무로2가'],
-        '용산구': ['후암동', '용산동2가', '남영동', '청파동1가', '청파동2가'],
-        // 예시 데이터, 모든 구와 동 데이터를 추가할 수 있습니다.
-    };
-
     function updateSido() {
         const regionSelect = document.getElementById('region');
         const sidoSelect = document.getElementById('sido');
@@ -503,72 +143,58 @@
                 sidoSelect.appendChild(option);
             });
         }
-        updateDong(); // 하위 동/읍/면 초기화
     }
 
-    function updateDong() {
-        const sigugunSelect = document.getElementById('sido');
-        const dongSelect = document.getElementById('dong');
-        const selectedSigugun = sigugunSelect.value;
+    function getSelectedContentType() {
+        const checkboxes = document.querySelectorAll('input[name="category"]:checked');
+        const selectedTypes = Array.from(checkboxes).map(checkbox => checkbox.value);
+        return selectedTypes.length > 0 ? selectedTypes.join(',') : null;
+    }
 
-        dongSelect.innerHTML = '<option value="">동/읍/면을 선택하세요</option>';
+    async function searchItems() {
+        const region = document.getElementById('region').value;
+        const sigungu = document.getElementById('sido').value;
+        const contentTypeId = getSelectedContentType();
+        const gallery = document.getElementById('gallery');
+        gallery.innerHTML = '';  // 기존 항목 초기화
 
-        if (selectedSigugun && dongOptions[selectedSigugun]) {
-            const options = dongOptions[selectedSigugun];
-            options.forEach(dong => {
-                const option = document.createElement('option');
-                option.value = dong;
-                option.text = dong;
-                dongSelect.appendChild(option);
+        // 콘텐츠 타입 ID 필터를 적용한 URL 구성
+        if (!contentTypeId) {
+            alert("하나 이상의 카테고리를 선택하세요.");
+            return;
+        }
+
+        const apiUrl = `http://localhost:8080/touristSpot/Json/api/tourist-info?region=${region}&sigungu=${sigungu}&contentTypeId=${contentTypeId}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            // API에서 받은 데이터를 갤러리에 표시합니다.
+            data.forEach(item => {
+                const galleryItem = document.createElement('div');
+                galleryItem.classList.add('gallery-item');
+
+                const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="placeholder.jpg" alt="No Image">';
+
+                galleryItem.innerHTML = `
+                    ${image}
+                    <p>${item.title}</p>
+                    <p>${item.addr1}</p>
+                `;
+
+                gallery.appendChild(galleryItem);
             });
+
+            if (data.length === 0) {
+                gallery.innerHTML = '<p>검색 결과가 없습니다.</p>';
+            }
+        } catch (error) {
+            console.error('Error fetching tourist data:', error);
+            gallery.innerHTML = '<p>데이터를 불러오는 중 오류가 발생했습니다.</p>';
         }
     }
-
-    function resetFilters() {
-        // 모든 체크박스 해제
-        document.querySelectorAll('.checkbox-container input[type="checkbox"]').forEach(checkbox => {
-            checkbox.checked = false;
-        });
-
-        // 지역 선택 초기화
-        document.getElementById('region').value = '';
-        document.getElementById('sido').innerHTML = '<option value="">시/구/군을 선택하세요</option>';
-
-        // 갤러리 숨김
-        document.getElementById('gallery').style.display = 'none';
-    }
-
-    function searchItems() {
-        const gallery = document.getElementById('gallery');
-
-        // 갤러리 아이템을 동적으로 추가하거나 수정하려면 여기에 로직 추가 가능
-        // gallery.innerHTML = ''; // 기존 아이템 초기화
-        // for (let i = 1; i <= 12; i++) {
-        //     const item = document.createElement('div');
-        //     item.className = 'gallery-item';
-        //     item.textContent = `Item ${i}`;
-        //     gallery.appendChild(item);
-        // }
-
-        // 갤러리를 화면에 표시
-        gallery.style.display = 'grid';
-    }
-
-    document.querySelector('.search-bar button').addEventListener('click', searchItems);
-
 </script>
-<div class="pagination">
-    <div class="page-arrow">
-        <img src="left-arrow.png" alt="Previous">
-    </div>
-    <div class="page-number">1</div>
-    <div class="page-number">2</div>
-    <div class="page-number">3</div>
-    <div class="page-number">4</div>
-    <div class="page-number">5</div>
-    <div class="page-arrow">
-        <img src="right-arrow.png" alt="Next">
-    </div>
-</div>
+
 </body>
 </html>
