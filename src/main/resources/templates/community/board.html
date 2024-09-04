@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community Board</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
     <style>
         /* 기본 스타일 */
         body {
@@ -102,14 +102,16 @@
 <!-- Header Section -->
 <header class="navbar">
     <div class="logo">
-        <a href="#">
-            <img src="/images/test.png">
+        <!-- 로고를 클릭하면 index.html로 이동 -->
+        <a href="/index">
+            <img src="/static/MODUNURI.png">
             <span style="color: #89B873; font-size: 24px; font-weight: 900;">MODUNURI</span>
         </a>
     </div>
     <nav>
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
+            <!-- Home 클릭 시 index.html로 이동 -->
+            <li><a href="/index">Home</a></li>
             <li><a href="#">Travel Tips</a></li>
             <li><a href="#" class="active">Community</a></li>
             <li><a href="#">Support Center</a></li>

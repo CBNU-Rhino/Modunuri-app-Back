@@ -36,6 +36,7 @@ public class PostService {
     public Post updatePost(Long id, Post postDetails) {
         return postRepository.findById(id).map(post -> {
             post.setTitle(postDetails.getTitle());
+            post.setUserId(postDetails.getUserId());
             post.setContent(postDetails.getContent());
             post.setAuthor(postDetails.getAuthor());
             post.setLocation(postDetails.getLocation());

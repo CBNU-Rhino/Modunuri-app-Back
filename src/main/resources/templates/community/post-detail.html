@@ -139,14 +139,14 @@
 <!-- Header Section -->
 <header class="navbar">
     <div class="logo">
-        <a href="#">
+        <a href="/index">
             <img src="/images/test.png">
             <span style="color: #89B873; font-size: 24px; font-weight: 900;">MODUNURI</span>
         </a>
     </div>
     <nav>
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
+            <li><a href="/index">Home</a></li>
             <li><a href="#">Travel Tips</a></li>
             <li><a href="#" class="active">Community</a></li>
             <li><a href="#">Support Center</a></li>
@@ -176,8 +176,8 @@
             <a href="/community">목록</a>
 
             <!-- 수정/삭제 버튼은 로그인한 사용자와 작성자가 일치할 때만 표시 -->
-            <a th:if="${currentUserId == post.author}" href="#">수정</a>
-            <a th:if="${currentUserId == post.author}" href="#">삭제</a>
+            <a th:if="${currentUserId == post.userId}" href="#">수정</a>
+            <a th:if="${currentUserId == post.userId}" href="#">삭제</a>
         </div>
 
 

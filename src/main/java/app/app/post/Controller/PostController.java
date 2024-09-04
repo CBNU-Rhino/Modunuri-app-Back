@@ -44,6 +44,9 @@ public class PostController {
         String currentUsername = getCurrentUsername();
         post.setAuthor(currentUsername);
 
+        String currentUserId = getCurrentUserid();
+        post.setUserId(currentUserId);
+
         // 게시물 생성일 자동 설정
         post.setCreatedAt(LocalDateTime.now());
 
@@ -77,6 +80,21 @@ public class PostController {
         // CustomUserDetails가 principal인 경우 실제 username을 반환
         if (principal instanceof CustomUserDetails) {
             return ((CustomUserDetails) principal).getRealUsername(); // 실제 username 반환
+        } else if (principal instanceof UserDetails) {
+            // 일반적인 UserDetails인 경우 기본 username 반환 (이 경우 userId일 가능성이 있음)
+            return ((UserDetails) principal).getUsername();
+        } else {
+            // 그 외의 경우 principal의 toString() 값을 반환
+            return principal.toString();
+        }
+    }
+    // 현재 로그인한 사용자의 id을 가져오는 유틸리티 메서드
+    private String getCurrentUserid() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // CustomUserDetails가 principal인 경우 실제 username을 반환
+        if (principal instanceof CustomUserDetails) {
+            return ((CustomUserDetails) principal).getUsername(); // 실제 username 반환
         } else if (principal instanceof UserDetails) {
             // 일반적인 UserDetails인 경우 기본 username 반환 (이 경우 userId일 가능성이 있음)
             return ((UserDetails) principal).getUsername();
