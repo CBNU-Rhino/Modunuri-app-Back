@@ -14,13 +14,19 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/touristSpot")
+@RequestMapping("/touristSpot/Json")
 public class TouristController {
 
     private final TouristApiService touristApiService;
 
     public TouristController(TouristApiService touristApiService) {
         this.touristApiService = touristApiService;
+    }
+
+    // 지역 검색 페이지로 이동할 수 있도록 매핑
+    @GetMapping("/area-search")
+    public String getAreaSearchPage() {
+        return "touristSpot/Area_Search"; // templates/touristSpot/Area_Search.html로 이동
     }
 
     /*// 기존 코드: 지역코드와 시군구코드를 직접 입력받는 엔드포인트
