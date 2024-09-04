@@ -7,5 +7,5 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     // 이메일로 사용자 조회하는 메서드
-    User findByEmail(String email);
+    User findByUserId(String userId);
 }

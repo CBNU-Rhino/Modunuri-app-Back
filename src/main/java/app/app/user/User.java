@@ -18,7 +18,9 @@ public class User {
 
     private String username;
     private String password;
-    private String email;
+    @Column(name = "user_id")
+    private String userId;
+
 
     // 관심 관광지 저장을 위한 필드
     @ElementCollection
@@ -30,10 +32,10 @@ public class User {
     public User() {}
 
     // 생성자
-    public User(String username, String password, String email) {
+    public User(String username, String password, String userId) {
         this.username = username;
         this.password = password;
-        this.email = email;
+        this.userId = userId;
     }
 
     // 관심 관광지 추가 메서드

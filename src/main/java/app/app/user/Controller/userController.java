@@ -35,7 +35,7 @@ public class userController {
             User newUser = userService.registerUser(
                     userDTO.getUsername(),
                     userDTO.getPassword(),
-                    userDTO.getEmail());
+                    userDTO.getUserId());
             redirectAttributes.addFlashAttribute("message", "회원가입이 완료되었습니다!");
             return "redirect:/users/signup_complete"; // 회원가입 완료 페이지로 리다이렉트
         } catch (RuntimeException e) {
