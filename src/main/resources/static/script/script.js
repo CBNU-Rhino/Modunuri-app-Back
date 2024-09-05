@@ -39,45 +39,37 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     }
 });
 
+// scripts.js
 let currentIndex = 0;
 const slides = document.querySelector('.slides');
 const dots = document.querySelectorAll('.dot');
 const totalSlides = dots.length;
 
 function showSlide(index) {
-    currentIndex = (index + totalSlides) % totalSlides; // 인덱스가 음수이거나 슬라이드 수를 넘어가는 경우를 처리
-    const offset = -currentIndex * 100; // 슬라이드 오프셋 계산
-    slides.style.transform = `translateX(${offset}%)`; // 슬라이드를 이동시킴
-    updateDots(); // 현재 슬라이드에 맞는 점 업데이트
+    currentIndex = (index + totalSlides) % totalSlides;
+    const offset = -currentIndex * 100;
+    slides.style.transform = `translateX(${offset}%)`;
+    updateDots();
 }
 
 function updateDots() {
     dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentIndex); // 현재 슬라이드에 해당하는 점만 활성화
+        dot.classList.toggle('active', index === currentIndex);
     });
 }
 
-// 각 점에 대한 클릭 이벤트 처리
 dots.forEach((dot, index) => {
     dot.addEventListener('click', () => {
-        showSlide(index); // 해당 점을 클릭하면 해당 슬라이드로 이동
+        showSlide(index);
     });
 });
 
-// 자동 슬라이드 넘기기
 function showNextSlide() {
-    showSlide(currentIndex + 1); // 다음 슬라이드로 이동
+    showSlide(currentIndex + 1);
 }
 
 // 슬라이드 자동 변경 간격 설정 (5초)
-const slideInterval = setInterval(showNextSlide, 5000);
-
-// 마우스를 슬라이드 위에 올렸을 때 자동 슬라이드 멈춤
-slides.addEventListener('mouseenter', () => clearInterval(slideInterval));
-// 마우스를 슬라이드에서 떼면 다시 자동 슬라이드 시작
-slides.addEventListener('mouseleave', () => setInterval(showNextSlide, 5000));
-
-updateDots(); // 페이지가 로드되면 처음에 점을 업데이트
+setInterval(showNextSlide, 5000);
 
 updateDots();
 //
@@ -119,7 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
             postList.appendChild(errorRow);
         });
 });
-<<<<<<< HEAD
 
 
 
@@ -127,5 +118,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-=======
->>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
