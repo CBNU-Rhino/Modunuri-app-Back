@@ -41,16 +41,40 @@
 </head>
 <body>
 
-<div class="navbar">
+<!-- Header Section -->
+<header class="navbar">
     <div class="logo">
-        <img src="/static/images/MODUNURI.png" alt="Modunuri Logo">
-        <span>MODUNURI</span>
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+            <img src="/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+            <span class="a">MODUNURI</span>
+        </a>
     </div>
-    <div class="search-container">
-        <input type="text" id="searchQuery" placeholder="Search">
-        <button><img src="/static/images/search-icon.png" alt="Search" onclick="searchItems()"></button>
-    </div>
-</div>
+    <form class="search-container" action="/search" method="GET">
+        <input type="text" placeholder="Search..." class="search-input" name="query">
+    </form>
+
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#">지역 별 검색</a></li>
+            <li><a href="#">무장애 정보 검색</a></li>
+            <li><a href="#" id="community-link">지도 보기</a></li>
+            <li><a href="#">여행 기록하기</a></li>
+            <!-- 로그인 상태 확인 -->
+            <li class="nav-item-right">
+                <span th:if="${username != null}">
+                    <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+                    <a href="/users/mypage" class="auth-button">MyPage</a> <!-- My Page 버튼 추가 -->
+                    <a href="/users/logout" class="auth-button">Logout</a>
+                </span>
+                <span th:if="${username == null}">
+                    <a class="login-message" th:text="'로그인을 해주세요'"></a>
+                    <a href="users/signup" class="auth-button">SignUp</a>
+                    <a href="users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+                </span>
+            </li>
+        </ul>
+    </nav>
+</header>
 
 <div class="container">
     <div class="header">지역 검색</div>
