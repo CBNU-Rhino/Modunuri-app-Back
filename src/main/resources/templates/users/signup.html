@@ -11,7 +11,7 @@
 <header class="navbar">
     <div class="logo">
         <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
-            <img src="test.png"> <!-- 이미지 추가 -->
+            <img src="../static/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
             MODUNURI
         </a>
     </div>
@@ -21,7 +21,7 @@
 
     <nav>
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
+            <li><a href="/users/Search">지역 별 검색</a></li>
             <li><a href="#">Travel Tips</a></li>
             <li><a href="#">Community</a></li>
             <li><a href="#">Support Center</a></li>
@@ -45,6 +45,7 @@
     <div class="content-container">
         <div class="signup-container">
             <h1>Sign Up</h1>
+<<<<<<< HEAD
             <!-- form 태그에 action과 method 추가 -->
             <form action="/users/signup" method="POST">
                 <label for="username">Username</label>
@@ -60,6 +61,22 @@
             </form>
             <a href="/users/login" class="link-to-login">Already have an account? Log in</a>
         </div>
+=======
+                <form action="/users/signup" method="post">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+
+                    <button type="submit" class="signup-button">Sign Up</button>
+                </form>
+            <a href="/users/login" class="link-to-login">Already have an account? Log In</a>
+            </div>
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
     </div>
 </div>
 
@@ -67,10 +84,8 @@
 <footer class="footer">
     <div class="footer-links">
         <ul>
-            <li><a href="#">Find a Store</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
+            <li><p>(주)코뿔소코퍼레이션</p></li>
+
         </ul>
     </div>
 </footer>

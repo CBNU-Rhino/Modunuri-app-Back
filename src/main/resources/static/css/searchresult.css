@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* 기본 설정 */
 html, body {
     height: 100%;
@@ -5,12 +6,28 @@ html, body {
     font-family: pretendard;
     color: #1d1d1f;
     background-color: #EFFFE9;
+=======
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh; /* 전체 화면 높이를 기준으로 최소 높이 설정 */
+    font-family: 'Pretendard', sans-serif;
+    background-color: #EFFFE9; /* 전체 배경색 설정 */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
 }
 
 /* Navbar */
 .navbar {
     display: flex;
+<<<<<<< HEAD
     justify-content: space-between; /* 버튼을 오른쪽에 고정하기 위해 사용 */
+=======
+    justify-content: space-between;
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
     align-items: center;
     background-color: #EFFFE9;
     padding: 10px 20px;
@@ -20,7 +37,10 @@ html, body {
     z-index: 1000;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
 .logo img {
     width: 40px; /* 원하는 크기로 이미지 크기 설정 */
     height: auto; /* 이미지의 비율을 유지 */
@@ -39,6 +59,7 @@ html, body {
 .nav-links {
     list-style: none;
     display: flex;
+<<<<<<< HEAD
     align-items: center; /* nav-links를 다른 요소들과 높이를 맞추기 위해 사용 */
     margin: 0;
     padding: 0;
@@ -47,12 +68,23 @@ html, body {
 
 .nav-links li {
     margin: 0 15px;
+=======
+    margin: 0;
+    padding: 0;
+    margin-left: auto;
+}
+
+.nav-links li {
+    margin: 15px;
+    padding: 10px 20px;
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
 }
 
 .nav-links a {
     color: #656565;
     text-decoration: none;
     font-size: 16px;
+<<<<<<< HEAD
     line-height: 1.5; /* 높이를 다른 요소들과 맞추기 위해 추가 */
     transition: color 0.3s ease, background-color 0.3s ease; /* 부드러운 전환 효과 */
 }
@@ -69,6 +101,8 @@ html, body {
     font-size: 16px;
     margin-left: 40px;
     margin-right: 15px; /* 로그인 메시지와 회원가입 버튼 사이 간격 */
+=======
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
 }
 
 .search-container {
@@ -76,6 +110,7 @@ html, body {
     align-items: center;
     background-color: rgba(148, 205, 147, 0.25);
     border-radius: 30px;
+<<<<<<< HEAD
     padding: 5px 15px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
@@ -86,12 +121,27 @@ html, body {
 
 .search-input {
     padding: 10px 10px;
+=======
+    padding: 5px 20px;
+    margin-left: 20px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.search-input {
+    padding: 10px 15px;
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
     border: none;
     border-radius: 30px;
     outline: none;
     font-size: 16px;
+<<<<<<< HEAD
     color: #717171;
     width: 270px; /* 입력 필드의 너비를 컨테이너에 맞게 조정 */
+=======
+    color:#717171;
+    width: 250px;
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
     background: transparent;
 }
 
@@ -132,6 +182,7 @@ html, body {
     margin-left: auto; /* 오른쪽으로 밀어내기 */
 }
 
+<<<<<<< HEAD
 /* Main container - 관광 정보 섹션 */
 .main-container {
     flex: 1;
@@ -316,3 +367,88 @@ html, body {
 .footer-links a:hover {
     text-decoration: underline;
 }
+=======
+.combined-section {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* 부모 요소의 나머지 공간을 차지 */
+    background-color: #EFFFE9; /* 전체 섹션의 배경색 통일 */
+    margin-top: 120px; /* Navbar 높이만큼 아래로 내리기 */
+    box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
+}
+
+.upper-part {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    box-sizing: border-box;
+    border-bottom: 2px solid #ccc; /* 하단과 구분하는 선 */
+    height: 70%; /* 상단 섹션을 전체의 70%로 설정 */
+}
+
+.left-side, .right-side {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.left-side {
+    border-right: 2px solid #ccc; /* 왼쪽과 오른쪽을 구분하는 선 */
+}
+
+.right-side {
+    border-right: none; /* 오른쪽 부분에는 추가 선이 없도록 설정 */
+    flex-direction: column; /* 내부 요소를 세로로 배치 */
+    justify-content: flex-start; /* 콘텐츠를 위쪽으로 정렬 */
+}
+
+.tourist-photo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.divider {
+    height: 2px;
+    background-color: #ccc;
+}
+
+.bottom-section {
+    height: 300px; /* 하단 섹션의 고정된 높이 설정 */
+    width: 100%; /* 전체 너비를 차지하도록 설정 */
+    padding: 20px;
+    background-color: #D3E4CD; /* 하단 부분의 배경색 */
+    box-sizing: border-box;
+    overflow-y: auto;
+    flex-shrink: 0; /* 하단 섹션의 크기를 고정 */
+    align-self: flex-end; /* 하단 섹션이 페이지의 가장 아래에 위치하도록 설정 */
+}
+
+.right-section {
+    display: flex;
+    flex-direction: column; /* 내부를 세로로 나눔 */
+    width: 100%;
+}
+
+.info-block {
+    margin-bottom: 15px; /* 각 블록 간의 간격 */
+    padding: 10px;
+    border: 1px solid #ccc; /* 각 블록에 테두리 추가 */
+    border-radius: 5px; /* 블록의 모서리를 둥글게 */
+    background-color: #ffffff; /* 블록의 배경색 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 블록에 약간의 그림자 효과 */
+}
+
+.info-block strong {
+    display: inline-block;
+    width: 150px; /* 레이블 너비를 고정하여 일관된 정렬 */
+    color: #1d1d1f;
+}
+
+.info-block span {
+    color: #717171; /* 정보 텍스트 색상 */
+}
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a

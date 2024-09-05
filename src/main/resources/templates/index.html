@@ -11,20 +11,31 @@
 <header class="navbar">
     <div class="logo">
         <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+<<<<<<< HEAD
             <img src="/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+=======
+            <img src="../static/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
             <span class="a">MODUNURI</span>
         </a>
     </div>
-    <form class="search-container" action="/search" method="GET">
+    <form class="search-container" action="/searchresult" method="GET">
         <input type="text" placeholder="Search..." class="search-input" name="query">
     </form>
 
     <nav>
         <ul class="nav-links">
+<<<<<<< HEAD
             <li><a href="#">지역 별 검색</a></li>
             <li><a href="#">무장애 정보 검색</a></li>
             <li><a href="#" id="community-link">지도 보기</a></li>
             <li><a href="#">여행 기록하기</a></li>
+=======
+            <li><a href="/users/Search">지역 별 검색</a></li>
+            <li><a href="#">Travel Tips</a></li>
+            <li><a href="#" id="community-link">Community</a></li>
+            <li><a href="#">Support Center</a></li>
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
             <!-- 로그인 상태 확인 -->
             <li class="nav-item-right">
                 <span th:if="${username != null}">
@@ -33,9 +44,14 @@
                     <a href="/users/logout" class="auth-button">Logout</a>
                 </span>
                 <span th:if="${username == null}">
+<<<<<<< HEAD
                     <a class="login-message" th:text="'로그인을 해주세요'"></a>
                     <a href="users/signup" class="auth-button">SignUp</a>
                     <a href="users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+=======
+                    <a href="/users/signup" class="auth-button">Sign Up</a>
+                    <a href="/users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
                 </span>
             </li>
         </ul>
@@ -71,7 +87,10 @@
         <a href="#" class="button">Button 2</a>
         <a href="#" class="button">Button 3</a>
         <a href="#" class="button">Button 4</a>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8a2e7deb4f032a095336b6f63c4739ccc9e0c48a
     </div>
 </main>
 
