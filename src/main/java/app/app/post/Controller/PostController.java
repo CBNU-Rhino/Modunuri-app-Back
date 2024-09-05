@@ -5,14 +5,18 @@ import app.app.post.Service.PostService;
 import app.app.user.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/api/posts")
 public class PostController {
 
@@ -25,8 +29,9 @@ public class PostController {
 
     // 모든 게시물 가져오기
     @GetMapping
-    public List<Post> getAllPosts() {
-        return postService.getAllPosts();
+    public ResponseEntity<List<Post>> getAllPosts() {
+        List<Post> posts = postService.getAllPosts();
+        return ResponseEntity.ok(posts);
     }
 
     // ID로 특정 게시물 가져오기
@@ -37,20 +42,23 @@ public class PostController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+
     // 게시물 생성하기
     @PostMapping
-    public Post createPost(@RequestBody Post post) {
-        // 현재 로그인한 사용자의 ID를 가져와서 author 필드에 설정
-        String currentUsername = getCurrentUsername();
-        post.setAuthor(currentUsername);
-
-        String currentUserId = getCurrentUserid();
-        post.setUserId(currentUserId);
+    public ResponseEntity<Post> createPost(@RequestBody Post post) {
+        // 현재 로그인한 사용자의 ID와 이름을 가져와서 author와 userId 필드에 설정
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            post.setAuthor(userDetails.getRealUsername()); // 실제 username 설정
+            post.setUserId(userDetails.getUsername()); // ID 설정
+        }
 
         // 게시물 생성일 자동 설정
         post.setCreatedAt(LocalDateTime.now());
 
-        return postService.createPost(post);
+        Post createdPost = postService.createPost(post);
+        return ResponseEntity.ok(createdPost);
     }
 
     // 게시물 수정하기
@@ -72,36 +80,4 @@ public class PostController {
         postService.deletePost(id);
         return ResponseEntity.noContent().build();
     }
-
-    // 현재 로그인한 사용자의 이름을 가져오는 유틸리티 메서드
-    private String getCurrentUsername() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        // CustomUserDetails가 principal인 경우 실제 username을 반환
-        if (principal instanceof CustomUserDetails) {
-            return ((CustomUserDetails) principal).getRealUsername(); // 실제 username 반환
-        } else if (principal instanceof UserDetails) {
-            // 일반적인 UserDetails인 경우 기본 username 반환 (이 경우 userId일 가능성이 있음)
-            return ((UserDetails) principal).getUsername();
-        } else {
-            // 그 외의 경우 principal의 toString() 값을 반환
-            return principal.toString();
-        }
-    }
-    // 현재 로그인한 사용자의 id을 가져오는 유틸리티 메서드
-    private String getCurrentUserid() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        // CustomUserDetails가 principal인 경우 실제 username을 반환
-        if (principal instanceof CustomUserDetails) {
-            return ((CustomUserDetails) principal).getUsername(); // 실제 username 반환
-        } else if (principal instanceof UserDetails) {
-            // 일반적인 UserDetails인 경우 기본 username 반환 (이 경우 userId일 가능성이 있음)
-            return ((UserDetails) principal).getUsername();
-        } else {
-            // 그 외의 경우 principal의 toString() 값을 반환
-            return principal.toString();
-        }
-    }
-
 }

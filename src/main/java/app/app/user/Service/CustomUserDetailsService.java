@@ -25,21 +25,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        // 디버그 로그 추가: userId 값을 출력
-        System.out.println("로그인 시도 - 입력된 userId: " + userId);
+        System.out.println("loadUserByUsername called with userId: " + userId);
 
-        // userId로 사용자를 찾고, Optional로 감싸서 처리
         Optional<User> userOptional = Optional.ofNullable(userRepository.findByUserId(userId));
-
-        // Optional에서 사용자를 가져오거나, 존재하지 않으면 예외를 던짐
         User user = userOptional.orElseThrow(() ->
                 new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + userId));
 
-        // 디버그 로그 추가: 로그인 성공한 사용자 정보 출력
-        System.out.println("로그인 성공 - 사용자: " + user.getUsername());
+        System.out.println("User found: " + user.getUserId());
 
         return new CustomUserDetails(user);
     }
+
 }
-
-

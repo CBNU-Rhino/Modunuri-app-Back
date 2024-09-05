@@ -1,10 +1,11 @@
 package app.app.user;
-
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Getter
 public class CustomUserDetails implements UserDetails {
@@ -17,8 +18,8 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // 역할/권한을 반환합니다. 여기서는 기본적으로 비워 둘 수 있습니다.
-        return null;
+        // 기본적으로 ROLE_USER 권한을 부여
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
@@ -31,11 +32,10 @@ public class CustomUserDetails implements UserDetails {
         return user.getUserId();
     }
 
-    // 새로운 메서드 추가: 실제 username 반환
+    // 실제 사용자 이름 반환 (username 필드)
     public String getRealUsername() {
-        return user.getUsername(); // username을 반환
+        return user.getUsername();
     }
-
 
     @Override
     public boolean isAccountNonExpired() {
@@ -56,5 +56,4 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }
