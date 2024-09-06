@@ -1,0 +1,370 @@
+/* styles.css */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: pretendard;
+    color: #1d1d1f;
+    background-color: #EFFFE9;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* 버튼을 오른쪽에 고정하기 위해 사용 */
+    align-items: center;
+    background-color: #EFFFE9;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+
+.logo img {
+    width: 40px; /* 원하는 크기로 이미지 크기 설정 */
+    height: auto; /* 이미지의 비율을 유지 */
+    vertical-align: middle; /* 텍스트와 이미지의 세로 정렬을 맞춤 */
+    margin-right: 10px; /* 이미지와 텍스트 사이의 간격 추가 */
+}
+
+.navbar .logo a {
+    color: #89B873;
+    font-size: 24px;
+    font-weight: 900;
+    text-decoration: none;
+
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center; /* nav-links를 다른 요소들과 높이를 맞추기 위해 사용 */
+    margin: 0;
+    padding: 0;
+    margin-right: 30px; /* nav-links와 login-message 사이의 간격 */
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: #656565;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 1.5; /* 높이를 다른 요소들과 맞추기 위해 추가 */
+    transition: color 0.3s ease, background-color 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+    font-weight: bold; /* 호버 시 글씨 굵게 */
+    color: #45a049; /* 호버 시 글씨 색 변경 */
+    font-size: 18px; /* 호버 시 글씨 크기 증가 */
+}
+
+.login-message {
+    color: #656565;
+    font-size: 16px;
+    margin-left: 40px;
+    margin-right: 15px; /* 로그인 메시지와 회원가입 버튼 사이 간격 */
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: rgba(148, 205, 147, 0.25);
+    border-radius: 30px;
+    padding: 5px 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    width: 300px; /* 가로 길이를 300px로 설정 */
+    margin-right: 3px; /* nav-links와의 간격을 줄임 */
+    margin-left: 3px; /* 로고와의 간격을 조금 줄임 */
+}
+
+.search-input {
+    padding: 10px 10px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    font-size: 16px;
+    color: #717171;
+    width: 270px; /* 입력 필드의 너비를 컨테이너에 맞게 조정 */
+    background: transparent;
+}
+
+
+.nav-item {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.nav-item:hover {
+    background-color: #555;
+}
+
+/* 공통 버튼 스타일 */
+.auth-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    width: 100px; /* 동일한 너비 설정 */
+    box-sizing: border-box;
+    margin-left: 10px; /* 버튼 간격 조정 */
+}
+
+.auth-button:hover {
+    background-color: #45a049;
+}
+
+.nav-item-right {
+    margin-left: auto; /* 오른쪽으로 밀어내기 */
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    height: 450px; /* 슬라이드의 높이 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #616161; /* 텍스트 색상 */
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.slide:nth-child(1) {
+    background-color: #ffffff;
+}
+
+.slide:nth-child(2) {
+    background-color: #ffffff;
+}
+
+.slide:nth-child(3) {
+    background-color: #ffffff;
+}
+
+.slide:nth-child(4) {
+    background-color: #ffffff;
+}
+
+.dots-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #717171;
+}
+
+/* Additional Content Styles */
+.additional-content {
+    padding: 20px;
+    background-color: #EFFFE9;
+    text-align: left;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between; /* 버튼 간 간격을 균등하게 배분 */
+    padding: 20px;
+    height: 250px;
+}
+
+.button {
+    flex: 1; /* 버튼이 가능한 모든 공간을 차지하게 함 */
+    margin: 0 10px; /* 버튼 간의 여백을 설정 */
+    padding: 15px;
+    background-color: #ffffff;
+    color: #656565;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #c9c9c9;
+}
+
+/* Footer */
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 최소 높이를 100% 뷰포트 높이로 설정 */
+}
+
+.content {
+    flex: 1; /* 남은 공간을 모두 차지, 콘텐츠가 없을 경우 이 공간이 늘어나 footer가 하단으로 밀려남 */
+}
+
+.footer {
+    background-color: #B4D5A8;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-links li {
+    margin: 20px;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* Back Container: 페이지의 대부분을 차지하는 유동적인 컨테이너 */
+.back-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 수직 중앙 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+    min-height: 100vh; /* 최소 높이를 뷰포트 높이로 설정 */
+    background-color: #EFFFE9; /* 배경 색상, 필요에 따라 변경 가능 */
+}
+
+/* Content Container: signup/login을 포함하는 컨테이너 */
+.content-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    padding: 20px;
+}
+
+/* Signup/Login Container */
+.signup-container, .login-container {
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* 공통 스타일 */
+.signup-container h1, .login-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.signup-container label, .login-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.signup-container input, .login-container input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.signup-button, .login-button {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.signup-button:hover, .login-button:hover {
+    background-color: #45a049;
+}
+
+/* Link to Login/Signup */
+.link-to-login {
+    color: #4CAF50;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.link-to-login:hover {
+    text-decoration: underline;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* My Page Container Styles */
+.mypage-container {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.logout-button {
+    margin-top: 20px;
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Post</title>
+    <link rel="stylesheet" href="/static/css/styles.css"> <!-- 수정된 경로 -->
+</head>
+<body>
+<!-- Header Section -->
+<header class="navbar">
+    <div class="logo">
+        <a href="#">
+            <img src="/static/MODUNURI.png"> <!-- 수정된 이미지 경로 -->
+            <span style="color: #89B873; font-size: 24px; font-weight: 900;">MODUNURI</span>
+        </a>
+    </div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Travel Tips</a></li>
+            <li><a href="/community" class="active">Community</a></li>
+            <li><a href="#">Support Center</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Main Content Section -->
+<main style="margin-top: 100px;">
+    <section class="board-section">
+        <h1 style="text-align: center; padding: 20px 0; color: #656565;">Create New Post</h1>
+        <!-- 게시물 작성 폼 -->
+        <form id="new-post-form" action="/api/posts" method="POST">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" rows="5" required></textarea>
+
+            <button type="submit" style="background-color: #89B873; color: white; padding: 10px 20px;">Submit</button>
+        </form>
+    </section>
+</main>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-links">
+        <ul>
+            <li><a href="#">Find a Store</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+        </ul>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="/static/script/script.js"></script> <!-- 수정된 스크립트 경로 -->
+<script>
+    document.getElementById('new-post-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // 폼 데이터를 수집
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+
+        // JSON 형식으로 데이터 변환
+        const postData = {
+            title: title,
+            content: content,
+            // 필요하다면 author나 다른 필드 추가 가능
+        };
+
+        // POST 요청으로 게시물 작성 (JSON 형식으로 전송)
+        fetch('/api/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // JSON 요청임을 명시
+            },
+            body: JSON.stringify(postData), // JSON으로 변환된 데이터를 보냄
+        })
+            .then(response => {
+                console.log('Response status:', response.status);  // 상태 코드 확인
+                if (response.ok) {
+                    // 게시물 작성 후 board.html로 리다이렉트
+                    window.location.href = '/community';
+                } else {
+                    return response.text().then(text => {  // 서버 오류 메시지 출력
+                        throw new Error(`Failed to create post: ${text}`);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(`Failed to create post: ${error.message}`);
+            });
+    });
+
+
+</script>
+</body>
+</html>

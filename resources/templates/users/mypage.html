@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"> <!-- External CSS 파일 연결 -->
+</head>
+<body>
+<!-- Header Section -->
+<header class="navbar">
+    <div class="logo">
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+            <img src="test.png"> <!-- 이미지 추가 -->
+            MODUNURI
+        </a>
+    </div>
+    <form class="search-container" action="/search" method="GET">
+        <input type="text" placeholder="Search..." class="search-input" name="query">
+    </form>
+
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Travel Tips</a></li>
+            <li><a href="#">Community</a></li>
+            <li><a href="#">Support Center</a></li>
+            <!-- 로그인 상태 확인 -->
+            <li class="nav-item-right">
+                <span th:if="${username != null}">
+                    <a href="/users/mypage" class="my-page-button">My Page</a> <!-- My Page 버튼 추가 -->
+                    <a th:text="${username} + '님 안녕하세요'"></a>
+                    <a href="/users/logout" class="auth-button">Logout</a>
+                </span>
+                <span th:if="${username == null}">
+                    <a href="/users/signup" class="auth-button">Sign Up</a>
+                    <a href="/users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+                </span>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main class="mypage-container">
+    <h1>Welcome to My Page</h1>
+    <p th:text="'Hello, ' + ${username} + '!'"></p>
+    <p>Here you can view and manage your personal information.</p>
+
+    <!-- 관심 관광지 목록 -->
+    <section class="favorite-contents">
+        <h2>Your Favorite Places</h2>
+        <ul>
+            <!-- 관심 관광지 목록이 있을 때 -->
+            <li th:each="content : ${favoriteContents}" th:unless="${#lists.isEmpty(favoriteContents)}">
+                <span th:text="${content}"></span>
+                <form action="/users/removeFavorite" method="post" style="display:inline;">
+                    <input type="hidden" name="contentId" th:value="${content}" />
+                    <button type="submit" class="remove-button">Remove</button>
+                </form>
+            </li>
+            <!-- 관심 관광지가 없을 때 -->
+            <p th:if="${#lists.isEmpty(favoriteContents)}">관심 관광지가 없습니다.</p>
+        </ul>
+    </section>
+</main>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-links">
+        <ul>
+            <li><a href="#">Find a Store</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+        </ul>
+    </div>
+</footer>
+<script src="/static/script/script.js"></script>
+</body>
+</html>

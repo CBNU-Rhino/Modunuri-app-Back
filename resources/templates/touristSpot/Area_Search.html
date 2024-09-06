@@ -1,0 +1,274 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지역별 관광지 찾기</title>
+    <link rel="stylesheet" href="/css/Area_Search.css">
+    <style>
+        /* 기존 스타일 */
+        /* 중략 */
+
+        .gallery {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+        }
+
+        .gallery-item {
+            background-color: #F3F8E6;
+            border: 2px solid #BCC7A3;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            color: #6C7A40;
+            font-size: 18px;
+        }
+
+        .gallery-item img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .gallery-item p {
+            font-weight: bold;
+            margin: 0;
+            color: #6C7A40;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Section -->
+<header class="navbar">
+    <div class="logo">
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+            <img src="/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+            <span class="a">MODUNURI</span>
+        </a>
+    </div>
+    <form class="search-container" action="/search" method="GET">
+        <input type="text" placeholder="Search..." class="search-input" name="query">
+    </form>
+
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#">지역 별 검색</a></li>
+            <li><a href="#">무장애 정보 검색</a></li>
+            <li><a href="#" id="community-link">지도 보기</a></li>
+            <li><a href="#">여행 기록하기</a></li>
+            <!-- 로그인 상태 확인 -->
+            <li class="nav-item-right">
+                <span th:if="${username != null}">
+                    <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+                    <a href="/users/mypage" class="auth-button">MyPage</a> <!-- My Page 버튼 추가 -->
+                    <a href="/users/logout" class="auth-button">Logout</a>
+                </span>
+                <span th:if="${username == null}">
+                    <a class="login-message" th:text="'로그인을 해주세요'"></a>
+                    <a href="users/signup" class="auth-button">SignUp</a>
+                    <a href="users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+                </span>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="header">지역 검색</div>
+
+    <div class="filter-section">
+        <div class="dropdown">
+            <label for="region">지역</label>
+            <select id="region" onchange="updateSido()">
+                <option value="">시/도를 선택하세요</option>
+                <option value="서울특별시">서울특별시</option>
+                <option value="부산광역시">부산광역시</option>
+                <option value="대구광역시">대구광역시</option>
+                <option value="인천광역시">인천광역시</option>
+                <option value="광주광역시">광주광역시</option>
+                <option value="대전광역시">대전광역시</option>
+                <option value="울산광역시">울산광역시</option>
+                <option value="세종특별자치시">세종특별자치시</option>
+                <option value="경기도">경기도</option>
+                <option value="강원도">강원도</option>
+                <option value="충청북도">충청북도</option>
+                <option value="충청남도">충청남도</option>
+                <option value="전라북도">전라북도</option>
+                <option value="전라남도">전라남도</option>
+                <option value="경상북도">경상북도</option>
+                <option value="경상남도">경상남도</option>
+                <option value="제주특별자치도">제주특별자치도</option>
+            </select>
+        </div>
+        <div class="dropdown">
+            <label for="sido">시/구/군</label>
+            <select id="sido">
+                <option value="">시/구/군을 선택하세요</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- 체크박스 추가된 부분 (콘텐츠 타입 필터링) -->
+    <div class="checkbox-container">
+        <label><input type="checkbox" name="category" value="12"> 관광지</label>
+        <label><input type="checkbox" name="category" value="14"> 문화시설</label>
+        <label><input type="checkbox" name="category" value="15"> 축제공연행사</label>
+        <label><input type="checkbox" name="category" value="25"> 여행코스</label>
+        <label><input type="checkbox" name="category" value="28"> 레포츠</label>
+        <label><input type="checkbox" name="category" value="32"> 숙박</label>
+        <label><input type="checkbox" name="category" value="38"> 쇼핑</label>
+        <label><input type="checkbox" name="category" value="39"> 음식점</label>
+    </div>
+
+    <!-- 검색 버튼 -->
+    <div class="search-bar">
+        <button onclick="searchItems()">검색</button>
+    </div>
+
+    <!-- 결과를 보여줄 갤러리 -->
+    <div id="gallery" class="gallery"></div>
+</div>
+
+<div class="pagination"></div>
+
+<!-- 외부 JS 파일 참조 -->
+<script src="/script/Area_Search.js"></script>
+</body>
+</html>
+=======
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지역별 관광지 찾기</title>
+    <link rel="stylesheet" href="/css/Area_Search.css">
+
+</head>
+<body>
+
+<!-- Header Section -->
+<header class="navbar">
+    <div class="logo">
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+            <img src="/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+            <span class="a">MODUNURI</span>
+        </a>
+    </div>
+    <form class="search-container" action="/search" method="GET">
+        <input type="text" placeholder="Search..." class="search-input" name="query">
+    </form>
+
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#">지역 별 검색</a></li>
+            <li><a href="#">무장애 정보 검색</a></li>
+            <li><a href="#" id="community-link">지도 보기</a></li>
+            <li><a href="#">여행 기록하기</a></li>
+            <!-- 로그인 상태 확인 -->
+            <li class="nav-item-right">
+                <span th:if="${username != null}">
+                    <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+                    <a href="/users/mypage" class="auth-button">MyPage</a> <!-- My Page 버튼 추가 -->
+                    <a href="/users/logout" class="auth-button">Logout</a>
+                </span>
+                <span th:if="${username == null}">
+                    <a class="login-message" th:text="'로그인을 해주세요'"></a>
+                    <a href="users/signup" class="auth-button">SignUp</a>
+                    <a href="users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+                </span>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="header">지역 검색</div>
+
+    <div class="filter-section">
+        <div class="dropdown">
+            <label for="region">지역</label>
+            <select id="region" onchange="updateSido()">
+                <option value="">시/도를 선택하세요</option>
+                <option value="서울특별시">서울특별시</option>
+                <option value="부산광역시">부산광역시</option>
+                <option value="대구광역시">대구광역시</option>
+                <option value="인천광역시">인천광역시</option>
+                <option value="광주광역시">광주광역시</option>
+                <option value="대전광역시">대전광역시</option>
+                <option value="울산광역시">울산광역시</option>
+                <option value="세종특별자치시">세종특별자치시</option>
+                <option value="경기도">경기도</option>
+                <option value="강원도">강원도</option>
+                <option value="충청북도">충청북도</option>
+                <option value="충청남도">충청남도</option>
+                <option value="전라북도">전라북도</option>
+                <option value="전라남도">전라남도</option>
+                <option value="경상북도">경상북도</option>
+                <option value="경상남도">경상남도</option>
+                <option value="제주특별자치도">제주특별자치도</option>
+            </select>
+        </div>
+        <div class="dropdown">
+            <label for="sido">시/구/군</label>
+            <select id="sido">
+                <option value="">시/구/군을 선택하세요</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- 체크박스 추가된 부분 (콘텐츠 타입 필터링) -->
+    <div class="checkbox-container">
+        <label><input type="radio"  name="category" value="12"> 관광지</label>
+        <label><input type="radio"  name="category" value="14"> 문화시설</label>
+        <label><input type="radio"  name="category" value="15"> 축제공연행사</label>
+        <label><input type="radio"  name="category" value="25"> 여행코스</label>
+        <label><input type="radio"  name="category" value="28"> 레포츠</label>
+        <label><input type="radio"  name="category" value="32"> 숙박</label>
+        <label><input type="radio"  name="category" value="38"> 쇼핑</label>
+        <label><input type="radio" name="category" value="39"> 음식점</label>
+    </div>
+
+    <!-- 검색 및 초기화 버튼 -->
+    <div class="search-bar">
+        <input type="text" placeholder="검색">
+        <button onclick="searchItems()">
+            <img src="../../static/images/search-icon.png" alt="검색 버튼" style="width: 20px; height: 20px;">
+        </button>
+    </div>
+    <div class="selected-area">
+        <button onclick="resetFilters()">초기화</button>
+    </div>
+
+    <!-- 결과를 보여줄 갤러리 -->
+    <div id="gallery" class="gallery"></div>
+</div>
+
+<div class="pagination">
+    <div class="page-arrow"><</div>
+    <div class="page-number">1</div>
+    <div class="page-number">2</div>
+    <div class="page-number">3</div>
+    <div class="page-arrow">></div>
+
+</div>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-links">
+        <ul>
+            <li><p>(주)코뿔소코퍼레이션</p></li>
+
+        </ul>
+    </div>
+</footer>
+
+<!-- 외부 JS 파일 참조 -->
+<script src="/script/Area_Search.js"></script>
+</body>
+</html>
+>>>>>>> bc62f9b737309678c047f7d647a599c05effd16e
