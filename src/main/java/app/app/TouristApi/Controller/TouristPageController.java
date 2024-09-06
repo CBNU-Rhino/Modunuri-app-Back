@@ -60,24 +60,4 @@ public class TouristPageController {
         return "touristSpot/BarrierFreeSearch"; // BarrierFreeSearch.html을 렌더링
     }
 
-    // 무장애 조건에 따른 관광지 검색 (AJAX 요청용 API)
-    @GetMapping("/search-by-accessibility-api")
-    @ResponseBody
-    public List<AccessibleInfo> searchByAccessibility(
-            @RequestParam(required = false) String region, // 지역 선택
-            @RequestParam(required = false) String sigungu, // 시/구/군 선택
-            @RequestParam(required = false) String contentTypeId, // 관광지 유형 선택
-            @RequestParam(required = false) String accessibleTypes // 무장애 유형 필터링
-    ) {
-        List<String> accessibleTypeList = new ArrayList<>();
-
-        // accessibleTypes가 null이 아니면 리스트로 변환
-        if (accessibleTypes != null && !accessibleTypes.isEmpty()) {
-            accessibleTypeList = Arrays.asList(accessibleTypes.split(","));
-        }
-
-        // TouristSpotService를 통해 필터링된 결과를 반환
-        return touristSpotService.searchTouristSpotsByAccessibility(region, sigungu, contentTypeId, accessibleTypeList);
-    }
-
 }
