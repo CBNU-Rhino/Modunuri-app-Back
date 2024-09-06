@@ -47,6 +47,21 @@ function getSelectedContentType() {
     return selectedTypes.length > 0 ? selectedTypes.join(',') : null;
 }
 
+// 중복 항목 제거하는 함수
+function removeDuplicates(data) {
+    const uniqueItems = [];
+    const seenContentIds = new Set();
+
+    data.forEach(item => {
+        if (!seenContentIds.has(item.contentid)) {
+            uniqueItems.push(item);
+            seenContentIds.add(item.contentid);
+        }
+    });
+
+    return uniqueItems;
+}
+
 async function searchItems() {
     const region = document.getElementById('region').value;
     const sigungu = document.getElementById('sido').value;
@@ -63,26 +78,23 @@ async function searchItems() {
 
     try {
         const response = await fetch(apiUrl);
-        const data = await response.json();
+        let data = await response.json();
 
-        // 검색 결과를 갤러리로 표시
-        data.forEach(item => {
-            const galleryItem = document.createElement('div');
-            galleryItem.classList.add('gallery-item');
+        // 중복된 항목 제거
+        data = removeDuplicates(data);
 
-            const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="placeholder.jpg" alt="No Image">';
+        // 전체 데이터를 currentData에 저장
+        currentData = data;
 
-            // 각 검색 결과를 링크로 만들어 클릭하면 상세 페이지로 이동하도록 설정
-            galleryItem.innerHTML = `
-                <a href="searchresult.html?contentId=${item.contentid}&contentTypeId=${item.contenttypeid}">
-                    ${image}
-                    <p>${item.title}</p>
-                    <p>${item.addr1}</p>
-                </a>
-            `;
+        // 페이지 수 계산
+        totalPages = Math.ceil(currentData.length / itemsPerPage);
 
-            gallery.appendChild(galleryItem);
-        });
+        // 첫 페이지를 갤러리에 표시
+        currentPage = 1; // 페이지를 1로 초기화
+        displayGalleryPage(currentPage);
+
+        // 페이지네이션 업데이트
+        updatePagination();
 
         if (data.length === 0) {
             gallery.innerHTML = '<p>검색 결과가 없습니다.</p>';
@@ -152,7 +164,7 @@ function displayGalleryPage(page) {
         const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="placeholder.jpg" alt="No Image">';
 
         galleryItem.innerHTML = `
-            <a href="searchresult.html?contentId=${item.contentid}">
+            <a href="searchresult.html?contentId=${item.contentid}&contentTypeId=${item.contenttypeid}">
                 ${image}
                 <p>${item.title}</p>
                 <p>${item.addr1}</p>
