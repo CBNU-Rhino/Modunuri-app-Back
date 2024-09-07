@@ -95,6 +95,15 @@
     </div>
 </div>
 
+<!-- 블로그 포스팅 섹션 추가 -->
+<div class="block blog-posts-block">
+    <h3>블로그 후기</h3>
+    <hr class="hr-line">
+    <ul id="blog-posts">
+        <!-- 네이버 블로그 검색 결과가 여기에 동적으로 추가될 예정 -->
+    </ul>
+</div>
+
 <!-- Footer Section -->
 <footer class="footer">
     <div class="footer-links">
@@ -203,12 +212,48 @@
                 } else {
                     document.getElementById('kakao-map').style.display = 'none'; // 위치 정보가 없으면 지도 숨김
                 }
+
+                // 블로그 검색 실행
+                fetchBlogPosts(data.touristDetail.title);
+
             })
             .catch(error => {
                 console.error('Error fetching tourist spot information:', error);
                 document.getElementById('tourist-spot-info').innerHTML = '<p>관광지 정보를 불러오는 중 오류가 발생했습니다.</p>';
             });
     }
+
+    // 블로그 검색을 수행하는 함수
+    function fetchBlogPosts(query) {
+        const apiUrl = `/api/naver-search-blog?query=${encodeURIComponent(query)}`; // 경로 수정
+
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('네이버 블로그 검색 API 호출 실패');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const blogPosts = data.items;
+                const blogPostsContainer = document.getElementById('blog-posts');
+                blogPostsContainer.innerHTML = '';
+
+                if (blogPosts.length === 0) {
+                    blogPostsContainer.innerHTML = '<li>관련 블로그 후기가 없습니다.</li>';
+                } else {
+                    blogPosts.forEach(post => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `<a href="${post.link}" target="_blank">${post.title}</a>`;
+                        blogPostsContainer.appendChild(listItem);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('블로그 검색 실패:', error);
+            });
+    }
+
 </script>
 </body>
 </html>
