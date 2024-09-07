@@ -131,29 +131,58 @@
                 }
 
                 // 이미지 업데이트
-                document.getElementById('tourist-image').src = data.touristDetail.firstimage ? data.touristDetail.firstimage : 'placeholder.jpg';
+                document.getElementById('tourist-image').src = data.touristDetail.firstimage ? data.touristDetail.firstimage : '/images/placeholder.jpg';
                 // 제목 및 설명 업데이트
                 document.getElementById('place-name').textContent = data.touristDetail.title;
                 document.getElementById('place-description').textContent = data.touristDetail.overview;
 
                 // 장소 세부 정보 업데이트
                 const placeDetails = `
-                        <li>주소: ${data.touristDetail.addr1 || 'N/A'}</li>
-                        <li>전화번호: ${data.touristDetail.tel || 'N/A'}</li>
-                        <li>우편번호: ${data.touristDetail.zipcode || 'N/A'}</li>
-                        <li>홈페이지: ${data.touristDetail.homepage || 'N/A'}</li>
-                    `;
+                    <li>주소: ${data.touristDetail.addr1 || 'N/A'}</li>
+                    <li>전화번호: ${data.touristDetail.tel || 'N/A'}</li>
+                    <li>우편번호: ${data.touristDetail.zipcode || 'N/A'}</li>
+                    <li>홈페이지: ${data.touristDetail.homepage || 'N/A'}</li>
+                `;
                 document.getElementById('place-details').innerHTML = placeDetails;
 
                 // 무장애 관광 시설 정보 업데이트
                 const accessibilityInfo = `
-                        <li>주출입구: ${data.accessibilityInfo?.exit || '정보 없음'}</li>
-                        <li>화장실: ${data.accessibilityInfo?.restroom || '정보 없음'}</li>
-                        <li>안내견 동반 가능: ${data.accessibilityInfo?.helpdog || '정보 없음'}</li>
-                        <li>점자블록: ${data.accessibilityInfo?.braileblock || '정보 없음'}</li>
-                        <li>엘리베이터: ${data.accessibilityInfo?.elevator || '정보 없음'}</li>
-                    `;
+                    <li>주출입구: ${data.accessibilityInfo?.exit || '정보 없음'}</li>
+                    <li>화장실: ${data.accessibilityInfo?.restroom || '정보 없음'}</li>
+                    <li>안내견 동반 가능: ${data.accessibilityInfo?.helpdog || '정보 없음'}</li>
+                    <li>점자블록: ${data.accessibilityInfo?.braileblock || '정보 없음'}</li>
+                    <li>엘리베이터: ${data.accessibilityInfo?.elevator || '정보 없음'}</li>
+                `;
                 document.getElementById('accessibility-info').innerHTML = accessibilityInfo;
+
+                // 아이콘 컨테이너에 동적으로 아이콘 추가
+                const iconContainer = document.querySelector('.icon-container');
+                iconContainer.innerHTML = ''; // 기존 아이콘 초기화
+
+                // 아이콘 추가를 위한 데이터 매핑
+                const iconMapping = {
+                    exit: '/icons/ramp_icon.png',
+                    restroom: '/icons/restroom_icon.png',
+                    helpdog: '/icons/helpdog_icon.png',
+                    braileblock: '/icons/braille_icon.png',
+                    elevator: '/icons/elevator_icon.png'
+                };
+
+                // 무장애 정보에 따른 아이콘 동적 추가
+                Object.keys(iconMapping).forEach(key => {
+                    if (data.accessibilityInfo?.[key] && data.accessibilityInfo[key] !== '정보 없음') {
+                        const icon = document.createElement('img');
+                        icon.src = iconMapping[key];
+                        icon.classList.add('icon');
+                        icon.alt = key;
+                        iconContainer.appendChild(icon);
+                    } else {
+                        // 정보가 없는 경우에는 빈 div 요소 추가
+                        const emptySpace = document.createElement('div');
+                        emptySpace.classList.add('empty-icon-space');
+                        iconContainer.appendChild(emptySpace);
+                    }
+                });
 
                 // 카카오 맵에 해당 관광지의 위치를 표시 (지도 위치가 존재할 경우에만)
                 if (data.touristDetail.mapx && data.touristDetail.mapy) {

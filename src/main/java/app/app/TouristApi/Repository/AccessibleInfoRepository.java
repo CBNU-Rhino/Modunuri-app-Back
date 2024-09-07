@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-package app.app.TouristApi.Repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import app.app.TouristApi.Entity.AccessibleInfo;
-
-@Repository
-public interface AccessibleInfoRepository extends JpaRepository<AccessibleInfo, Long> {
-    AccessibleInfo findByContentId(String contentId);
-    boolean existsByContentId(String contentId);
-}
-=======
 package app.app.TouristApi.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -42,4 +29,3 @@ public interface AccessibleInfoRepository extends JpaRepository<AccessibleInfo, 
                                                              @Param("accessibleTypeList") List<String> accessibleTypeList);
 
 }
->>>>>>> bc62f9b737309678c047f7d647a599c05effd16e
