@@ -34,6 +34,9 @@ spring:
       token-uri: https://kauth.kakao.com/oauth/token
       user-info-uri: https://kapi.kakao.com/v2/user/me
       user-name-attribute: id
+  naver:
+    client-id: w0SVynZeCsheFkCZMaD3 # 네이버 API Client ID
+    client-secret: m69Yy4YomV # 네이버 API Client Secret
 
   publicdata:
     api:
@@ -47,5 +50,3 @@ logging:
         web:
           authentication: DEBUG
           access: DEBUG
-
-
