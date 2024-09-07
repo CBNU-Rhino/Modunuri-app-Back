@@ -50,7 +50,15 @@
         <!-- 왼쪽: 장소 이미지 섹션 -->
         <div class="left-section">
             <img id="tourist-image" src="placeholder.jpg" alt="Place Image" class="place-img"> <!-- 동적으로 이미지 추가 -->
+
+            <div class="button-icon-container">
+                <form id="save-form" action="/save" method="POST">
+                    <button type="submit" class="save-button" id="save-button">저장하기</button>
+                </form>
+                <img src="/icons/save_icon.png" alt="Save Icon" class="save-icon"> <!-- 저장하기 버튼 옆에 추가할 아이콘 -->
+            </div>
         </div>
+
         <!-- 오른쪽: 아이콘 및 무장애 정보 -->
         <div class="right-section">
             <!-- 아이콘 섹션 -->
@@ -93,15 +101,16 @@
         <hr class="hr-line"> <!-- 구분선 -->
         <div class="section place-map" id="kakao-map" style="width:100%;height:350px;"></div> <!-- 카카오맵이 표시될 영역 -->
     </div>
-</div>
 
-<!-- 블로그 포스팅 섹션 추가 -->
-<div class="block blog-posts-block">
-    <h3>블로그 후기</h3>
-    <hr class="hr-line">
-    <ul id="blog-posts">
-        <!-- 네이버 블로그 검색 결과가 여기에 동적으로 추가될 예정 -->
-    </ul>
+    <!-- 블로그 포스팅 섹션 -->
+    <div class="block blog-posts-block">
+        <h3>블로그 후기</h3>
+        <hr class="hr-line">
+        <div class="blog-posts-grid" id="blog-posts">
+            <!-- 여기에 동적으로 블로그 포스트 블록이 추가될 예정 -->
+        </div>
+    </div>
+
 </div>
 
 <!-- Footer Section -->
@@ -177,24 +186,86 @@
                     restroom: '/icons/restroom_icon.png',
                     helpdog: '/icons/helpdog_icon.png',
                     braileblock: '/icons/braille_icon.png',
-                    elevator: '/icons/elevator_icon.png'
+                    elevator: '/icons/elevator_icon.png',
+                    stroller: '/icons/babystroller_icon.png',
+                    wheelchair: '/icons/wheelchair_icon.png',
+                    parking: '/icons/parking_icon.png'
+                };
+
+                // '정보없음'일 경우에 사용할 아이콘 경로를 항목별로 정의
+                const noInfoIcons = {
+                    exit: '/icons/no_ramp_icon.png',       // 경사로 정보 없음일 때 사용할 아이콘
+                    restroom: '/icons/no_restroom_icon.png', // 화장실 정보 없음일 때 사용할 아이콘
+                    helpdog: '/icons/no_helpdog_icon.png',   // 안내견 정보 없음일 때 사용할 아이콘
+                    braileblock: '/icons/no_braille_icon.png', // 점자블록 정보 없음일 때 사용할 아이콘
+                    elevator: '/icons/no_elevator_icon.png',   // 엘리베이터 정보 없음일 때 사용할 아이콘
+                    stroller: '/icons/no_babystroller_icon.png',
+                    wheelchair: '/icons/no_wheelchair_icon.png',
+                    parking: '/icons/no_parking_icon.png'
                 };
 
                 // 무장애 정보에 따른 아이콘 동적 추가
                 Object.keys(iconMapping).forEach(key => {
+                    // '정보 없음'인지 확인
                     if (data.accessibilityInfo?.[key] && data.accessibilityInfo[key] !== '정보 없음') {
+                        // 정보가 있을 경우 정상 아이콘 표시
                         const icon = document.createElement('img');
                         icon.src = iconMapping[key];
                         icon.classList.add('icon');
                         icon.alt = key;
                         iconContainer.appendChild(icon);
                     } else {
-                        // 정보가 없는 경우에는 빈 div 요소 추가
-                        const emptySpace = document.createElement('div');
-                        emptySpace.classList.add('empty-icon-space');
-                        iconContainer.appendChild(emptySpace);
+                        // 정보가 없을 경우 해당 '정보 없음' 아이콘 표시
+                        const noIcon = document.createElement('img');
+                        noIcon.src = noInfoIcons[key];
+                        noIcon.classList.add('icon');
+                        noIcon.alt = `no information for ${key}`;
+                        iconContainer.appendChild(noIcon);
                     }
                 });
+
+                // 서버로 데이터를 전송하는 기존 코드
+                document.getElementById('save-form').addEventListener('submit', function (e) {
+                    e.preventDefault(); // 폼의 기본 동작인 새로고침 방지
+
+                    const saveButton = document.getElementById('save-button');
+                    const saveIcon = document.getElementById('save-icon'); // 아이콘 요소 선택
+
+                    // 서버로 데이터 전송 (AJAX)
+                    fetch('/save', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            contentId: '<content_id>',
+                            contentTypeId: '<content_type_id>',
+                            // 추가 데이터가 있다면 여기에 포함
+                        })
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                // 저장 성공 시 알림창 표시
+                                alert('저장이 완료되었습니다!');
+
+                                // 저장 완료 후 버튼 텍스트 변경 및 비활성화
+                                saveButton.textContent = '저장 완료';
+                                saveButton.disabled = true; // 버튼 비활성화
+                                saveButton.style.backgroundColor = '#4CAF50'; // 색상 변경
+
+                                // 아이콘을 saved_icon으로 변경
+                                saveIcon.src = '/icons/saved_icon.png'; // 저장된 상태의 아이콘으로 변경
+                                saveIcon.alt = 'Saved Icon'; // alt 텍스트 변경
+                            } else {
+                                // 실패 처리
+                                alert('저장에 실패했습니다.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
+
 
                 // 카카오 맵에 해당 관광지의 위치를 표시 (지도 위치가 존재할 경우에만)
                 if (data.touristDetail.mapx && data.touristDetail.mapy) {
