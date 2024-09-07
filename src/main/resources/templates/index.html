@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MODUNURI</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <!-- Header Section -->
@@ -21,20 +21,20 @@
 
     <nav>
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Travel Tips</a></li>
-            <!-- 로그인 여부에 관계없이 community 클릭 시 board.html로 이동 -->
-            <li><a href="#" id="community-link">Community</a></li>
-            <li><a href="#">Support Center</a></li>
+            <li><a href="#">지역 별 검색</a></li>
+            <li><a href="#">무장애 정보 검색</a></li>
+            <li><a href="#" id="community-link">지도 보기</a></li>
+            <li><a href="#">여행 기록하기</a></li>
             <!-- 로그인 상태 확인 -->
             <li class="nav-item-right">
                 <span th:if="${username != null}">
-                    <a href="/users/mypage" class="my-page-button">My Page</a> <!-- My Page 버튼 추가 -->
-                    <a th:text="${username} + '님 안녕하세요'"></a>
+                    <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+                    <a href="/users/mypage" class="auth-button">MyPage</a> <!-- My Page 버튼 추가 -->
                     <a href="/users/logout" class="auth-button">Logout</a>
                 </span>
                 <span th:if="${username == null}">
-                    <a href="users/signup" class="auth-button">Sign Up</a>
+                    <a class="login-message" th:text="'로그인을 해주세요'"></a>
+                    <a href="users/signup" class="auth-button">SignUp</a>
                     <a href="users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
                 </span>
             </li>
@@ -62,7 +62,7 @@
     <!-- Additional Content Section -->
     <section class="additional-content">
         <h2>관광지 추천</h2>
-        <p>모두가 함께 떠날 수 있는 여행</p>
+        <p>모두누리가 추천하는 여행 코스</p>
     </section>
 
     <!-- 버튼 컨테이너 -->
@@ -70,7 +70,8 @@
         <a href="#" class="button">Button 1</a>
         <a href="#" class="button">Button 2</a>
         <a href="#" class="button">Button 3</a>
-        <a href="/users/mypage" class="button">My Page</a> <!-- My Page 버튼 추가 -->
+        <a href="#" class="button">Button 4</a>
+
     </div>
 </main>
 
@@ -78,26 +79,13 @@
 <footer class="footer">
     <div class="footer-links">
         <ul>
-            <li><a href="#">Find a Store</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
+            <li><p>(주)코뿔소코퍼레이션</p></li>
+
         </ul>
     </div>
 </footer>
 
-<!-- script.js를 연결 -->
+
 <script src="/static/script/script.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const communityLink = document.getElementById('community-link');
-        if (communityLink) {
-            communityLink.addEventListener('click', function(event) {
-                event.preventDefault(); // 기본 링크 동작을 막음
-                window.location.href = '/community'; // /community 경로로 이동
-            });
-        }
-    });
-</script>
 </body>
 </html>

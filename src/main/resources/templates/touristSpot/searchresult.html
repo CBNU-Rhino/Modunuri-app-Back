@@ -152,6 +152,9 @@
                     <li>안내견 동반 가능: ${data.accessibilityInfo?.helpdog || '정보 없음'}</li>
                     <li>점자블록: ${data.accessibilityInfo?.braileblock || '정보 없음'}</li>
                     <li>엘리베이터: ${data.accessibilityInfo?.elevator || '정보 없음'}</li>
+                    <li>유아차: ${data.accessibilityInfo?.stroller || '정보 없음'}</li> <!-- 유아차 정보 추가 -->
+                    <li>휠체어: ${data.accessibilityInfo?.wheelchair || '정보 없음'}</li> <!-- 휠체어 정보 추가 -->
+                    <li>장애인 주차구역: ${data.accessibilityInfo?.parking || '정보 없음'}</li> <!-- 주차구역 정보 추가 -->
                 `;
                 document.getElementById('accessibility-info').innerHTML = accessibilityInfo;
 
