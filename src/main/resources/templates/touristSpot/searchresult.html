@@ -8,13 +8,101 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9795bab39c2cc262f3aec7f26ec16196&libraries=services"></script> <!-- 카카오 지도 SDK 추가 -->
 </head>
 <body>
-<div class="main-container">
-    <!-- 관광지 정보가 여기에 표시될 예정 -->
-    <div id="tourist-spot-info"></div>
 
-    <!-- 지도 섹션 -->
-    <div class="section place-map" id="kakao-map" style="width:100%;height:350px;"></div> <!-- 카카오맵이 표시될 영역 -->
+<!-- Header Section -->
+<header class="navbar">
+    <div class="logo">
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+            <img src="/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+            <span class="a">MODUNURI</span>
+        </a>
+    </div>
+    <form class="search-container" action="/search" method="GET">
+        <input type="text" placeholder="Search..." class="search-input" name="query">
+    </form>
+
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#">지역 별 검색</a></li>
+            <li><a href="#">무장애 정보 검색</a></li>
+            <li><a href="#" id="community-link">지도 보기</a></li>
+            <li><a href="#">여행 기록하기</a></li>
+            <!-- 로그인 상태 확인 -->
+            <li class="nav-item-right">
+                <span th:if="${username != null}">
+                    <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+                    <a href="/users/mypage" class="auth-button">MyPage</a> <!-- My Page 버튼 추가 -->
+                    <a href="/users/logout" class="auth-button">Logout</a>
+                </span>
+                <span th:if="${username == null}">
+                    <a class="login-message" th:text="'로그인을 해주세요'"></a>
+                    <a href="users/signup" class="auth-button">SignUp</a>
+                    <a href="users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+                </span>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<div class="main-container">
+    <!-- 상단 블록: 사진 및 무장애 정보 섹션 -->
+    <div class="block upper-block">
+        <!-- 왼쪽: 장소 이미지 섹션 -->
+        <div class="left-section">
+            <img id="tourist-image" src="placeholder.jpg" alt="Place Image" class="place-img"> <!-- 동적으로 이미지 추가 -->
+        </div>
+        <!-- 오른쪽: 아이콘 및 무장애 정보 -->
+        <div class="right-section">
+            <!-- 아이콘 섹션 -->
+            <div class="icon-container">
+                <img src="icon1.png" class="icon">
+                <img src="icon2.png" class="icon">
+                <img src="icon3.png" class="icon">
+                <img src="icon4.png" class="icon">
+                <img src="icon5.png" class="icon">
+            </div>
+            <h3>무장애 관광 시설 정보</h3>
+            <hr class="hr-line"> <!-- 무장애 정보 구분선 -->
+            <ul id="accessibility-info">
+                <!-- 무장애 정보가 여기에 동적으로 추가될 예정 -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- 장소 이름 블록 -->
+    <div class="block place-name-block">
+        <h2 id="place-name">관광지 이름</h2>
+        <hr class="hr-line"> <!-- 구분선 -->
+        <p id="place-description">
+            관광지에 대한 설명이 여기에 표시됩니다.
+        </p>
+    </div>
+
+    <!-- 장소 세부 설명 블록 -->
+    <div class="block place-details-block">
+        <h3>장소 정보</h3>
+        <hr class="hr-line"> <!-- 장소 정보 구분선 -->
+        <ul id="place-details">
+            <!-- 장소 세부 정보가 여기에 동적으로 추가될 예정 -->
+        </ul>
+    </div>
+
+    <!-- 지도 블록 -->
+    <div class="block place-map-block">
+        <h3>위치</h3>
+        <hr class="hr-line"> <!-- 구분선 -->
+        <div class="section place-map" id="kakao-map" style="width:100%;height:350px;"></div> <!-- 카카오맵이 표시될 영역 -->
+    </div>
 </div>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-links">
+        <ul>
+            <li><p>(주)코뿔소코퍼레이션</p></li>
+        </ul>
+    </div>
+</footer>
 
 <script>
     // URL에서 contentId와 contentTypeId를 가져옴
@@ -42,42 +130,62 @@
                     return;
                 }
 
-                // 관광지 세부 정보를 페이지에 표시
-                const spotInfo = `
-                    <div class="section place-image">
-                        <img src="${data.touristDetail.firstimage ? data.touristDetail.firstimage : 'placeholder.jpg'}" alt="${data.touristDetail.title}">
-                    </div>
-                    <div class="section place-name">${data.touristDetail.title}</div>
-                    <div class="section place-details">
-                        <div class="info-container">
-                            <div class="info-left">
-                                <h3>장소 정보</h3>
-                                <ul>
-                                    <li>주소: ${data.touristDetail.addr1 ? data.touristDetail.addr1 : 'N/A'}</li>
-                                    <li>전화번호: ${data.touristDetail.tel ? data.touristDetail.tel : 'N/A'}</li>
-                                    <li>우편번호: ${data.touristDetail.zipcode ? data.touristDetail.zipcode : 'N/A'}</li>
-                                    <li>홈페이지: ${data.touristDetail.homepage ? data.touristDetail.homepage : 'N/A'}</li>
-                                    <li>설명: ${data.touristDetail.overview ? data.touristDetail.overview : 'N/A'}</li>
-                                </ul>
-                            </div>
-                            <div class="info-right">
-                                <h3>무장애 관광 시설 정보</h3>
-                                <ul>
-                                    <li>주출입구: ${data.accessibilityInfo?.exit ? data.accessibilityInfo.exit : '정보 없음'}</li>
-                                    <li>화장실: ${data.accessibilityInfo?.restroom ? data.accessibilityInfo.restroom : '정보 없음'}</li>
-                                    <li>안내견 동반 가능: ${data.accessibilityInfo?.helpdog ? data.accessibilityInfo.helpdog : '정보 없음'}</li>
-                                    <li>점자블록: ${data.accessibilityInfo?.braileblock ? data.accessibilityInfo.braileblock : '정보 없음'}</li>
-                                    <li>엘리베이터: ${data.accessibilityInfo?.elevator ? data.accessibilityInfo.elevator : '정보 없음'}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                // 이미지 업데이트
+                document.getElementById('tourist-image').src = data.touristDetail.firstimage ? data.touristDetail.firstimage : '/images/placeholder.jpg';
+                // 제목 및 설명 업데이트
+                document.getElementById('place-name').textContent = data.touristDetail.title;
+                document.getElementById('place-description').textContent = data.touristDetail.overview;
+
+                // 장소 세부 정보 업데이트
+                const placeDetails = `
+                    <li>주소: ${data.touristDetail.addr1 || 'N/A'}</li>
+                    <li>전화번호: ${data.touristDetail.tel || 'N/A'}</li>
+                    <li>우편번호: ${data.touristDetail.zipcode || 'N/A'}</li>
+                    <li>홈페이지: ${data.touristDetail.homepage || 'N/A'}</li>
                 `;
-                document.getElementById('tourist-spot-info').innerHTML = spotInfo;
+                document.getElementById('place-details').innerHTML = placeDetails;
+
+                // 무장애 관광 시설 정보 업데이트
+                const accessibilityInfo = `
+                    <li>주출입구: ${data.accessibilityInfo?.exit || '정보 없음'}</li>
+                    <li>화장실: ${data.accessibilityInfo?.restroom || '정보 없음'}</li>
+                    <li>안내견 동반 가능: ${data.accessibilityInfo?.helpdog || '정보 없음'}</li>
+                    <li>점자블록: ${data.accessibilityInfo?.braileblock || '정보 없음'}</li>
+                    <li>엘리베이터: ${data.accessibilityInfo?.elevator || '정보 없음'}</li>
+                `;
+                document.getElementById('accessibility-info').innerHTML = accessibilityInfo;
+
+                // 아이콘 컨테이너에 동적으로 아이콘 추가
+                const iconContainer = document.querySelector('.icon-container');
+                iconContainer.innerHTML = ''; // 기존 아이콘 초기화
+
+                // 아이콘 추가를 위한 데이터 매핑
+                const iconMapping = {
+                    exit: '/icons/ramp_icon.png',
+                    restroom: '/icons/restroom_icon.png',
+                    helpdog: '/icons/helpdog_icon.png',
+                    braileblock: '/icons/braille_icon.png',
+                    elevator: '/icons/elevator_icon.png'
+                };
+
+                // 무장애 정보에 따른 아이콘 동적 추가
+                Object.keys(iconMapping).forEach(key => {
+                    if (data.accessibilityInfo?.[key] && data.accessibilityInfo[key] !== '정보 없음') {
+                        const icon = document.createElement('img');
+                        icon.src = iconMapping[key];
+                        icon.classList.add('icon');
+                        icon.alt = key;
+                        iconContainer.appendChild(icon);
+                    } else {
+                        // 정보가 없는 경우에는 빈 div 요소 추가
+                        const emptySpace = document.createElement('div');
+                        emptySpace.classList.add('empty-icon-space');
+                        iconContainer.appendChild(emptySpace);
+                    }
+                });
 
                 // 카카오 맵에 해당 관광지의 위치를 표시 (지도 위치가 존재할 경우에만)
                 if (data.touristDetail.mapx && data.touristDetail.mapy) {
-                    // 지도와 마커를 설정하는 코드를 fetch 성공 후에 실행
                     const mapContainer = document.getElementById('kakao-map');
                     const mapOption = {
                         center: new kakao.maps.LatLng(data.touristDetail.mapy, data.touristDetail.mapx),

@@ -1,158 +1,325 @@
-/* Reset & Global Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-/* Main Container */
-.main-container {
-    width: 80%;
-    max-width: 1000px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-/* Section Styles */
-.section {
-    margin-bottom: 20px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.place-image {
-    height: 500px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.place-image img {
-    width: 100%;
-    height: auto;
-    max-height: 100%;
-    border-radius: 10px;
-    object-fit: cover;
-}
-
-.place-name {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: #4CAF50;
-    border-bottom: 2px solid #4CAF50;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    display: inline-block;
-}
-
-.place-details {
-    display: flex;
-    justify-content: space-between;
-    text-align: left;
-}
-
-.info-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.info-left, .info-right {
-    width: 48%;
-    text-align: center; /* 가운데 정렬 */
-}
-
-h3 {
-    color: #4CAF50;
-    margin-bottom: 10px;
-    font-size: 1.5em;
-    border-bottom: 2px solid #4CAF50;
-    display: inline-block;
-    padding-bottom: 5px;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-ul li {
-    margin-bottom: 10px;
-    font-size: 1.1em;
-    color: #555;
-}
-
-/* 지도 섹션 스타일 */
-.place-map {
-    width: 95%;
-    height: 450px; /* 지도의 높이를 키움 */
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.map-frame {
-    width: 100%;
+/* 기본 설정 */
+html, body {
     height: 100%;
-    border: 0;
+    margin: 0;
+    font-family: pretendard;
+    color: #1d1d1f;
+    background-color: #EFFFE9;
 }
 
-/* Button Styles */
-button {
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* 버튼을 오른쪽에 고정하기 위해 사용 */
+    align-items: center;
+    background-color: #EFFFE9;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+
+.logo img {
+    width: 40px; /* 원하는 크기로 이미지 크기 설정 */
+    height: auto; /* 이미지의 비율을 유지 */
+    vertical-align: middle; /* 텍스트와 이미지의 세로 정렬을 맞춤 */
+    margin-right: 10px; /* 이미지와 텍스트 사이의 간격 추가 */
+}
+
+.navbar .logo a {
+    color: #89B873;
+    font-size: 24px;
+    font-weight: 900;
+    text-decoration: none;
+
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center; /* nav-links를 다른 요소들과 높이를 맞추기 위해 사용 */
+    margin: 0;
+    padding: 0;
+    margin-right: 30px; /* nav-links와 login-message 사이의 간격 */
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: #656565;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 1.5; /* 높이를 다른 요소들과 맞추기 위해 추가 */
+    transition: color 0.3s ease, background-color 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+    font-weight: bold; /* 호버 시 글씨 굵게 */
+    color: #45a049; /* 호버 시 글씨 색 변경 */
+    font-size: 18px; /* 호버 시 글씨 크기 증가 */
+}
+
+.login-message {
+    color: #656565;
+    font-size: 16px;
+    margin-left: 40px;
+    margin-right: 15px; /* 로그인 메시지와 회원가입 버튼 사이 간격 */
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: rgba(148, 205, 147, 0.25);
+    border-radius: 30px;
+    padding: 5px 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    width: 300px; /* 가로 길이를 300px로 설정 */
+    margin-right: 3px; /* nav-links와의 간격을 줄임 */
+    margin-left: 3px; /* 로고와의 간격을 조금 줄임 */
+}
+
+.search-input {
+    padding: 10px 10px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    font-size: 16px;
+    color: #717171;
+    width: 270px; /* 입력 필드의 너비를 컨테이너에 맞게 조정 */
+    background: transparent;
+}
+
+
+.nav-item {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.nav-item:hover {
+    background-color: #555;
+}
+
+/* 공통 버튼 스타일 */
+.auth-button {
+    padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
-    border: none;
-    padding: 10px 15px;
+    text-decoration: none;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    width: 100px; /* 동일한 너비 설정 */
+    box-sizing: border-box;
+    margin-left: 10px; /* 버튼 간격 조정 */
 }
 
-button:hover {
+.auth-button:hover {
     background-color: #45a049;
 }
 
-.remove-btn {
-    background-color: #f44336;
-    margin-left: 10px;
+.nav-item-right {
+    margin-left: auto; /* 오른쪽으로 밀어내기 */
 }
 
-.remove-btn:hover {
-    background-color: #e53935;
+/* Main container - 관광 정보 섹션 */
+.main-container {
+    flex: 1;
+    width: 85%;
+    background-color: #e1fbdf;
+    padding: 20px;
+    margin-top: 80px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    /* 수평 및 수직 중앙 정렬 */
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* List Styles */
-ul {
-    list-style-type: none;
+/* 블록 스타일 */
+.block {
+    margin-bottom: 20px;
+    background-color: #e1fbdf;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 구분선 */
+.hr-line {
+    border: none;
+    border-top: 3px solid #4CAF50;
+    margin: 20px 0;
+}
+
+/* 상단 블록: 사진 및 무장애 정보 섹션 */
+.upper-block {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 왼쪽 섹션: 장소 이미지 */
+.left-section {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.place-img {
+    width: 500px;  /* 원하는 고정 너비 */
+    height: 400px;  /* 원하는 고정 높이 */
+    border-radius: 10px;
+    object-fit: cover;  /* 이미지를 왜곡 없이 고정 크기에 맞춤 */
+}
+
+/* 오른쪽 섹션: 아이콘 및 무장애 정보 */
+.right-section {
+    flex-grow: 1;  /* left-section이 차지하지 않는 공간을 채움 */
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(148, 205, 147, 0.25);
+}
+
+.right-section h3 {
+    text-align: center;
+    font-size: 22px;
+    color: #4CAF50;
+    margin-bottom: 15px;
+}
+
+.right-section ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.right-section ul li {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #717171;
+}
+
+/* 아이콘 컨테이너 */
+.icon-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+/* 아이콘 이미지 크기를 정사각형으로 고정 */
+.icon {
+    width: 50px;
+    height: 50px;
+}
+
+/* 정보가 없을 때 빈 공간을 차지하는 클래스 */
+.empty-icon-space {
+    width: 50px;
+    height: 50px;
+    visibility: hidden; /* 빈 공간을 차지하지만 보이지 않음 */
+}
+
+/* 장소 이름 블록 */
+.place-name-block {
+    text-align: left;  /* 왼쪽 정렬 */
+    font-size: 28px;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.place-name-block h2 {
+    font-size: 28px;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+/* 줄글 정보 */
+.place-name-block p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #717171;
+    margin-top: 10px;
+}
+
+/* 장소 세부 설명 블록 */
+.place-details-block h3 {
+    font-size: 22px;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.place-details-block ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.place-details-block ul li {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #717171;
+}
+
+.place-details-block p {
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* 지도 블록 */
+.place-map-block iframe {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    border: none;
+}
+
+.place-map-block h3 {
+    text-align: left; /* 제목을 왼쪽 정렬 */
+    font-size: 22px;
+    color: #4CAF50;
+    margin-bottom: 10px; /* 제목과 구분선 사이 간격 */
+}
+
+.place-map-block .hr-line {
+    margin-bottom: 20px; /* 구분선과 지도 사이의 간격 */
+}
+
+/* Footer */
+.footer {
+    background-color: #B4D5A8;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.footer-links ul {
+    list-style: none;
+    margin: 0;
     padding: 0;
 }
 
-ul li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+.footer-links li {
+    margin: 20px;
 }
 
-ul li:last-child {
-    border-bottom: none;
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
 }
 
-#add-destination-input {
-    padding: 10px;
-    width: calc(100% - 130px);
-    margin-right: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+.footer-links a:hover {
+    text-decoration: underline;
 }
