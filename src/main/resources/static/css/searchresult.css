@@ -160,7 +160,7 @@ html, body {
 .hr-line {
     border: none;
     border-top: 3px solid #4CAF50;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 /* 상단 블록: 사진 및 무장애 정보 섹션 */
@@ -171,30 +171,75 @@ html, body {
 
 /* 왼쪽 섹션: 장소 이미지 */
 .left-section {
-    flex: 1;
-    margin-right: 20px;
+    flex: 2; /* 섹션 크기를 키우기 위해 flex 값 증가 */
+    margin-right: 10px; /* 두 섹션 간의 간격 */
 }
 
 .place-img {
-    width: 500px;  /* 원하는 고정 너비 */
-    height: 400px;  /* 원하는 고정 높이 */
+    width: 100%; /* 이미지를 섹션의 전체 너비에 맞춤 */
+    max-width: none; /* 이미지의 최대 너비 제한을 없앰 */
+    height: 450px; /* 원하는 높이로 설정 */
+    object-fit: cover; /* 이미지의 비율을 유지하며 크기에 맞춤 */
     border-radius: 10px;
-    object-fit: cover;  /* 이미지를 왜곡 없이 고정 크기에 맞춤 */
+    margin-left: 5px;
+}
+
+.save-button {
+    margin-top: 0px; /* 이미지와 버튼 사이의 간격 */
+    padding: 10px 280px; /* 버튼의 패딩 */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    margin-left: 7px;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+/* 저장 완료 후 버튼 비활성화 스타일 */
+.save-button.disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+.button-icon-container {
+    display: flex;
+    align-items: center; /* 버튼과 아이콘을 세로 가운데 정렬 */
+    gap: 20px; /* 버튼과 아이콘 사이의 간격 */
+    margin-top: 10px; /* 위쪽에 약간의 여백 추가 */
+    margin-left: 20px;
+}
+
+.save-icon {
+    width: 20px; /* 아이콘의 크기를 적절하게 설정 */
+    height: 24px;
 }
 
 /* 오른쪽 섹션: 아이콘 및 무장애 정보 */
 .right-section {
-    flex-grow: 1;  /* left-section이 차지하지 않는 공간을 채움 */
+    flex-basis: 50%; /* 오른쪽 섹션의 기본 크기 비율 설정 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 20px;
     border-radius: 10px;
     background-color: rgba(148, 205, 147, 0.25);
+    height: 450px; /* 높이를 증가시킴 */
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .right-section h3 {
     text-align: center;
     font-size: 22px;
     color: #4CAF50;
-    margin-bottom: 15px;
+    margin-bottom: 2px;
 }
 
 .right-section ul {
@@ -212,8 +257,9 @@ html, body {
 /* 아이콘 컨테이너 */
 .icon-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     margin-bottom: 10px;
+    gap: 20px;
 }
 
 /* 아이콘 이미지 크기를 정사각형으로 고정 */
