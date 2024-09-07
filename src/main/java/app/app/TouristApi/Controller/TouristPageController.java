@@ -62,8 +62,11 @@ public class TouristPageController {
 
     // 무장애 검색 페이지 렌더링
     @GetMapping("/search-by-accessibility")
-    public String getBarrierFreeSearchPage() {
-        return "touristSpot/BarrierFreeSearch"; // BarrierFreeSearch.html을 렌더링
+    public String getBarrierFreeSearchPage(@AuthenticationPrincipal CustomUserDetails user, Model model) {
+        if (user != null) {
+            model.addAttribute("username", user.getUsername());
+        }
+        return "touristSpot/BarrierFreeSearch"; // touristSpot/BarrierFreeSearch.html로 이동
     }
 
 }
