@@ -4,6 +4,8 @@ import app.app.TouristApi.DTO.TouristInfoWithAccessibilityDTO;
 import app.app.TouristApi.Entity.AccessibleInfo;
 import app.app.TouristApi.Service.TouristApiService;
 import app.app.TouristApi.Service.TouristSpotService;
+import app.app.user.CustomUserDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +32,13 @@ public class TouristPageController {
     }
 
     @GetMapping("/area-search")
-    public String getAreaSearchPage() {
+    public String getAreaSearchPage(@AuthenticationPrincipal CustomUserDetails user, Model model) {
+        if (user != null) {
+            model.addAttribute("username", user.getUsername());  // 로그인한 사용자의 이름을 모델에 추가
+        }
         return "touristSpot/Area_Search"; // templates/touristSpot/Area_Search.html로 이동
     }
+
 
     @GetMapping("/tourist-information")
     public String getTouristInformation(
