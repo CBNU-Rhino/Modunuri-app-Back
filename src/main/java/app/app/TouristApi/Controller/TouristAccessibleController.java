@@ -50,7 +50,9 @@ public class TouristAccessibleController {
             // 3. DB에서 무장애 정보가 있는 관광지 필터링 (region/sigungu 대신 contentId 기반)
             List<String> accessibleTypeList = accessibleType != null ? Arrays.asList(accessibleType.split(",")) : new ArrayList<>();
             List<AccessibleInfo> accessibleInfoList = touristSpotService.searchTouristSpotsByAccessibility(contentIds, accessibleTypeList);
-
+            // **디버깅 코드 추가**
+            System.out.println("Accessible Types: " + accessibleTypeList);
+            System.out.println("Content IDs: " + contentIds);
             // 4. 필터링된 관광지 목록 반환
             List<TouristInfoDTO> filteredTouristInfo = touristInfoList.stream()
                     .filter(touristInfo -> accessibleInfoList.stream()
