@@ -85,18 +85,4 @@ public class BoardPageController {
 
         return "community/post-detail";  // 템플릿 경로에 맞춰 반환
     }
-
-//    // 게시물 상세 페이지 경로
-//    @GetMapping("/board/post/{postId}/detail")
-//    public String getPostDetailPage(@PathVariable Long postId, Model model) {
-//        // PostService로부터 post 정보를 가져옴 (인스턴스를 통해 호출)
-//        Post post = postService.getPostById(postId)
-//                .orElseThrow(() -> new IllegalArgumentException("Invalid post ID: " + postId));
-//
-//        // 모델에 post 객체 추가
-//        model.addAttribute("post", post);
-//
-//        return "community/post-detail";  // src/main/resources/templates/community/post-detail.html 반환
-//    }
-
 }
