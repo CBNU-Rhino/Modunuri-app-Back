@@ -3,6 +3,7 @@ package app.app.post.Service;
 import app.app.post.Post;
 import app.app.post.Repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +19,10 @@ public class PostService {
     }
 
     // 모든 게시물 가져오기
+    // 모든 게시물을 postId 내림차순으로 가져오기
     public List<Post> getAllPosts() {
-        return postRepository.findAll();
+        // Sort.by("postId").descending()을 사용하여 내림차순으로 정렬
+        return postRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     // ID로 특정 게시물 가져오기
