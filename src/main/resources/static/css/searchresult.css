@@ -171,30 +171,63 @@ html, body {
 
 /* 왼쪽 섹션: 장소 이미지 */
 .left-section {
-    flex: 1;
-    margin-right: 20px;
+    flex: 1; /* 가로 크기를 고정 */
+    margin-right: 10px; /* 두 섹션 간의 간격 */
 }
 
 .place-img {
-    width: 500px;  /* 원하는 고정 너비 */
-    height: 400px;  /* 원하는 고정 높이 */
+    width: 100%; /* 섹션의 가로 너비에 맞춤 */
+    max-width: 650px; /* 가로 크기를 고정 (원하는 크기로 설정) */
+    height: 450px; /* 기존보다 약간 줄어든 높이 */
+    object-fit: cover; /* 이미지 비율을 유지하며 고정된 크기에 맞춤 */
     border-radius: 10px;
-    object-fit: cover;  /* 이미지를 왜곡 없이 고정 크기에 맞춤 */
+    margin-left: 100px;
+}
+
+.button-icon-container {
+    display: flex; /* Flexbox로 가로로 나란히 배열 */
+    align-items: center; /* 아이콘과 버튼을 세로로 가운데 정렬 */
+    gap: 10px; /* 버튼과 아이콘 사이의 간격 */
+    margin-top: 10px; /* 위쪽 여백 */
+}
+
+.save-button {
+    padding: 10px 276px; /* 버튼의 패딩 */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    margin-left: 100px;
+
+}
+
+.save-icon {
+    width: 20px; /* 아이콘 크기 설정 */
+    height: 24px;
 }
 
 /* 오른쪽 섹션: 아이콘 및 무장애 정보 */
 .right-section {
-    flex-grow: 1;  /* left-section이 차지하지 않는 공간을 채움 */
+    flex-basis: 40%; /* 가로 크기 고정 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 20px;
     border-radius: 10px;
     background-color: rgba(148, 205, 147, 0.25);
+    height: 450px; /* 이미지 섹션과 일관된 높이로 줄임 */
+    margin-right: 100px;
 }
 
 .right-section h3 {
     text-align: center;
     font-size: 22px;
     color: #4CAF50;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .right-section ul {
@@ -212,8 +245,9 @@ html, body {
 /* 아이콘 컨테이너 */
 .icon-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     margin-bottom: 10px;
+    gap: 5px;
 }
 
 /* 아이콘 이미지 크기를 정사각형으로 고정 */
@@ -295,6 +329,77 @@ html, body {
 .place-map-block .hr-line {
     margin-bottom: 20px; /* 구분선과 지도 사이의 간격 */
 }
+
+/* 블로그 포스팅 섹션 */
+.blog-posts-block {
+    background-color: #e1fbdf; /* 다른 블록과 동일한 배경색 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* 다른 블록과 동일한 그림자 */
+    margin-bottom: 20px;
+    display: block; /* 숨겨진 섹션이 없도록 명시적으로 표시 */
+    visibility: visible; /* 숨겨진 요소가 없도록 설정 */
+}
+
+/* 블로그 포스팅 섹션 */
+.blog-posts-block h3 {
+    text-align: left; /* 제목을 왼쪽 정렬 */
+    font-size: 22px;     /* 제목의 크기를 다른 섹션과 맞춤 */
+    color: #4CAF50;      /* 색상을 통일된 그린 컬러로 지정 */
+    margin-bottom: 10px; /* 아래쪽 여백을 조절 */
+}
+
+/* 블로그 포스트들을 그리드로 배열 */
+.blog-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개의 블로그 후기 블록 */
+    gap: 20px; /* 블로그 후기 카드 간의 간격 */
+    padding: 0;
+    list-style: none; /* 리스트 스타일 제거 */
+}
+
+/* 블로그 포스트 하나의 카드 스타일 */
+.blog-posts-grid li {
+    background-color: #F3F8E6; /* 다른 블록과 조화를 이루는 배경색 */
+    border: 2px solid #BCC7A3;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* 블로그 포스트 호버 효과 */
+.blog-posts-grid li:hover {
+    transform: translateY(-5px); /* 마우스 오버 시 살짝 위로 올라가는 효과 */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 블로그 포스트 제목 */
+.blog-posts-grid li a {
+    text-decoration: none;
+    color: #4CAF50;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 블로그 포스트 본문 미리보기 (간략하게) */
+.blog-posts-grid li p {
+    color: #717171;
+    font-size: 14px;
+    margin-top: 5px;
+    line-height: 1.6;
+}
+
+/* 블로그 링크 호버 시 효과 */
+.blog-posts-grid li a:hover {
+    text-decoration: underline;
+    color: #45a049;
+}
+
 
 /* Footer */
 .footer {
