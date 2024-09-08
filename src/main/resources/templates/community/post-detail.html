@@ -180,7 +180,8 @@
             <a href="/community">목록</a>
 
             <!-- 수정/삭제 버튼은 로그인한 사용자와 작성자가 일치할 때만 표시 -->
-            <a th:if="${currentUserId != null and currentUserId == post.userId}" href="/edit/${post.id}">수정</a>
+            <a th:if="${currentUserId != null and currentUserId == post.userId}" href="#" id="edit-button" th:data-post-id="${post.id}">수정</a>
+
             <a th:if="${currentUserId != null and currentUserId == post.userId}" href="#" class="delete-button" th:data-post-id="${post.id}">삭제</a>
         </div>
 
@@ -257,6 +258,18 @@
                 }
             });
         });
+        const editButton = document.getElementById('edit-button');
+
+        if (editButton) {
+            editButton.addEventListener('click', function (event) {
+                event.preventDefault();
+                const postId = editButton.getAttribute('data-post-id'); // post ID 가져오기
+                if (postId) {
+                    // new-post.html 페이지로 이동 (수정용)
+                    window.location.href = '/board/post/' + postId + '/edit';
+                }
+            });
+        }
     });
 </script>
 

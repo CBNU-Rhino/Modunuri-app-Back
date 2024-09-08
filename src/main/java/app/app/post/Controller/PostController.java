@@ -64,14 +64,9 @@ public class PostController {
     // 게시물 수정하기
     @PutMapping("/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post postDetails) {
-        try {
-            // 게시물 수정 시 수정 날짜를 현재 시각으로 갱신
-            postDetails.setUpdatedAt(LocalDateTime.now());
-            Post updatedPost = postService.updatePost(id, postDetails);
-            return ResponseEntity.ok(updatedPost);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
+        postDetails.setUpdatedAt(LocalDateTime.now());
+        Post updatedPost = postService.updatePost(id, postDetails);
+        return ResponseEntity.ok(updatedPost);
     }
 
     // 게시물 삭제하기
@@ -80,4 +75,5 @@ public class PostController {
         postService.deletePost(id);
         return ResponseEntity.noContent().build();
     }
+
 }

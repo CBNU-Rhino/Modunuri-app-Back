@@ -37,6 +37,14 @@ public class BoardPageController {
     public String newPostPage() {
         return "community/new-post";  // src/main/resources/templates/community/new-post.html 파일 반환
     }
+    // 게시물 수정 폼 (수정 시에도 new-post.html 사용)
+    @GetMapping("/board/post/{postId}/edit")
+    public String editPostPage(@PathVariable Long postId, Model model) {
+        Post post = postService.getPostById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid post ID: " + postId));
+        model.addAttribute("post", post); // 수정할 게시물 정보 전달
+        return "community/new-post"; // 수정 시에도 new-post.html 사용
+    }
     @GetMapping("/board/post/{postId}/detail")
     public String getPostDetail(@PathVariable Long postId, Model model) {
         // 현재 인증된 사용자를 가져옴
