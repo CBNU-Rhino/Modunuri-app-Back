@@ -316,10 +316,7 @@
                         const thumbnail = post.thumbnail || 'default-thumbnail.jpg';
 
                         listItem.innerHTML = `
-                        <a href="${post.link}" target="_blank" class="blog-link">
-                            <div class="blog-thumbnail">
-                                <img src="${thumbnail}" alt="${post.title} 썸네일">
-                            </div>
+                         <a href="${post.link}" target="_blank" class="blog-link">
                             <div class="blog-content">
                                 <h4 class="blog-title">${post.title}</h4>
                                 <p class="blog-description">${post.description || '설명이 없습니다.'}</p>
