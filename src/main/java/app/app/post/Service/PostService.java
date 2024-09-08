@@ -3,6 +3,7 @@ package app.app.post.Service;
 import app.app.post.Post;
 import app.app.post.Repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +19,10 @@ public class PostService {
     }
 
     // 모든 게시물 가져오기
+    // 모든 게시물을 postId 내림차순으로 가져오기
     public List<Post> getAllPosts() {
-        return postRepository.findAll();
+        // Sort.by("postId").descending()을 사용하여 내림차순으로 정렬
+        return postRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     // ID로 특정 게시물 가져오기
@@ -36,6 +39,7 @@ public class PostService {
     public Post updatePost(Long id, Post postDetails) {
         return postRepository.findById(id).map(post -> {
             post.setTitle(postDetails.getTitle());
+            post.setUserId(postDetails.getUserId());
             post.setContent(postDetails.getContent());
             post.setAuthor(postDetails.getAuthor());
             post.setLocation(postDetails.getLocation());
@@ -48,5 +52,9 @@ public class PostService {
     // 게시물 삭제
     public void deletePost(Long id) {
         postRepository.deleteById(id);
+    }
+    // 게시물 저장 (새로운 게시물 또는 수정된 게시물 저장)
+    public Post save(Post post) {
+        return postRepository.save(post);
     }
 }

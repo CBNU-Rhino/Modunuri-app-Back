@@ -25,7 +25,9 @@ public class Post extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content; //내용
 
-    private String author; //작성자
+    private String author; //작성자_닉네임
+
+    private String userId; //userId
 
     private String location; //위치정보
 
