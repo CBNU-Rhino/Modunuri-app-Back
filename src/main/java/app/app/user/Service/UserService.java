@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,4 +87,26 @@ public class UserService {
             throw new RuntimeException("사용자를 찾을 수 없습니다: " + ID);
         }
     }
+
+    @Transactional // 트랜잭션 추가
+    public void saveFavoriteContent(User user, String contentId) {
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        if (contentId == null || contentId.isEmpty()) {
+            throw new IllegalArgumentException("contentId cannot be null or empty");
+        }
+
+        // 사용자 관심 관광지 추가
+        user.addFavoriteContent(contentId); // 관심 관광지 리스트에 추가
+
+        // 저장 시 디버깅을 위한 로그
+        System.out.println("Before saving user: " + user);
+
+        userRepository.save(user); // 사용자 정보를 DB에 저장
+
+        // 저장 후 디버깅을 위한 로그
+        System.out.println("User saved with favorite content: " + contentId);
+    }
+
 }

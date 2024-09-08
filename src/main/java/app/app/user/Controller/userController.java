@@ -1,10 +1,14 @@
 package app.app.user.Controller;
 
+import app.app.user.CustomUserDetails;
 import app.app.user.DTO.UserDTO;
 import app.app.user.User;
 import app.app.user.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/users")
@@ -102,5 +107,30 @@ public class userController {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/users/mypage"; // My Page로 리다이렉트
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<String> saveFavoriteContent(
+            @RequestBody Map<String, String> requestBody,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+        User user = customUserDetails.getUser();  // CustomUserDetails에서 User 객체 추출
+
+        System.out.println("Authenticated User: " + user);  // user 객체 확인
+
+        if (user != null) {
+            String contentId = requestBody.get("contentId");
+            String contentTypeId = requestBody.get("contentTypeId");
+
+            // 데이터 유효성 검사
+            if (contentId == null || contentId.isEmpty()) {
+                return ResponseEntity.badRequest().body("contentId가 없습니다.");
+            }
+
+            userService.saveFavoriteContent(user, contentId);
+            return ResponseEntity.ok("저장이 완료되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
     }
 }

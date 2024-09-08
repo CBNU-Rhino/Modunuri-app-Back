@@ -23,7 +23,7 @@ public class User {
 
 
     // 관심 관광지 저장을 위한 필드
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER) // 즉시 로딩으로 설정
     @CollectionTable(name = "user_favorite_contents", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "content_id")
     private List<String> favoriteContents = new ArrayList<>();

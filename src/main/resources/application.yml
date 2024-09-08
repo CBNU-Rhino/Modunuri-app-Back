@@ -46,7 +46,7 @@ logging:
   level:
     org:
       springframework:
-        security: DEBUG
+        security: DEBUG    # Spring Security 관련 디버깅 로그
         web:
-          authentication: DEBUG
-          access: DEBUG
+          filter: DEBUG    # HTTP 요청과 관련된 필터 로그
+      hibernate: DEBUG      # Hibernate 관련 디버깅 로그

@@ -219,47 +219,51 @@
                     }
                 });
 
-                // 서버로 데이터를 전송하는 기존 코드
                 document.getElementById('save-form').addEventListener('submit', function (e) {
-                    e.preventDefault(); // 폼의 기본 동작인 새로고침 방지
+                    e.preventDefault();
 
                     const saveButton = document.getElementById('save-button');
-                    const saveIcon = document.getElementById('save-icon'); // 아이콘 요소 선택
+                    const saveIcon = document.getElementById('save-icon');
+
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const contentId = urlParams.get('contentId');
+                    const contentTypeId = urlParams.get('contentTypeId');
+
+                    if (!contentId || !contentTypeId) {
+                        alert('유효한 관광지 정보가 없습니다.');
+                        return;
+                    }
 
                     // 서버로 데이터 전송 (AJAX)
-                    fetch('/save', {
+                    fetch('/users/save', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            contentId: '<content_id>',
-                            contentTypeId: '<content_type_id>',
-                            // 추가 데이터가 있다면 여기에 포함
+                            contentId: contentId,
+                            contentTypeId: contentTypeId
                         })
                     })
                         .then(response => {
                             if (response.ok) {
-                                // 저장 성공 시 알림창 표시
                                 alert('저장이 완료되었습니다!');
-
-                                // 저장 완료 후 버튼 텍스트 변경 및 비활성화
                                 saveButton.textContent = '저장 완료';
-                                saveButton.disabled = true; // 버튼 비활성화
-                                saveButton.style.backgroundColor = '#4CAF50'; // 색상 변경
-
-                                // 아이콘을 saved_icon으로 변경
-                                saveIcon.src = '/icons/saved_icon.png'; // 저장된 상태의 아이콘으로 변경
-                                saveIcon.alt = 'Saved Icon'; // alt 텍스트 변경
+                                saveButton.disabled = true;
+                                saveButton.style.backgroundColor = '#4CAF50';
+                                saveIcon.src = '/icons/saved_icon.png';
+                                saveIcon.alt = 'Saved Icon';
                             } else {
-                                // 실패 처리
                                 alert('저장에 실패했습니다.');
                             }
                         })
                         .catch(error => {
                             console.error('Error:', error);
+                            alert('서버와의 통신에 문제가 발생했습니다.');
                         });
                 });
+
+
 
 
                 // 카카오 맵에 해당 관광지의 위치를 표시 (지도 위치가 존재할 경우에만)
