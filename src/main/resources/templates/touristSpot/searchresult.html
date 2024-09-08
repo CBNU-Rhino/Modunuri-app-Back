@@ -55,7 +55,7 @@
                 <form id="save-form" action="/save" method="POST">
                     <button type="submit" class="save-button" id="save-button">저장하기</button>
                 </form>
-                <img src="/icons/save_icon.png" alt="Save Icon" class="save-icon"> <!-- 저장하기 버튼 옆에 추가할 아이콘 -->
+                <img src="/icons/save_icon.png" alt="Save Icon" class="save-icon" id="save-icon"> <!-- 저장하기 버튼 옆에 추가할 아이콘 -->
             </div>
         </div>
 
@@ -105,9 +105,8 @@
             <!-- 여기에 블로그 카드가 동적으로 추가됩니다 -->
         </ul>
     </div>
-
-
 </div>
+
 <!-- Footer Section -->
 <footer class="footer">
     <div class="footer-links">
@@ -165,9 +164,9 @@
                     <li>안내견 동반 가능: ${data.accessibilityInfo?.helpdog || '정보 없음'}</li>
                     <li>점자블록: ${data.accessibilityInfo?.braileblock || '정보 없음'}</li>
                     <li>엘리베이터: ${data.accessibilityInfo?.elevator || '정보 없음'}</li>
-                    <li>유아차: ${data.accessibilityInfo?.stroller || '정보 없음'}</li> <!-- 유아차 정보 추가 -->
-                    <li>휠체어: ${data.accessibilityInfo?.wheelchair || '정보 없음'}</li> <!-- 휠체어 정보 추가 -->
-                    <li>장애인 주차구역: ${data.accessibilityInfo?.parking || '정보 없음'}</li> <!-- 주차구역 정보 추가 -->
+                    <li>유아차: ${data.accessibilityInfo?.stroller || '정보 없음'}</li>
+                    <li>휠체어: ${data.accessibilityInfo?.wheelchair || '정보 없음'}</li>
+                    <li>장애인 주차구역: ${data.accessibilityInfo?.parking || '정보 없음'}</li>
                 `;
                 document.getElementById('accessibility-info').innerHTML = accessibilityInfo;
 
@@ -187,13 +186,12 @@
                     parking: '/icons/parking_icon.png'
                 };
 
-                // '정보없음'일 경우에 사용할 아이콘 경로를 항목별로 정의
                 const noInfoIcons = {
-                    exit: '/icons/no_ramp_icon.png',       // 경사로 정보 없음일 때 사용할 아이콘
-                    restroom: '/icons/no_restroom_icon.png', // 화장실 정보 없음일 때 사용할 아이콘
-                    helpdog: '/icons/no_helpdog_icon.png',   // 안내견 정보 없음일 때 사용할 아이콘
-                    braileblock: '/icons/no_braille_icon.png', // 점자블록 정보 없음일 때 사용할 아이콘
-                    elevator: '/icons/no_elevator_icon.png',   // 엘리베이터 정보 없음일 때 사용할 아이콘
+                    exit: '/icons/no_ramp_icon.png',
+                    restroom: '/icons/no_restroom_icon.png',
+                    helpdog: '/icons/no_helpdog_icon.png',
+                    braileblock: '/icons/no_braille_icon.png',
+                    elevator: '/icons/no_elevator_icon.png',
                     stroller: '/icons/no_babystroller_icon.png',
                     wheelchair: '/icons/no_wheelchair_icon.png',
                     parking: '/icons/no_parking_icon.png'
@@ -201,16 +199,13 @@
 
                 // 무장애 정보에 따른 아이콘 동적 추가
                 Object.keys(iconMapping).forEach(key => {
-                    // '정보 없음'인지 확인
                     if (data.accessibilityInfo?.[key] && data.accessibilityInfo[key] !== '정보 없음') {
-                        // 정보가 있을 경우 정상 아이콘 표시
                         const icon = document.createElement('img');
                         icon.src = iconMapping[key];
                         icon.classList.add('icon');
                         icon.alt = key;
                         iconContainer.appendChild(icon);
                     } else {
-                        // 정보가 없을 경우 해당 '정보 없음' 아이콘 표시
                         const noIcon = document.createElement('img');
                         noIcon.src = noInfoIcons[key];
                         noIcon.classList.add('icon');
@@ -218,6 +213,45 @@
                         iconContainer.appendChild(noIcon);
                     }
                 });
+
+                // 저장된 상태인지 확인하는 로직 추가
+                fetch('/users/checkSaved', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ contentId: contentId })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const isSaved = data.isSaved; // 서버에서 받은 isSaved 값을 사용
+                        const saveButton = document.getElementById('save-button');
+                        const saveIcon = document.getElementById('save-icon');
+
+                        // isSaved 값이 true일 경우에만 저장된 관광지로 표시
+                        if (isSaved === true) {
+                            saveButton.textContent = '저장된 관광지';
+                            saveButton.disabled = true;
+                            saveButton.style.backgroundColor = '#4CAF50';
+                            saveIcon.src = '/icons/saved_icon.png';
+                            saveIcon.alt = 'Saved Icon';
+                        } else {
+                            saveButton.textContent = '저장하기';
+                            saveButton.disabled = false;
+                            saveButton.style.backgroundColor = '';  // 기본 색상으로 되돌림
+                            saveIcon.src = '/icons/save_icon.png';
+                            saveIcon.alt = 'Save Icon';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking saved status:', error);
+                    });
+
 
                 document.getElementById('save-form').addEventListener('submit', function (e) {
                     e.preventDefault();
@@ -248,7 +282,7 @@
                         .then(response => {
                             if (response.ok) {
                                 alert('저장이 완료되었습니다!');
-                                saveButton.textContent = '저장 완료';
+                                saveButton.textContent = '저장된 관광지';
                                 saveButton.disabled = true;
                                 saveButton.style.backgroundColor = '#4CAF50';
                                 saveIcon.src = '/icons/saved_icon.png';
@@ -262,30 +296,6 @@
                             alert('서버와의 통신에 문제가 발생했습니다.');
                         });
                 });
-
-
-
-
-                // 카카오 맵에 해당 관광지의 위치를 표시 (지도 위치가 존재할 경우에만)
-                if (data.touristDetail.mapx && data.touristDetail.mapy) {
-                    const mapContainer = document.getElementById('kakao-map');
-                    const mapOption = {
-                        center: new kakao.maps.LatLng(data.touristDetail.mapy, data.touristDetail.mapx),
-                        level: 3
-                    };
-                    const map = new kakao.maps.Map(mapContainer, mapOption);
-                    const markerPosition = new kakao.maps.LatLng(data.touristDetail.mapy, data.touristDetail.mapx);
-                    const marker = new kakao.maps.Marker({
-                        position: markerPosition
-                    });
-                    marker.setMap(map);
-                } else {
-                    document.getElementById('kakao-map').style.display = 'none'; // 위치 정보가 없으면 지도 숨김
-                }
-
-                // 블로그 검색 실행
-                fetchBlogPosts(data.touristDetail.title);
-
             })
             .catch(error => {
                 console.error('Error fetching tourist spot information:', error);
@@ -295,7 +305,7 @@
 
     // 블로그 검색을 수행하는 함수
     function fetchBlogPosts(query) {
-        const apiUrl = `/api/naver-search-blog?query=${encodeURIComponent(query)}`; // 경로 수정
+        const apiUrl = `/api/naver-search-blog?query=${encodeURIComponent(query)}`;
 
         fetch(apiUrl)
             .then(response => {
@@ -314,13 +324,12 @@
                 } else {
                     blogPosts.forEach(post => {
                         const listItem = document.createElement('li');
-                        listItem.classList.add('blog-card'); // 카드 스타일을 위한 클래스 추가
+                        listItem.classList.add('blog-card');
 
-                        // 썸네일이 없으면 기본 이미지 사용
                         const thumbnail = post.thumbnail || 'default-thumbnail.jpg';
 
                         listItem.innerHTML = `
-                         <a href="${post.link}" target="_blank" class="blog-link">
+                        <a href="${post.link}" target="_blank" class="blog-link">
                             <div class="blog-content">
                                 <h4 class="blog-title">${post.title}</h4>
                                 <p class="blog-description">${post.description || '설명이 없습니다.'}</p>
@@ -335,7 +344,6 @@
                 console.error('블로그 검색 실패:', error);
             });
     }
-
 </script>
 </body>
 </html>

@@ -133,4 +133,17 @@ public class userController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
     }
+
+    @PostMapping("/checkSaved")
+    public ResponseEntity<Boolean> checkSavedContent(
+            @RequestBody Map<String, String> requestBody,
+            @AuthenticationPrincipal User user) {
+
+        String contentId = requestBody.get("contentId");
+
+        // 저장 여부 확인
+        boolean isSaved = user.getFavoriteContents().contains(contentId);
+
+        return ResponseEntity.ok(isSaved);
+    }
 }
