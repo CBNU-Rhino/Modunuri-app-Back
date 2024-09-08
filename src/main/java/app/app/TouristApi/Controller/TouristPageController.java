@@ -54,8 +54,19 @@ public class TouristPageController {
     }
 
     @GetMapping("/searchresult.html")
-    public String getSearchResultPage(@RequestParam String contentId, Model model) {
+    public String getSearchResultPage(@RequestParam String contentId, @AuthenticationPrincipal CustomUserDetails user, Model model) {
+        // 로그인된 사용자가 있는지 확인
+        if (user != null) {
+            // 로그인한 사용자의 이름을 모델에 추가
+            model.addAttribute("username", user.getUsername());
+        } else {
+            // 로그인하지 않은 경우 null 처리
+            model.addAttribute("username", null);
+        }
+
+        // contentId를 모델에 추가
         model.addAttribute("contentId", contentId);
+
         return "touristSpot/searchresult"; // templates/touristSpot/searchresult.html로 이동
     }
 
