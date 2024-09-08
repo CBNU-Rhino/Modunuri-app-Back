@@ -28,7 +28,6 @@ public class NaverBlogController {
         try {
             String encodedQuery = URLEncoder.encode(query, "UTF-8");
             String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + encodedQuery;
-
             // 헤더 설정
             Map<String, String> requestHeaders = new HashMap<>();
             requestHeaders.put("X-Naver-Client-Id", CLIENT_ID);
