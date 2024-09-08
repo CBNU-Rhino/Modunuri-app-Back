@@ -50,4 +50,8 @@ public class PostService {
     public void deletePost(Long id) {
         postRepository.deleteById(id);
     }
+    // 게시물 저장 (새로운 게시물 또는 수정된 게시물 저장)
+    public Post save(Post post) {
+        return postRepository.save(post);
+    }
 }
