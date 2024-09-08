@@ -63,11 +63,6 @@
         <div class="right-section">
             <!-- 아이콘 섹션 -->
             <div class="icon-container">
-                <img src="icon1.png" class="icon">
-                <img src="icon2.png" class="icon">
-                <img src="icon3.png" class="icon">
-                <img src="icon4.png" class="icon">
-                <img src="icon5.png" class="icon">
             </div>
             <h3>무장애 관광 시설 정보</h3>
             <hr class="hr-line"> <!-- 무장애 정보 구분선 -->
@@ -106,13 +101,13 @@
     <div class="block blog-posts-block">
         <h3>블로그 후기</h3>
         <hr class="hr-line">
-        <div class="blog-posts-grid" id="blog-posts">
-            <!-- 여기에 동적으로 블로그 포스트 블록이 추가될 예정 -->
-        </div>
+        <ul id="blog-posts">
+            <!-- 여기에 블로그 카드가 동적으로 추가됩니다 -->
+        </ul>
     </div>
 
-</div>
 
+</div>
 <!-- Footer Section -->
 <footer class="footer">
     <div class="footer-links">
@@ -315,7 +310,22 @@
                 } else {
                     blogPosts.forEach(post => {
                         const listItem = document.createElement('li');
-                        listItem.innerHTML = `<a href="${post.link}" target="_blank">${post.title}</a>`;
+                        listItem.classList.add('blog-card'); // 카드 스타일을 위한 클래스 추가
+
+                        // 썸네일이 없으면 기본 이미지 사용
+                        const thumbnail = post.thumbnail || 'default-thumbnail.jpg';
+
+                        listItem.innerHTML = `
+                        <a href="${post.link}" target="_blank" class="blog-link">
+                            <div class="blog-thumbnail">
+                                <img src="${thumbnail}" alt="${post.title} 썸네일">
+                            </div>
+                            <div class="blog-content">
+                                <h4 class="blog-title">${post.title}</h4>
+                                <p class="blog-description">${post.description || '설명이 없습니다.'}</p>
+                            </div>
+                        </a>
+                    `;
                         blogPostsContainer.appendChild(listItem);
                     });
                 }

@@ -37,6 +37,43 @@
             font-weight: bold;
         }
 
+        .navbar nav {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar .nav-links li {
+            margin: 0 15px;
+        }
+
+        .navbar .nav-links a {
+            color: #656565;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .auth-button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
         .container {
             max-width: 1200px;
             margin: 50px auto;
@@ -145,11 +182,32 @@
 </head>
 <body>
 
+<!-- 내비게이션바 -->
 <div class="navbar">
     <div class="logo">
-        <img src="MODUNURI.png" alt="Modunuri Logo">
+        <img src="/images/MODUNURI.png" alt="Modunuri Logo">
         <span>MODUNURI</span>
     </div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="/touristSpot/area-search">지역 별 검색</a></li>
+            <li><a href="/touristSpot/search-by-accessibility">무장애 정보 검색</a></li>
+            <li><a href="#">지도 보기</a></li>
+            <li><a href="#">여행 기록하기</a></li>
+        </ul>
+        <!-- 로그인 상태 확인 -->
+        <ul class="nav-links">
+            <li th:if="${username != null}">
+                <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+                <a href="/users/mypage" class="auth-button">MyPage</a>
+                <a href="/users/logout" class="auth-button">Logout</a>
+            </li>
+            <li th:if="${username == null}">
+                <a href="/users/signup" class="auth-button">SignUp</a>
+                <a href="/users/login" class="auth-button">Log In</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <div class="container">
@@ -193,7 +251,7 @@
             <select id="accessibleType">
                 <option value="">무장애 유형을 선택하세요</option>
                 <option value="wheelchair">휠체어</option>
-                <option value="baby_spare_chair">유모차</option>
+                <option value="stroller">유아차</option>
                 <option value="elevator">엘리베이터</option>
                 <option value="braille_block">점자블록</option>
                 <option value="help_dog">도우미견</option>
