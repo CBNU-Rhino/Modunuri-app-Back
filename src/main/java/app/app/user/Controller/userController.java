@@ -137,13 +137,22 @@ public class userController {
     @PostMapping("/checkSaved")
     public ResponseEntity<Boolean> checkSavedContent(
             @RequestBody Map<String, String> requestBody,
-            @AuthenticationPrincipal User user) {
+            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         String contentId = requestBody.get("contentId");
 
-        // 저장 여부 확인
-        boolean isSaved = user.getFavoriteContents().contains(contentId);
+        // 인증된 사용자 정보가 null이 아닌지 확인
+        if (customUserDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+        }
+
+        User user = customUserDetails.getUser();  // CustomUserDetails에서 User 객체 추출
+
+        // 사용자의 즐겨찾기 목록에서 contentId 확인
+        boolean isSaved = user.getFavoriteContents().stream()
+                .anyMatch(favoriteContentId -> favoriteContentId.equals(contentId));
 
         return ResponseEntity.ok(isSaved);
     }
+
 }
