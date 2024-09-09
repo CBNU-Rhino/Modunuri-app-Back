@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +70,7 @@ public class userController {
         String email = authentication.getName(); // 이메일을 사용하여 사용자 식별
 
         // 사용자의 관심 관광지 목록 가져오기
-        List<String> favoriteContents = userService.getFavoriteContents(email);
+        Map<String, String> favoriteContents = userService.getFavoriteContents(email);
 
         // 모델에 사용자 이름과 관심 관광지 목록 추가
         model.addAttribute("username", email);
@@ -79,17 +80,23 @@ public class userController {
 
     // 관심 관광지 추가를 처리하는 POST 메서드
     @PostMapping("/addFavorite")
-    public String addFavorite(@RequestParam("contentId") String contentId, RedirectAttributes redirectAttributes) {
+    public String addFavorite(
+            @RequestParam("contentId") String contentId,
+            @RequestParam("contentTypeId") String contentTypeId,
+            RedirectAttributes redirectAttributes) {
+
         // 현재 인증된 사용자 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
         try {
-            userService.addFavoriteContent(email, contentId);
+            // contentId와 contentTypeId를 함께 저장하는 메서드 호출
+            userService.addFavoriteContent(email, contentId, contentTypeId);
             redirectAttributes.addFlashAttribute("message", "관심 관광지가 추가되었습니다!");
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
+
         return "redirect:/users/mypage"; // My Page로 리다이렉트
     }
 
@@ -116,23 +123,26 @@ public class userController {
 
         User user = customUserDetails.getUser();  // CustomUserDetails에서 User 객체 추출
 
-        System.out.println("Authenticated User: " + user);  // user 객체 확인
-
         if (user != null) {
             String contentId = requestBody.get("contentId");
-            String contentTypeId = requestBody.get("contentTypeId");
+            String contentTypeId = requestBody.get("contentTypeId");  // contentTypeId 가져오기
 
             // 데이터 유효성 검사
             if (contentId == null || contentId.isEmpty()) {
                 return ResponseEntity.badRequest().body("contentId가 없습니다.");
             }
+            if (contentTypeId == null || contentTypeId.isEmpty()) {
+                return ResponseEntity.badRequest().body("contentTypeId가 없습니다.");
+            }
 
-            userService.saveFavoriteContent(user, contentId);
+            userService.saveFavoriteContent(user, contentId, contentTypeId);
             return ResponseEntity.ok("저장이 완료되었습니다.");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
     }
+
+
 
     @PostMapping("/checkSaved")
     public ResponseEntity<Boolean> checkSavedContent(
@@ -140,6 +150,7 @@ public class userController {
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         String contentId = requestBody.get("contentId");
+        String contentTypeId = requestBody.get("contentTypeId");  // contentTypeId도 받아옴
 
         // 인증된 사용자 정보가 null이 아닌지 확인
         if (customUserDetails == null) {
@@ -148,11 +159,24 @@ public class userController {
 
         User user = customUserDetails.getUser();  // CustomUserDetails에서 User 객체 추출
 
-        // 사용자의 즐겨찾기 목록에서 contentId 확인
-        boolean isSaved = user.getFavoriteContents().stream()
-                .anyMatch(favoriteContentId -> favoriteContentId.equals(contentId));
+        // 사용자의 즐겨찾기 목록(Map의 keySet)에서 contentId와 contentTypeId 확인
+        boolean isSaved = user.getFavoriteContents().entrySet().stream()
+                .anyMatch(entry -> entry.getKey().equals(contentId) && entry.getValue().equals(contentTypeId));  // contentId와 contentTypeId 모두 일치하는지 확인
 
         return ResponseEntity.ok(isSaved);
     }
+
+
+    @GetMapping("/getFavoriteContents")
+    public ResponseEntity<Map<String, String>> getFavoriteContents(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        if (customUserDetails != null) {
+            Map<String, String> favoriteContents = customUserDetails.getUser().getFavoriteContents();
+            System.out.println("Fetched favorite contents: " + favoriteContents); // 로그 추가
+            return ResponseEntity.ok(favoriteContents);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
 
 }

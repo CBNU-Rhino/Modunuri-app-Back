@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -24,11 +26,12 @@ public class User {
     private String userId;
 
     // 관심 관광지 저장을 위한 필드
+    // 관심 관광지를 contentId와 contentTypeId로 저장
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_favorite_contents", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "content_id")
-    private List<String> favoriteContents = new ArrayList<>();
-
+    @MapKeyColumn(name = "content_id")
+    @Column(name = "content_type_id")
+    private Map<String, String> favoriteContents = new HashMap<>();
     // 새로운 필드: 유저가 여러 코스를 가질 수 있음
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Course> courses = new ArrayList<>();
@@ -44,9 +47,10 @@ public class User {
     }
 
     // 관심 관광지 추가 메서드
-    public void addFavoriteContent(String contentId) {
-        this.favoriteContents.add(contentId);
+    public void addFavoriteContent(String contentId, String contentTypeId) {
+        this.favoriteContents.put(contentId, contentTypeId);
     }
+
 
     // 관심 관광지 제거 메서드
     public void removeFavoriteContent(String contentId) {

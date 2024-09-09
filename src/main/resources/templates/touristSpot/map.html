@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관광지 지도</title>
+    <link rel="stylesheet" href="/css/map.css">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9795bab39c2cc262f3aec7f26ec16196&libraries=services,drawing"></script>
+    <script src="/script/map.js" defer></script> <!-- 자바스크립트 파일 분리 후 추가 -->
+</head>
+<body>
+
+<!-- Header Section -->
+<header class="navbar">
+    <div class="logo">
+        <a href="/">
+            <img src="/images/logo.png" class="logo img">
+            <span>MODUNURI</span>
+        </a>
+    </div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="/users/mypage">My Page</a></li>
+            <li><a href="/users/logout">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Main Container -->
+<div class="container">
+    <!-- Left Panel for Tour List -->
+    <div class="tour-list">
+        <h2>내 저장 목록</h2>
+        <div id="saved-places" class="saved-places">
+            <!-- 저장된 관광지 박스가 여기에 추가됩니다. -->
+        </div>
+
+        <div class="days">
+            <div id="day1" class="day">
+                <h3>1일차</h3>
+                <div class="drop-area" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <!-- 관광지를 드롭할 수 있는 공간 -->
+                </div>
+            </div>
+            <button onclick="addDay()">일차 추가</button>
+        </div>
+    </div>
+
+    <!-- Right Panel for Map -->
+    <div id="map" style="width: 70%; height: 600px;"></div>
+</div>
+
+<!-- Modal for Search Result -->
+<div id="search-result-modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>관광지 정보</h3>
+        <div id="place-info"></div>
+        <button id="saveButton">저장하기</button>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <p>&copy; 2024 MODUNURI</p>
+</footer>
+
+<script>
+    // Kakao Map Initialization
+    var mapContainer = document.getElementById('map'), // 지도 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 기본 중심 좌표
+            level: 8 // 확대 레벨
+        };
+
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
+
+    // 저장된 관광지 목록 불러오기
+    function loadSavedPlaces() {
+        fetch('/users/getFavoriteContents')
+            .then(response => response.json())
+            .then(favoritePlaces => {
+                Object.keys(favoritePlaces).forEach(contentId => {
+                    const contentTypeId = favoritePlaces[contentId];  // contentTypeId를 함께 가져옴
+
+                    // contentId와 contentTypeId를 사용해 관광지 정보 가져오기
+                    fetch(`/touristSpot/Json/tourist-information?contentId=${contentId}&contentTypeId=${contentTypeId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("Fetched tourist detail:", data);  // 관광지 데이터를 콘솔에 출력
+                            displaySavedPlace(data.touristDetail);  // 관광지 정보를 UI에 표시하는 함수 호출
+                        })
+                        .catch(error => console.error("Error fetching tourist information:", error));
+                });
+            })
+            .catch(error => {
+                console.error('Error loading saved places:', error);
+            });
+    }
+
+    // 저장된 관광지 정보를 박스로 표시
+    function displaySavedPlace(touristDetail) {
+        const savedPlaces = document.querySelector('#saved-places');
+
+        // 관광지 박스 생성
+        const placeBox = document.createElement('div');
+        placeBox.classList.add('place-box');
+        placeBox.setAttribute('draggable', 'true');
+        placeBox.setAttribute('ondragstart', 'drag(event)');
+        placeBox.id = `place-${touristDetail.contentid}`;
+
+        // 이미지와 텍스트 추가
+        const imageUrl = touristDetail.firstimage || '/images/placeholder.png';
+        const title = touristDetail.title || "제목 없음";
+
+        placeBox.innerHTML = `
+        <img src="${imageUrl}" alt="${title}" class="place-image" />
+        <p>${title}</p>
+    `;
+
+        // 관광지 목록에 추가
+        savedPlaces.appendChild(placeBox);
+    }
+
+    // 지도에 추가한 관광지 정보를 팝업으로 보여줌
+    function showSearchResultModal(contentId) {
+        var modal = document.getElementById('search-result-modal');
+        modal.style.display = "block";
+
+        // 관광지 정보를 가져와서 보여줌 (API 호출)
+        fetch(`/touristSpot/Json/tourist-information?contentId=${contentId}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('place-info').innerText = data.touristDetail.title;
+                document.getElementById('saveButton').onclick = function() {
+                    savePlace(contentId);
+                };
+            });
+    }
+
+    // 관광지를 저장하는 함수
+    function savePlace(contentId) {
+        fetch('/users/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ contentId: contentId })
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert('저장되었습니다!');
+                closeModal();
+            });
+    }
+
+    // 모달 닫기
+    function closeModal() {
+        document.getElementById('search-result-modal').style.display = "none";
+    }
+
+    // 드래그 앤 드롭 기능
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    }
+
+    // 일차 추가 기능
+    var dayCount = 1;
+    function addDay() {
+        dayCount++;
+        var dayDiv = document.createElement("div");
+        dayDiv.id = "day" + dayCount;
+        dayDiv.className = "day";
+        dayDiv.innerHTML = `<h3>${dayCount}일차</h3><div class="drop-area" ondrop="drop(event)" ondragover="allowDrop(event)"></div>`;
+        document.querySelector('.days').appendChild(dayDiv);
+    }
+
+    // 경로 그리기 (각 일차별 다른 색상)
+    var dayRoutes = [
+        { coords: [{ lat: 33.450701, lng: 126.570667 }, { lat: 33.450933, lng: 126.572345 }], color: '#FF0000' }
+    ];
+
+    dayRoutes.forEach(function(route) {
+        var linePath = route.coords.map(coord => new kakao.maps.LatLng(coord.lat, coord.lng));
+        var polyline = new kakao.maps.Polyline({
+            path: linePath,
+            strokeWeight: 5,
+            strokeColor: route.color,
+            strokeOpacity: 0.7,
+            strokeStyle: 'solid'
+        });
+        polyline.setMap(map);
+    });
+
+    // 페이지 로드 시 저장된 관광지 목록 불러오기
+    document.addEventListener('DOMContentLoaded', function () {
+        loadSavedPlaces();
+    });
+</script>
+
+</body>
+</html>
