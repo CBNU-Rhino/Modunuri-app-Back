@@ -216,6 +216,20 @@ body {
     appearance: none;
 }
 
+.dropdown {
+    margin-bottom: 20px;
+}
+
+.dropdown select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #BCC7A3;
+    border-radius: 8px;
+    background-color: #F3F8E6;
+    font-size: 16px;
+    color: #6C7A40;
+}
+
 .checkbox-container {
     display: flex;
     justify-content: space-between;
@@ -257,20 +271,6 @@ body {
 
 .selected-area button:hover {
     background-color: #B8C793;
-}
-
-.dropdown {
-    margin-bottom: 20px;
-}
-
-.dropdown select {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #BCC7A3;
-    border-radius: 8px;
-    background-color: #F3F8E6;
-    font-size: 16px;
-    color: #6C7A40;
 }
 
 .gallery {
@@ -383,3 +383,5 @@ body {
 .footer-links a:hover {
     text-decoration: underline;
 }
+
+
