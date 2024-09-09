@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>여행 계획하기</title>
+    <link rel="stylesheet" th:href="@{/css/Travelplan.css}">
+</head>
+<body>
+
+<!-- Main Page -->
+<div id="mainPage" class="full-page">
+    <h2>지금 바로 여행 계획을 세우고, 꿈꾸던 여행지로 떠나보세요</h2>
+    <p>모두누리와 함께라면 순식간에 여행 준비 끝!</p>
+    <div class="centered-container">
+        <img src="center_map.png" alt="여행 이미지" class="center-image">
+        <button class="main-button next-btn">여행 계획하기</button>
+    </div>
+</div>
+
+<!-- 여행 기간 선택 페이지 -->
+<div id="durationPage" class="full-page hidden">
+    <div class="icon">
+        <img src="/images/calendar-icon.png" alt="여행 기간 아이콘" class="icon-image">
+    </div>
+    <h2>여행 기간은?</h2>
+    <p>원하는 기간을 선택해 주세요.</p>
+    <div class="duration-buttons">
+        <button class="duration-btn">당일치기</button>
+        <button class="duration-btn">1박 2일</button>
+        <button class="duration-btn">2박 3일</button>
+        <button class="duration-btn">3박 4일</button>
+        <button class="duration-btn">4박 5일</button>
+        <button class="duration-btn">5박 6일</button>
+        <button class="duration-btn">그 이상</button>
+    </div>
+    <button class="next-btn">다음</button>
+</div>
+
+<!-- 지역 선택 페이지 -->
+<div id="regionPage" class="full-page hidden">
+    <h2>떠나고 싶은 지역은?</h2>
+    <p>지역 1곳을 선택해 주세요.</p>
+    <div class="region-buttons">
+        <button class="region-btn">제주</button>
+        <button class="region-btn">수원</button>
+        <button class="region-btn">서울</button>
+        <button class="region-btn">부산</button>
+        <button class="region-btn">대전</button>
+        <button class="region-btn">순천</button>
+        <button class="region-btn">대구</button>
+    </div>
+    <button class="next-btn">다음</button>
+</div>
+
+<!-- 무장애 페이지 -->
+<div id="barrierPage" class="full-page hidden">
+    <h2>“모두가 함께하는 여행을 위해, 무장애 시설을 선택하세요!</h2>
+    <p>걱정 없이 즐길 수 있는 편안한 여행을 위해 무장애 시설을 선택하세요.</p>
+    <div class="barrier-buttons">
+        <button class="barrier-btn">주출입구</button> <!-- exit -->
+        <button class="barrier-btn">장애인 화장실</button> <!--restroom -->
+        <button class="barrier-btn">안내견</button> <!-- helpdog -->
+        <button class="barrier-btn">점자블록</button> <!-- bailie block -->
+        <button class="barrier-btn">엘리베이터</button> <!-- elevator -->
+        <button class="barrier-btn">유아차</button> <!-- stroller -->
+        <button class="barrier-btn">휠체어</button> <!-- wheelchair -->
+        <button class="barrier-btn">장애인 주차구역</button> <!-- parking -->
+    </div>
+    <button class="next-btn">다음</button>
+</div>
+
+<!-- 선택 내용 확인 페이지 -->
+<div id="selectPage" class="full-page hidden">
+    <h2>마음에 드는 관광지를 선택해주세요</h2>
+    <p>선택하신 내용으로 관광지를 추천해봤어요.</p>
+    <div class="select-box">
+
+    </div>
+    <button class="next-btn">다음</button>
+</div>
+
+<!-- 완성 페이지 -->
+<div id="completionPage" class="full-page hidden">
+    <h2>여행 계획이 완성되었습니다!</h2>
+    <p>이제 여행을 떠날 준비가 되셨습니다.</p>
+    <button class="next-btn">완료</button>
+</div>
+
+<script src="/static/script/Travelplan.js"></script>
+</body>
+</html>

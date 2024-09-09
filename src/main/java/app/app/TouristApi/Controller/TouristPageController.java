@@ -80,4 +80,19 @@ public class TouristPageController {
         return "touristSpot/BarrierFreeSearch"; // touristSpot/BarrierFreeSearch.html로 이동
     }
 
+    // GET 요청을 처리하고 Travelplan.html을 반환
+    @GetMapping("/travelplan")
+    public String showTravelPlanPage(@AuthenticationPrincipal CustomUserDetails user, Model model) {
+        // 로그인된 사용자가 있을 경우, 사용자 이름을 모델에 추가
+        if (user != null) {
+            System.out.println("Logged in user: " + user.getUsername());  // 사용자 이름 출력
+            model.addAttribute("username", user.getUsername());  // 사용자 이름을 모델에 추가
+        } else {
+            System.out.println("No user logged in");
+            model.addAttribute("username", null);  // 비로그인 상태인 경우
+        }
+
+        return "touristSpot/Travelplan";  // templates/touristSpot/Travelplan.html 파일 반환
+    }
+
 }
