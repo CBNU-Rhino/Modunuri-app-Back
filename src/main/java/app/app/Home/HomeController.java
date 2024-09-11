@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public String home(@AuthenticationPrincipal CustomUserDetails user, Model model) {
         if (user != null) {
             model.addAttribute("username", user.getUsername());
         } else {
-            model.addAttribute("username", "Guest");
+            model.addAttribute("username", null);
         }
         return "index";  // resources/templates/index.html 반환
     }
