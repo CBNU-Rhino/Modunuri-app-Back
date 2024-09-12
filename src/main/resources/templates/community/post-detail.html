@@ -140,7 +140,7 @@
 <header class="navbar">
     <div class="logo">
         <a href="/">
-            <img src="../static/images/MODUNURI.png">
+            <img src="/static/images/MODUNURI.png">
             <span style="color: #89B873; font-size: 24px; font-weight: 900;">MODUNURI</span>
         </a>
     </div>
@@ -163,8 +163,9 @@
         <!-- Post Metadata (Author, Date, 조회수 등) -->
         <div class="post-meta">
             <span>작성자: <strong th:text="${post.author}">Author</strong></span>
-            <span>작성일: <strong th:text="${post.createdAt}">Date</strong></span>
+            <span>작성일: <strong id="postCreatedAt">Date</strong></span>
         </div>
+
 
         <!-- Post Content -->
         <div class="post-content" th:text="${post.content}">
@@ -239,6 +240,8 @@
         const currentUsernameElement = document.getElementById('currentUser');
         const currentUserIdElement = document.getElementById('currentUserId');
         const commentList = document.querySelector('.comment-list');
+        const postCreatedAtElement = document.getElementById('postCreatedAt');  // 작성일 표시 요소
+
         // currentUser와 currentUserId가 실제로 DOM에서 가져와지는지 확인
         if (!currentUsernameElement || !currentUserIdElement) {
             console.error('currentUsername 또는 currentUserId 요소를 찾을 수 없습니다.');
@@ -252,13 +255,14 @@
                 .then(data => {
                     commentList.innerHTML = ''; // 기존 댓글 목록 비우기
                     data.forEach(comment => {
+                        const formattedDate = formatDateTime(comment.createdAt);
                         const commentItem = `
-                            <div class="comment-item">
-                                <div class="comment-author">${comment.author}</div>
-                                <div class="comment-content">${comment.content}</div>
-                                <div class="comment-meta">${comment.createdAt} | 좋아요 ${comment.likes || 0}</div>
-                            </div>
-                        `;
+                        <div class="comment-item">
+                            <div class="comment-author">${comment.author}</div>
+                            <div class="comment-content">${comment.content}</div>
+                            <div class="comment-meta">${formattedDate}</div>
+                        </div>
+                    `;
                         commentList.insertAdjacentHTML('beforeend', commentItem);
                     });
                 })
@@ -267,23 +271,40 @@
                 });
         }
 
+        // 날짜를 원하는 형식으로 변환하는 함수
+        function formatDateTime(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더합니다.
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}`;
+        }
+
+        // 포스트 작성일 데이터를 불러와서 포맷팅
+        function loadPostDetails(postId) {
+            fetch(`/api/posts/${postId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const formattedDate = formatDateTime(data.createdAt);
+                    postCreatedAtElement.textContent = formattedDate; // 작성일 표시를 포맷된 날짜로 업데이트
+                })
+                .catch(error => {
+                    console.error('포스트를 불러오는 중 오류가 발생했습니다:', error);
+                });
+        }
+
         // 댓글 조회 호출
         if (postId) {
             loadComments(postId);  // postId가 정상적으로 불러와진 경우에만 실행
+            loadPostDetails(postId);  // 포스트 상세 정보 호출
         } else {
             console.error('Post ID를 불러오지 못했습니다.');
         }
 
         // 댓글 작성 기능
         const commentButton = document.querySelector('.comment-button');
-        if (commentButton) {
-            commentButton.addEventListener('click', function() {
-                console.log("Comment button clicked");
-                // 여기에 클릭 시 동작을 추가
-            });
-        } else {
-            console.error('Comment button not found');
-        }
         const commentInput = document.querySelector('.comment-input');
 
         commentButton.addEventListener('click', function() {
@@ -293,16 +314,8 @@
                 alert('댓글 내용을 입력하세요.');
                 return;
             }
-            // currentUsername과 currentUserId 값을 가져옵니다.
             const currentUsername = currentUsernameElement.value;
             const currentUserId = currentUserIdElement.value;
-
-            console.log("작성된 댓글 내용:", content);
-            console.log("Post ID:", postId); // postId가 제대로 로드되었는지 확인하는 로그
-            console.log("postId:", postId);
-            console.log("currentUsername:", currentUsername);
-            console.log("currentUserId:", currentUserId);
-
 
             // JSON 형식으로 댓글 데이터 전송
             fetch('/api/comments', {
@@ -311,10 +324,10 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    postId: Number(postId), // postId를 숫자(Long)로 변환
+                    postId: Number(postId),
                     content: content,
-                    author: currentUsername, // currentUser 변수를 사용하여 작성자 정보 전달
-                    userId: currentUserId // currentUser 변수를 사용하여 사용자 ID 전달
+                    author: currentUsername,
+                    userId: currentUserId
                 })
             })
                 .then(response => {
@@ -324,16 +337,14 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log("서버 응답:", data);
-
-                    // 새로운 댓글을 리스트에 추가
+                    const formattedDate = formatDateTime(data.createdAt);
                     const newComment = `
-                <div class="comment-item">
-                    <div class="comment-author">${data.author}</div>
-                    <div class="comment-content">${data.content}</div>
-                    <div class="comment-meta">${data.createdAt} | 좋아요 0</div>
-                </div>
-            `;
+                    <div class="comment-item">
+                        <div class="comment-author">${data.author}</div>
+                        <div class="comment-content">${data.content}</div>
+                        <div class="comment-meta">${formattedDate}</div>
+                    </div>
+                `;
                     commentList.insertAdjacentHTML('beforeend', newComment);
                     commentInput.value = ''; // 입력 필드 비우기
                 })
@@ -343,6 +354,7 @@
                 });
         });
     });
+
 </script>
 
 </body>
