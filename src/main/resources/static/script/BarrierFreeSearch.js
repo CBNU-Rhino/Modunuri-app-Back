@@ -62,46 +62,57 @@ function removeDuplicates(data) {
     return uniqueItems;
 }
 
-async function searchItems() {
+async function searchAccessibleItems() {
     const region = document.getElementById('region').value;
     const sigungu = document.getElementById('sido').value;
-    const contentTypeId = getSelectedContentType();
+    const accessibleType = document.getElementById('accessibleType').value;
+    const contentTypeId = document.querySelector('input[name="category"]:checked').value;
     const gallery = document.getElementById('gallery');
     gallery.innerHTML = '';  // 기존 검색 결과 초기화
 
     if (!contentTypeId) {
-        alert("하나 이상의 카테고리를 선택하세요.");
+        alert("카테고리를 선택하세요.");
         return;
     }
 
-    const apiUrl = `/touristSpot/Json/api/tourist-info?region=${region}&sigungu=${sigungu}&contentTypeId=${contentTypeId}`;
+    const apiUrl = `/api/tourist-accessible-info?region=${region}&sigungu=${sigungu}&contentTypeId=${contentTypeId}&accessibleType=${accessibleType}`;
 
     try {
         const response = await fetch(apiUrl);
-        let data = await response.json();
 
-        // 중복된 항목 제거
-        data = removeDuplicates(data);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-        // 전체 데이터를 currentData에 저장
-        currentData = data;
+        const data = await response.json();
 
-        // 페이지 수 계산
-        totalPages = Math.ceil(currentData.length / itemsPerPage);
-
-        // 첫 페이지를 갤러리에 표시
-        currentPage = 1; // 페이지를 1로 초기화
-        displayGalleryPage(currentPage);
-
-        // 페이지네이션 업데이트
-        updatePagination();
-
+        // 검색 결과를 갤러리로 표시
         if (data.length === 0) {
             gallery.innerHTML = '<p>검색 결과가 없습니다.</p>';
+        } else {
+            data.forEach(item => {
+                const galleryItem = document.createElement('div');
+                galleryItem.classList.add('gallery-item');
+
+                const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="placeholder.jpg" alt="No Image">';
+
+                galleryItem.innerHTML = `
+                    <a href="searchresult.html?contentId=${item.contentid}&contentTypeId=${item.contenttypeid}">
+                        ${image}
+                        <p>${item.title}</p>
+                        <p>${item.addr1}</p>
+                    </a>
+                `;
+
+                gallery.appendChild(galleryItem);
+            });
+
+            gallery.style.display = 'grid';
         }
+
     } catch (error) {
         console.error('Error fetching tourist data:', error);
-        gallery.innerHTML = '<p>데이터를 불러오는 중 오류가 발생했습니다.</p>';
+        gallery.innerHTML = `<p>데이터를 불러오는 중 오류가 발생했습니다. 오류 메시지: ${error.message}</p>`;
     }
 }
 
