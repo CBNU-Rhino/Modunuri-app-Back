@@ -10,7 +10,6 @@
 </head>
 <body>
 
-<!-- Header Section -->
 <header class="navbar">
     <div class="logo">
         <a href="/">
@@ -26,41 +25,30 @@
     </nav>
 </header>
 
-<!-- Main Container -->
 <div class="container">
-    <!-- Left Panel for Tour List -->
     <div class="tour-list">
         <h2>내 저장 목록</h2>
-        <div id="saved-places" class="saved-places drop-area" ondrop="drop(event)" ondragover="allowDrop(event)">
-            <!-- 저장된 관광지 박스가 여기에 추가됩니다. -->
-        </div>
+        <div id="saved-places" class="saved-places drop-area"></div>
 
-        <div class="days">
-            <div id="day1" class="day">
-                <h3>1일차</h3>
-                <div class="drop-area" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <!-- 관광지를 드롭할 수 있는 공간 -->
-                </div>
-            </div>
-            <button onclick="addDay()">일차 추가</button>
+        <div class="schedule">
+            <h3>일정</h3>
+            <div id="schedule" class="drop-area"></div>
+            <button onclick="showRoute()">경로 보기</button>
+            <button onclick="clearRoute()">경로 지우기</button>
         </div>
     </div>
 
-    <!-- Right Panel for Map -->
     <div id="map" style="width: 70%; height: 600px;"></div>
 </div>
 
-<!-- Modal for Search Result -->
 <div id="search-result-modal" style="display:none;">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h3>관광지 정보</h3>
         <div id="place-info"></div>
-        <button id="saveButton">저장하기</button>
     </div>
 </div>
 
-<!-- Footer Section -->
 <footer class="footer">
     <p>&copy; 2024 MODUNURI</p>
 </footer>

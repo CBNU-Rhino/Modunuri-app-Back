@@ -74,6 +74,9 @@ async function searchItems() {
         return;
     }
 
+    console.log("지역: ", region);
+    console.log("시군구: ", sigungu);
+
     const apiUrl = `/touristSpot/Json/api/tourist-info?region=${region}&sigungu=${sigungu}&contentTypeId=${contentTypeId}`;
 
     try {
