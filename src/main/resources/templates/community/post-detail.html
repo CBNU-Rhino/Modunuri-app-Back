@@ -139,14 +139,14 @@
 <!-- Header Section -->
 <header class="navbar">
     <div class="logo">
-        <a href="/index">
-            <img src="/images/test.png" alt="MODUNURI Logo">
+        <a href="/">
+            <img src="../static/images/MODUNURI.png">
             <span style="color: #89B873; font-size: 24px; font-weight: 900;">MODUNURI</span>
         </a>
     </div>
     <nav>
         <ul class="nav-links">
-            <li><a href="/index">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="#">Travel Tips</a></li>
             <li><a href="#" class="active">Community</a></li>
             <li><a href="#">Support Center</a></li>
@@ -173,6 +173,12 @@
         <!-- Current and Post User IDs -->
         <p>Current User ID: <span th:text="${currentUserId}">Unknown User</span></p>
         <p>Post User ID: <span th:text="${postUserId}">Unknown Post User</span></p>
+
+        <!-- 게시물 ID 값을 숨겨서 전달 -->
+        <input type="hidden" id="postId" th:value="${postId}">
+        <input type="hidden" id="currentUser" th:value="${currentUsername}">
+        <input type="hidden" id="currentUserId" th:value="${currentUserId}">
+
 
 
         <!-- Button Group -->
@@ -227,49 +233,115 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // 모든 삭제 버튼에 대한 클릭 이벤트 처리
-        document.querySelectorAll('.delete-button').forEach(function(deleteButton) {
-            deleteButton.addEventListener('click', function(event) {
-                event.preventDefault(); // 기본 동작 막기
-                const postId = this.getAttribute('data-post-id'); // data-post-id 속성에서 실제 postId를 가져옴
+        console.log("DOM이 로드되었습니다!");
 
-                // 사용자 확인
-                if (confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
-                    fetch(`/api/posts/${postId}`, {  // API 요청을 '/api/posts/POST_ID'로 보냄
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    })
-                        .then(response => {
-                            if (response.ok) {
-                                alert("게시물이 삭제되었습니다.");
-                                window.location.href = "/community"; // 삭제 후 목록 페이지로 이동
-                            } else if (response.status === 403) {
-                                alert("게시물 삭제 권한이 없습니다.");
-                            } else {
-                                alert("게시물 삭제에 실패했습니다.");
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error deleting post:", error);
-                            alert("게시물 삭제 중 오류가 발생했습니다.");
-                        });
-                }
-            });
-        });
-        const editButton = document.getElementById('edit-button');
-
-        if (editButton) {
-            editButton.addEventListener('click', function (event) {
-                event.preventDefault();
-                const postId = editButton.getAttribute('data-post-id'); // post ID 가져오기
-                if (postId) {
-                    // new-post.html 페이지로 이동 (수정용)
-                    window.location.href = '/board/post/' + postId + '/edit';
-                }
-            });
+        const postId = document.getElementById('postId').value;
+        const currentUsernameElement = document.getElementById('currentUser');
+        const currentUserIdElement = document.getElementById('currentUserId');
+        const commentList = document.querySelector('.comment-list');
+        // currentUser와 currentUserId가 실제로 DOM에서 가져와지는지 확인
+        if (!currentUsernameElement || !currentUserIdElement) {
+            console.error('currentUsername 또는 currentUserId 요소를 찾을 수 없습니다.');
+            return;
         }
+
+        // 특정 게시물의 댓글을 조회하는 함수
+        function loadComments(postId) {
+            fetch(`/api/comments/post/${postId}`)
+                .then(response => response.json())
+                .then(data => {
+                    commentList.innerHTML = ''; // 기존 댓글 목록 비우기
+                    data.forEach(comment => {
+                        const commentItem = `
+                            <div class="comment-item">
+                                <div class="comment-author">${comment.author}</div>
+                                <div class="comment-content">${comment.content}</div>
+                                <div class="comment-meta">${comment.createdAt} | 좋아요 ${comment.likes || 0}</div>
+                            </div>
+                        `;
+                        commentList.insertAdjacentHTML('beforeend', commentItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('댓글을 불러오는 중 오류가 발생했습니다:', error);
+                });
+        }
+
+        // 댓글 조회 호출
+        if (postId) {
+            loadComments(postId);  // postId가 정상적으로 불러와진 경우에만 실행
+        } else {
+            console.error('Post ID를 불러오지 못했습니다.');
+        }
+
+        // 댓글 작성 기능
+        const commentButton = document.querySelector('.comment-button');
+        if (commentButton) {
+            commentButton.addEventListener('click', function() {
+                console.log("Comment button clicked");
+                // 여기에 클릭 시 동작을 추가
+            });
+        } else {
+            console.error('Comment button not found');
+        }
+        const commentInput = document.querySelector('.comment-input');
+
+        commentButton.addEventListener('click', function() {
+            const content = commentInput.value.trim();
+
+            if (!content) {
+                alert('댓글 내용을 입력하세요.');
+                return;
+            }
+            // currentUsername과 currentUserId 값을 가져옵니다.
+            const currentUsername = currentUsernameElement.value;
+            const currentUserId = currentUserIdElement.value;
+
+            console.log("작성된 댓글 내용:", content);
+            console.log("Post ID:", postId); // postId가 제대로 로드되었는지 확인하는 로그
+            console.log("postId:", postId);
+            console.log("currentUsername:", currentUsername);
+            console.log("currentUserId:", currentUserId);
+
+
+            // JSON 형식으로 댓글 데이터 전송
+            fetch('/api/comments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    postId: Number(postId), // postId를 숫자(Long)로 변환
+                    content: content,
+                    author: currentUsername, // currentUser 변수를 사용하여 작성자 정보 전달
+                    userId: currentUserId // currentUser 변수를 사용하여 사용자 ID 전달
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('댓글 작성 실패');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("서버 응답:", data);
+
+                    // 새로운 댓글을 리스트에 추가
+                    const newComment = `
+                <div class="comment-item">
+                    <div class="comment-author">${data.author}</div>
+                    <div class="comment-content">${data.content}</div>
+                    <div class="comment-meta">${data.createdAt} | 좋아요 0</div>
+                </div>
+            `;
+                    commentList.insertAdjacentHTML('beforeend', newComment);
+                    commentInput.value = ''; // 입력 필드 비우기
+                })
+                .catch(error => {
+                    console.error('Error adding comment:', error);
+                    alert('댓글 작성 중 오류가 발생했습니다.');
+                });
+        });
     });
 </script>
 

@@ -60,7 +60,9 @@ public class BoardPageController {
         // 인증된 사용자가 존재하고, 인증 주체가 CustomUserDetails인 경우
         if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails userDetails) {
             String currentUserId = userDetails.getUsername(); // 현재 사용자 ID
+            String currentUsername = userDetails.getRealUsername(); // 현재 사용자 이름
             model.addAttribute("currentUserId", currentUserId);  // 현재 사용자 ID를 모델에 추가
+            model.addAttribute("currentUsername", currentUsername);  // 현재 사용자 ID를 모델에 추가
             System.out.println("Current User ID: " + currentUserId);
         } else {
             System.out.println("Authentication principal is not an instance of CustomUserDetails.");
@@ -72,6 +74,7 @@ public class BoardPageController {
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
             model.addAttribute("post", post);
+            model.addAttribute("postId", post.getId());
             model.addAttribute("postUserId", post.getUserId()); // 게시물 작성자 ID를 모델에 추가
             System.out.println("Post User ID: " + post.getUserId());
         } else {

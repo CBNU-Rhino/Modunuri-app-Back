@@ -3,16 +3,20 @@ package app.app.post.Controller;
 import app.app.post.Post;
 import app.app.post.Service.PostService;
 import app.app.user.CustomUserDetails;
+import app.app.user.Service.UserService;
+import app.app.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +26,7 @@ import java.util.Optional;
 public class PostController {
 
     private final PostService postService;
+    UserService userService;
 
     @Autowired
     public PostController(PostService postService) {
@@ -117,6 +122,18 @@ public class PostController {
             // 그 외의 경우 principal의 toString() 값을 반환
             return principal.toString();
         }
+    }
+    @GetMapping("/post/{id}")
+    public String getPostDetail(@PathVariable Long id, Model model, Principal principal) {
+        // 로그인한 사용자의 정보를 가져옴
+        if (principal != null) {
+            User user = userService.findByUsername(principal.getName());
+            model.addAttribute("currentUser", user); // currentUser 정보를 모델에 추가
+        }
+
+        Post post = postService.findById(id);
+        model.addAttribute("post", post);
+        return "post-detail"; // Thymeleaf 템플릿
     }
 
 }

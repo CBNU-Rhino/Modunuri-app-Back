@@ -86,4 +86,8 @@ public class UserService {
             throw new RuntimeException("사용자를 찾을 수 없습니다: " + ID);
         }
     }
+    // 사용자 이름으로 사용자 찾기
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
