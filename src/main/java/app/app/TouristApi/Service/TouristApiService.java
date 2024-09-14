@@ -300,4 +300,6 @@ public class TouristApiService {
             logger.error("Error saving accessibility info to database", e);
         }
     }
+
+
 }

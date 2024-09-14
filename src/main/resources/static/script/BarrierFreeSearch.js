@@ -84,8 +84,8 @@ async function searchAccessibleItems() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data = await response.json();
-
+        let data = await response.json();
+        data = removeDuplicates(data);
         // 검색 결과를 갤러리로 표시
         if (data.length === 0) {
             gallery.innerHTML = '<p>검색 결과가 없습니다.</p>';

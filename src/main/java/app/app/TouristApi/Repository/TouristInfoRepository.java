@@ -4,6 +4,8 @@ import app.app.TouristApi.Entity.TouristInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TouristInfoRepository extends JpaRepository<TouristInfo, Long> {
     TouristInfo findByContentId(String contentId);
@@ -12,4 +14,6 @@ public interface TouristInfoRepository extends JpaRepository<TouristInfo, Long> 
 
     // 이미 존재하는지 확인하는 메서드 선언
     boolean existsByContentTypeIdAndAreaCodeAndSigunguCode(String contentTypeId, String areaCode, String sigunguCode);
+    List<TouristInfo> findAllByAreaCode(String areaCode);
+    boolean existsByContentId(String contentId);
 }
