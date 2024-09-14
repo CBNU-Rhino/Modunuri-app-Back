@@ -12,7 +12,7 @@ public class HomeController {
     @GetMapping("/")
     public String home(@AuthenticationPrincipal CustomUserDetails user, Model model) {
         if (user != null) {
-            model.addAttribute("username", user.getUsername());
+            model.addAttribute("username", user.getRealUsername());
         } else {
             model.addAttribute("username", null);
         }
