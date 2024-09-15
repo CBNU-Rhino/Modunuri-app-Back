@@ -81,12 +81,19 @@ function addMarkerAndRoute(touristDetail) {
 
 // 마커 제거 함수
 function removeMarker(placeId) {
+    console.log(`removeMarker called for placeId: ${placeId}`); // 로그 추가
+
     if (markers[placeId]) {
+        console.log(`Removing marker formarkers  placeId: ${placeId}`); // 마커 제거 전 로그
         markers[placeId].setMap(null); // 지도에서 마커 제거
         delete markers[placeId]; // 마커 객체에서 삭제
         delete scheduleRoutes[placeId]; // 경로 배열에서도 삭제
+        console.log(`Marker and route for placeId: ${placeId} removed.`); // 제거 완료 후 로그
+    } else {
+        console.log(`No marker found for placeId: ${placeId}`); // 마커가 없을 때의 로그
     }
 }
+
 
 // 자동차 경로를 가져오는 함수 (카카오 내비 API 사용)
 async function getCarDirection() {
