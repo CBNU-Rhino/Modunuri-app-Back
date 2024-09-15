@@ -1,38 +1,89 @@
-/* 전체 레이아웃 스타일 */
-body, html {
+/* 기본적인 스타일 초기화 */
+* {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    box-sizing: border-box;
 }
 
+body, html {
+    font-family: Arial, sans-serif;
+    height: 100%;
+    background-color: #f4f4f4;
+}
+
+/* 헤더 스타일 */
+.navbar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.navbar .nav-links {
+    list-style: none;
+}
+
+.navbar .nav-links li {
+    display: inline;
+    margin-left: 20px;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.navbar .nav-links a:hover {
+    text-decoration: underline;
+}
+
+/* 전체 레이아웃 */
 .container {
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    background-color: #f9f9f9;
-    height: 100vh;
+    height: calc(100vh - 70px);
 }
 
-/* 왼쪽 저장 목록 및 일차 추가 패널 스타일 */
+/* 좌측 패널 스타일 */
 .tour-list {
-    width: 28%;
-    background-color: #fff;
-    border-right: 2px solid #ddd;
+    width: 30%;
     padding: 20px;
-    height: 100vh;
+    background-color: white;
+    border-right: 2px solid #ddd;
+    height: 100%;
     overflow-y: auto;
+    border-radius: 5px;
 }
 
 .tour-list h2 {
-    font-size: 22px;
+    margin-bottom: 15px;
     color: #333;
+}
+
+.saved-places {
     margin-bottom: 20px;
 }
 
-.day, .place-box {
-    border: 2px dashed #ddd;
+/* 일정 드롭 영역 스타일 */
+.day {
+    margin-top: 20px;
     padding: 10px;
-    margin-bottom: 20px;
+    border: 2px dashed #ddd;
     background-color: #fafafa;
     border-radius: 5px;
 }
@@ -46,29 +97,11 @@ body, html {
     min-height: 100px;
     border: 2px dashed #ddd;
     padding: 10px;
-    background-color: #eaeaea;
+    background-color: #f9f9f9;
     border-radius: 5px;
 }
 
-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    border-radius: 4px;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-/* 내 저장 목록 (관광지 박스) 스타일 */
-#saved-places {
-    margin-bottom: 30px;
-}
-
+/* 드래그 가능한 관광지 박스 스타일 */
 .place-box {
     display: flex;
     align-items: center;
@@ -78,7 +111,7 @@ button:hover {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    cursor: move;
 }
 
 .place-box:hover {
@@ -107,20 +140,15 @@ button:hover {
 .place-text p {
     margin: 0;
     font-size: 14px;
-    color: #555;
-}
-
-/* 드래그 앤 드롭 시 hover 상태 */
-.drop-area:hover {
-    background-color: #d9d9d9;
-    border-color: #aaa;
+    color: #777;
 }
 
 /* 우측 지도 패널 스타일 */
 #map {
     width: 70%;
-    height: calc(100vh - 40px);
+    height: 100%;
     border: 2px solid #ddd;
+    border-radius: 5px;
 }
 
 /* 모달 창 스타일 */
@@ -164,69 +192,28 @@ button:hover {
     border-radius: 50%;
 }
 
-#saveButton {
-    margin-top: 20px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-#saveButton:hover {
-    background-color: #45a049;
-}
-
-/* 헤더 스타일 */
-.navbar {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar .logo {
-    display: flex;
-    align-items: center;
-}
-
-.navbar .logo img {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-}
-
-.navbar .nav-links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.navbar .nav-links li {
-    margin-left: 20px;
-}
-
-.navbar .nav-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-.navbar .nav-links a:hover {
-    text-decoration: underline;
-}
-
 /* Footer 스타일 */
 .footer {
     background-color: #4CAF50;
-    padding: 10px 0;
+    padding: 10px;
     text-align: center;
     color: white;
-    position: relative;
+    position: absolute;
     bottom: 0;
     width: 100%;
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #45a049;
 }
