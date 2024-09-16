@@ -220,8 +220,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 드래그 가능한 요소에 드래그 이벤트 추가
     document.querySelectorAll('.place-box').forEach(placeBox => {
-        placeBox.addEventListener('dragstart', drag);
+        placeBox.addEventListener('dragstart', onDragStart); // 드래그 시작 시
+        placeBox.addEventListener('dragover', onDragOver);   // 드래그가 진행될 때
+        placeBox.addEventListener('dragenter', onDragEnter); // 드래그가 다른 요소 위로 들어갈 때
+        placeBox.addEventListener('drop', onDrop);
     });
+
 
     // 드롭 가능 영역에 드롭 이벤트 추가
     document.querySelectorAll('.drop-area').forEach(dropArea => {
@@ -233,4 +237,108 @@ document.addEventListener('DOMContentLoaded', function () {
 // 모달 닫기 기능
 function closeModal() {
     document.getElementById('search-result-modal').style.display = "none";
+}
+
+// 드래그 시작 시 선택된 요소 저장
+let selectedElement = null;
+let selectedElementIndex = null;
+
+function onDragStart(event) {
+    selectedElement = event.target; // 드래그된 요소 저장
+    selectedElementIndex = [...selectedElement.parentNode.children].indexOf(selectedElement); // 선택된 요소의 인덱스를 저장
+    selectedElement.classList.add('dragging'); // 드래그 시 스타일 변경
+}
+
+function onDragOver(event) {
+    event.preventDefault(); // 드롭을 허용하기 위해 기본 동작을 막음
+}
+
+function onDrop(event) {
+    event.preventDefault(); // 기본 동작 막기
+
+    const targetElement = event.target.closest('.place-box');
+    if (!targetElement || targetElement === selectedElement) return; // 유효하지 않은 타겟이면 무시
+
+    const targetElementIndex = [...targetElement.parentNode.children].indexOf(targetElement);
+
+    // 애니메이션을 위해 먼저 위치 변경
+    if (targetElementIndex > selectedElementIndex) {
+        targetElement.after(selectedElement);
+    } else {
+        targetElement.before(selectedElement);
+    }
+
+    // 애니메이션 리셋 후 초기화
+    requestAnimationFrame(() => {
+        selectedElement.classList.remove('dragging');
+    });
+}
+
+function changePosition(targetElement) {
+    if (!targetElement) {
+        console.error("targetElement is not defined.");
+        return;
+    }
+
+    const targetElementTop = targetElement.getBoundingClientRect().top;
+    const selectedElementTop = selectedElement.getBoundingClientRect().top;
+
+    const distance = targetElementTop - selectedElementTop;
+
+    // 애니메이션을 통해 두 요소가 움직이는 것을 시각적으로 표현
+    selectedElement.style.transform = `translateY(${distance}px)`;
+    targetElement.style.transform = `translateY(${-distance}px)`;
+
+    console.log(`Animating: ${selectedElement.id} moving ${distance}px`); // 로그 추가
+
+    // 애니메이션 적용
+    addAnimation(selectedElement);
+    addAnimation(targetElement);
+
+    // 실제 위치 변경은 setTimeout으로 애니메이션이 완료된 후 수행
+    setTimeout(() => {
+        if (distance > 0) {
+            targetElement.after(selectedElement);
+            console.log(`Changed position: ${selectedElement.id} after ${targetElement.id}`); // 로그 추가
+        } else {
+            targetElement.before(selectedElement);
+            console.log(`Changed position: ${selectedElement.id} before ${targetElement.id}`); // 로그 추가
+        }
+
+        // 위치 변경 후 transform 속성을 초기화
+        selectedElement.style.transform = '';
+        targetElement.style.transform = '';
+    }, 300); // 애니메이션 지속 시간
+}
+
+function onDragEnter(event) {
+    const li = event.target.closest('.place-box'); // 현재 마우스가 있는 리스트 아이템
+
+    if (li !== selectedElement && li.classList.contains('place-box')) {
+        changePosition(li); // 드래그된 요소와 마우스가 있는 요소의 위치 변경
+    }
+}
+
+
+function addAnimation(element) {
+    element.classList.add('animation'); // 애니메이션 적용
+    console.log(`Animation applied to: ${element.id}`); // 로그 추가
+}targetElementTop = targetElement.getBoundingClientRect().top;
+    const selectedElementTop = selectedElement.getBoundingClientRect().top;
+
+
+
+// 드래그 이벤트 리스너 등록
+document.querySelectorAll('.place-box').forEach(placeBox => {
+    placeBox.addEventListener('dragstart', onDragStart);
+    placeBox.addEventListener('dragover', onDragOver);
+    placeBox.addEventListener('drop', onDrop);
+});
+
+function onDragEnter(event) {
+    const li = event.target; // 현재 마우스가 있는 리스트 아이템
+
+    if (li !== selectedElement && li.classList.contains('place-box')) {
+        changePosition(li); // 드래그된 요소와 마우스가 있는 요소의 위치 변경
+    }
 }

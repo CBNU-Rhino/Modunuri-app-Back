@@ -217,3 +217,18 @@ button {
 button:hover {
     background-color: #45a049;
 }
+
+/* 애니메이션 효과를 위한 transition 정의 */
+/* CSS 애니메이션 정의 */
+/* 드래그 중 요소의 스타일 변경 */
+.dragging {
+    opacity: 0.6;
+    transform: scale(1.1); /* 요소 확대 */
+    transition: transform 0.3s ease-in-out; /* 더 부드러운 확대 효과 */
+}
+
+/* 요소의 위치가 변경될 때 애니메이션 */
+.place-box {
+    transition: transform 0.5s ease-in-out; /* 부드러운 이동 애니메이션 */
+}
+
