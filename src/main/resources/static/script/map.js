@@ -1,3 +1,6 @@
+// 모달 관련 변수 전역 선언
+let modal, modalBackdrop, modalClose;
+
 // 지도 및 관련 변수 초기화
 var mapContainer = document.getElementById('map'),
     mapOption = {
@@ -49,6 +52,7 @@ function displaySavedPlace(touristDetail) {
             <div class="place-text">
                 <h4>${title}</h4>
                 <p>${address}</p>
+                <button onclick="openTouristModal('${touristDetail.contentid}', '${touristDetail.contenttypeid}')">상세정보</button>
             </div>
         </div>
     `;
@@ -81,19 +85,12 @@ function addMarkerAndRoute(touristDetail) {
 
 // 마커 제거 함수
 function removeMarker(placeId) {
-    console.log(`removeMarker called for placeId: ${placeId}`); // 로그 추가
-
     if (markers[placeId]) {
-        console.log(`Removing marker formarkers  placeId: ${placeId}`); // 마커 제거 전 로그
         markers[placeId].setMap(null); // 지도에서 마커 제거
         delete markers[placeId]; // 마커 객체에서 삭제
         delete scheduleRoutes[placeId]; // 경로 배열에서도 삭제
-        console.log(`Marker and route for placeId: ${placeId} removed.`); // 제거 완료 후 로그
-    } else {
-        console.log(`No marker found for placeId: ${placeId}`); // 마커가 없을 때의 로그
     }
 }
-
 
 // 자동차 경로를 가져오는 함수 (카카오 내비 API 사용)
 async function getCarDirection() {
@@ -106,10 +103,8 @@ async function getCarDirection() {
         return;
     }
 
-    // 전체 경로를 저장할 배열
     const fullLinePath = [];
 
-    // 모든 구간의 경로를 순차적으로 계산
     for (let i = 0; i < placeIds.length - 1; i++) {
         const origin = `${scheduleRoutes[placeIds[i]].getLng()},${scheduleRoutes[placeIds[i]].getLat()}`;
         const destination = `${scheduleRoutes[placeIds[i + 1]].getLng()},${scheduleRoutes[placeIds[i + 1]].getLat()}`;
@@ -150,12 +145,10 @@ async function getCarDirection() {
         }
     }
 
-    // 이전 경로가 있으면 제거
     if (currentPathPolyline) {
         currentPathPolyline.setMap(null);
     }
 
-    // 계산된 전체 경로를 지도에 그립니다.
     currentPathPolyline = new kakao.maps.Polyline({
         path: fullLinePath,
         strokeWeight: 5,
@@ -182,17 +175,14 @@ function drop(ev) {
     const targetContainer = ev.target;
     const placeId = data.split('-')[1]; // place-1234 형식에서 id만 추출
 
-    // 드롭할 수 있는 영역인지 확인
     if (targetContainer.classList.contains('drop-area')) {
         const placeElement = document.getElementById(data);
         if (placeElement) {
             targetContainer.appendChild(placeElement); // 드래그된 요소를 드롭된 영역에 추가
 
-            // 내 저장 목록으로 이동된 경우 지도에서 마커 제거
             if (targetContainer.id === 'saved-places') {
                 removeMarker(placeId);
             } else {
-                // 일정을 추가하는 경우 마커 및 경로 추가
                 fetch(`/touristSpot/Json/tourist-information?contentId=${placeId}&contentTypeId=${favoritePlaces[placeId]}`)
                     .then(response => response.json())
                     .then(data => {
@@ -211,10 +201,9 @@ function clearRoute() {
     if (currentPathPolyline) {
         currentPathPolyline.setMap(null); // 지도에서 경로 제거
     }
-    // 경로만 지우고, 마커와 좌표는 남겨둡니다.
 }
 
-// 페이지 로드 시 저장된 관광지 목록 불러오기
+// 페이지 로드 시 저장된 관광지 목록 불러오기 및 모달 설정
 document.addEventListener('DOMContentLoaded', function () {
     loadSavedPlaces(); // 저장된 장소 로드
 
@@ -226,17 +215,47 @@ document.addEventListener('DOMContentLoaded', function () {
         placeBox.addEventListener('drop', onDrop);
     });
 
-
     // 드롭 가능 영역에 드롭 이벤트 추가
     document.querySelectorAll('.drop-area').forEach(dropArea => {
         dropArea.addEventListener('dragover', allowDrop);
         dropArea.addEventListener('drop', drop);
     });
+
+    // 모달 관련 요소 선택
+    modal = document.querySelector('.modal');
+    modalBackdrop = document.querySelector('.modal-backdrop');
+    modalClose = document.querySelector('.close_btn');
+
+    // 모달 닫기 버튼 클릭 시
+    modalClose.addEventListener('click', function() {
+        modal.classList.remove('on');
+        modalBackdrop.classList.remove('on');
+    });
+
+    // 모달 외부 클릭 시 모달 닫기
+    modalBackdrop.addEventListener('click', function() {
+        modal.classList.remove('on');
+        modalBackdrop.classList.remove('on');
+    });
 });
 
-// 모달 닫기 기능
-function closeModal() {
-    document.getElementById('search-result-modal').style.display = "none";
+// 상세정보 모달 표시 함수
+function openTouristModal(contentId, contentTypeId) {
+    fetch(`/touristSpot/Json/tourist-information?contentId=${contentId}&contentTypeId=${contentTypeId}`)
+        .then(response => response.json())
+        .then(data => {
+            const touristDetail = data.touristDetail;
+            document.getElementById('modal-title').innerText = touristDetail.title || "제목 없음";
+            document.getElementById('modal-image').src = touristDetail.firstimage || '/images/placeholder.png';
+            document.getElementById('modal-overview').innerText = touristDetail.overview || "정보 없음";
+            document.getElementById('modal-address').innerText = touristDetail.addr1 || "주소 없음";
+            document.getElementById('modal-tel').innerText = touristDetail.tel || "전화번호 정보 없음";
+
+            // 모달 및 배경 열기
+            modal.classList.add('on');
+            modalBackdrop.classList.add('on');
+        })
+        .catch(error => console.error('Error fetching tourist detail:', error));
 }
 
 // 드래그 시작 시 선택된 요소 저장
@@ -311,34 +330,7 @@ function changePosition(targetElement) {
     }, 300); // 애니메이션 지속 시간
 }
 
-function onDragEnter(event) {
-    const li = event.target.closest('.place-box'); // 현재 마우스가 있는 리스트 아이템
-
-    if (li !== selectedElement && li.classList.contains('place-box')) {
-        changePosition(li); // 드래그된 요소와 마우스가 있는 요소의 위치 변경
-    }
-}
-
-
 function addAnimation(element) {
     element.classList.add('animation'); // 애니메이션 적용
     console.log(`Animation applied to: ${element.id}`); // 로그 추가
-}targetElementTop = targetElement.getBoundingClientRect().top;
-    const selectedElementTop = selectedElement.getBoundingClientRect().top;
-
-
-
-// 드래그 이벤트 리스너 등록
-document.querySelectorAll('.place-box').forEach(placeBox => {
-    placeBox.addEventListener('dragstart', onDragStart);
-    placeBox.addEventListener('dragover', onDragOver);
-    placeBox.addEventListener('drop', onDrop);
-});
-
-function onDragEnter(event) {
-    const li = event.target; // 현재 마우스가 있는 리스트 아이템
-
-    if (li !== selectedElement && li.classList.contains('place-box')) {
-        changePosition(li); // 드래그된 요소와 마우스가 있는 요소의 위치 변경
-    }
 }

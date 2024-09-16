@@ -47,13 +47,17 @@
     <div id="map" style="width: 70%; height: 600px;"></div>
 </div>
 
-<!-- Modal for Search Result -->
-<div id="search-result-modal" style="display:none;">
+<!-- Modal for Tourist Spot Detail -->
+<div class="modal-backdrop"></div> <!-- 어두운 배경 -->
+<div class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h3>관광지 정보</h3>
-        <div id="place-info"></div>
-        <button id="saveButton">저장하기</button>
+        <button class="close_btn">&times;</button> <!-- 닫기 버튼 -->
+        <h3 id="modal-title">관광지 정보</h3>
+        <img id="modal-image" src="" alt="관광지 이미지" style="width: 100%; height: auto; margin-top: 10px;" />
+        <p id="modal-overview"></p>
+        <p id="modal-address"></p>
+        <p id="modal-tel"></p>
+        <div id="modal-accessibility"></div>
     </div>
 </div>
 
@@ -61,8 +65,6 @@
 <footer class="footer">
     <p>&copy; 2024 MODUNURI</p>
 </footer>
-
 <script src="/script/map.js"></script>
-
 </body>
 </html>

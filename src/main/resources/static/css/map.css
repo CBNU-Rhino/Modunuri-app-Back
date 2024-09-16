@@ -232,3 +232,87 @@ button:hover {
     transition: transform 0.5s ease-in-out; /* 부드러운 이동 애니메이션 */
 }
 
+#tourist-detail-modal {
+    display: none; /* 기본적으로 숨겨진 상태 */
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#tourist-detail-modal .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#tourist-detail-modal .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #ccc;
+    padding: 5px;
+    border-radius: 50%;
+}
+/* 모달 기본 스타일 */
+.modal {
+    display: none; /* 기본적으로 모달은 숨겨둡니다 */
+    position: fixed; /* fixed로 설정해야 화면 스크롤에 영향을 받지 않습니다 */
+    top: 50%; /* 화면의 50% 지점 */
+    left: 50%; /* 화면의 50% 지점 */
+    transform: translate(-50%, -50%); /* 정확히 화면 중앙에 위치하도록 설정 */
+    width: 400px; /* 모달 너비 */
+    background-color: white; /* 모달 배경색 */
+    padding: 20px; /* 내부 여백 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    z-index: 1000; /* 다른 요소보다 위에 위치 */
+    border-radius: 10px; /* 테두리를 둥글게 */
+}
+
+/* 배경 어둡게 하는 스타일 */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 */
+    z-index: 999; /* 모달보다 한 단계 아래 */
+    display: none; /* 기본적으로 숨김 */
+}
+
+/* 모달이 열릴 때 적용할 클래스 */
+.modal.on {
+    display: block; /* 모달을 보이도록 */
+}
+
+.modal-backdrop.on {
+    display: block; /* 배경도 보이도록 */
+}
+
+/* 닫기 버튼 스타일 */
+.close_btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff5f57;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 30px;
+    text-align: center;
+}
