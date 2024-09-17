@@ -15,11 +15,7 @@ public class MapController {
         if (user != null) {
             // 로그인된 사용자 정보를 모델에 추가
             model.addAttribute("username", user.getUsername());
-        } else {
-            // 로그인되지 않은 경우, Guest 또는 기본 값으로 처리
-            model.addAttribute("username", "Guest");
         }
-
         return "touristSpot/map";  // templates/touristSpot/map.html로 이동
     }
 }

@@ -5,10 +5,10 @@
     box-sizing: border-box;
 }
 
-body, html {
-    font-family: Arial, sans-serif;
+html, body {
+    margin: 0;
+    padding: 0;
     height: 100%;
-    background-color: #f4f4f4;
 }
 
 /* 헤더 스타일 */
@@ -55,8 +55,9 @@ body, html {
 .container {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
-    height: calc(100vh - 70px);
+    padding: 20px 0; /* 위아래 패딩을 줄이기 */
+    height: 100%; /* html과 body의 높이를 100%로 설정 */
+    margin: 0;
 }
 
 /* 좌측 패널 스타일 */
@@ -143,12 +144,9 @@ body, html {
     color: #777;
 }
 
-/* 우측 지도 패널 스타일 */
 #map {
-    width: 70%;
+    width: 100%;
     height: 100%;
-    border: 2px solid #ddd;
-    border-radius: 5px;
 }
 
 /* 모달 창 스타일 */
@@ -192,15 +190,13 @@ body, html {
     border-radius: 50%;
 }
 
-/* Footer 스타일 */
 .footer {
+    position: relative;
+    width: 100%;
     background-color: #4CAF50;
     padding: 10px;
     text-align: center;
     color: white;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
 }
 
 /* 버튼 스타일 */
@@ -219,21 +215,18 @@ button:hover {
 }
 
 /* 애니메이션 효과를 위한 transition 정의 */
-/* CSS 애니메이션 정의 */
-/* 드래그 중 요소의 스타일 변경 */
 .dragging {
     opacity: 0.6;
-    transform: scale(1.1); /* 요소 확대 */
-    transition: transform 0.3s ease-in-out; /* 더 부드러운 확대 효과 */
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
 }
 
-/* 요소의 위치가 변경될 때 애니메이션 */
 .place-box {
-    transition: transform 0.5s ease-in-out; /* 부드러운 이동 애니메이션 */
+    transition: transform 0.5s ease-in-out;
 }
 
 #tourist-detail-modal {
-    display: none; /* 기본적으로 숨겨진 상태 */
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 50%;
@@ -263,43 +256,45 @@ button:hover {
     padding: 5px;
     border-radius: 50%;
 }
-/* 모달 기본 스타일 */
-.modal {
-    display: none; /* 기본적으로 모달은 숨겨둡니다 */
-    position: fixed; /* fixed로 설정해야 화면 스크롤에 영향을 받지 않습니다 */
-    top: 50%; /* 화면의 50% 지점 */
-    left: 50%; /* 화면의 50% 지점 */
-    transform: translate(-50%, -50%); /* 정확히 화면 중앙에 위치하도록 설정 */
-    width: 400px; /* 모달 너비 */
-    background-color: white; /* 모달 배경색 */
-    padding: 20px; /* 내부 여백 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
-    z-index: 1000; /* 다른 요소보다 위에 위치 */
-    border-radius: 10px; /* 테두리를 둥글게 */
+
+body {
+    zoom: 0.67;
 }
 
-/* 배경 어둡게 하는 스타일 */
+/* 모달 기본 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 10px;
+}
+
 .modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 */
-    z-index: 999; /* 모달보다 한 단계 아래 */
-    display: none; /* 기본적으로 숨김 */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
 }
 
-/* 모달이 열릴 때 적용할 클래스 */
 .modal.on {
-    display: block; /* 모달을 보이도록 */
+    display: block;
 }
 
 .modal-backdrop.on {
-    display: block; /* 배경도 보이도록 */
+    display: block;
 }
 
-/* 닫기 버튼 스타일 */
 .close_btn {
     position: absolute;
     top: 10px;
