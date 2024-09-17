@@ -2,9 +2,11 @@ package app.app.user.Controller;
 
 import app.app.user.CustomUserDetails;
 import app.app.user.DTO.UserDTO;
+import app.app.user.Repository.UserRepository;
 import app.app.user.User;
 import app.app.user.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,6 +27,9 @@ public class userController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired  // UserRepository 주입
+    private UserRepository userRepository;
 
     // 회원가입 페이지를 반환하는 GET 메서드
     @GetMapping("/signup")
@@ -71,7 +76,9 @@ public class userController {
 
         // 사용자의 관심 관광지 목록 가져오기
         Map<String, String> favoriteContents = userService.getFavoriteContents(email);
-
+        // sout으로 로그 확인
+        System.out.println("사용자 아이디: " + email);
+        System.out.println("관심 관광지 목록: " + favoriteContents);
         // 모델에 사용자 이름과 관심 관광지 목록 추가
         model.addAttribute("username", email);
         model.addAttribute("favoriteContents", favoriteContents);
@@ -100,21 +107,31 @@ public class userController {
         return "redirect:/users/mypage"; // My Page로 리다이렉트
     }
 
-    // 관심 관광지 제거를 처리하는 POST 메서드
     @PostMapping("/removeFavorite")
     public String removeFavorite(@RequestParam("contentId") String contentId, RedirectAttributes redirectAttributes) {
         // 현재 인증된 사용자 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
+        // sout으로 로그 확인
+        System.out.println("삭제할 contentId: " + contentId);
+        System.out.println("사용자 이메일: " + email);
+
         try {
             userService.removeFavoriteContent(email, contentId);
+
+            Map<String, String> favoriteContents = userService.getFavoriteContents(email);
+            System.out.println("After deletion, fetched favorite contents: " + favoriteContents);
+
+            System.out.println("관심 관광지 삭제 성공: " + contentId); // 삭제 성공 시
             redirectAttributes.addFlashAttribute("message", "관심 관광지가 삭제되었습니다!");
         } catch (RuntimeException e) {
+            System.out.println("삭제 중 오류 발생: " + e.getMessage()); // 예외 발생 시
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/users/mypage"; // My Page로 리다이렉트
     }
+
 
     @PostMapping("/save")
     public ResponseEntity<String> saveFavoriteContent(
@@ -170,8 +187,10 @@ public class userController {
     @GetMapping("/getFavoriteContents")
     public ResponseEntity<Map<String, String>> getFavoriteContents(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         if (customUserDetails != null) {
-            Map<String, String> favoriteContents = customUserDetails.getUser().getFavoriteContents();
-            System.out.println("Fetched favorite contents: " + favoriteContents); // 로그 추가
+            // 항상 최신 DB 데이터 가져오기
+            User user = userRepository.findByUserId(customUserDetails.getUser().getUserId());
+            Map<String, String> favoriteContents = user.getFavoriteContents();
+            System.out.println("Fetched favorite contents: " + favoriteContents);
             return ResponseEntity.ok(favoriteContents);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

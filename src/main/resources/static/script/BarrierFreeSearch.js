@@ -94,7 +94,7 @@ async function searchAccessibleItems() {
                 const galleryItem = document.createElement('div');
                 galleryItem.classList.add('gallery-item');
 
-                const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="placeholder.jpg" alt="No Image">';
+                const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="/images/placeholder.jpg" alt="No Image">';
 
                 galleryItem.innerHTML = `
                     <a href="searchresult.html?contentId=${item.contentid}&contentTypeId=${item.contenttypeid}">

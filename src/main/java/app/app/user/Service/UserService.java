@@ -69,6 +69,7 @@ public class UserService {
         }
     }
     // 관심 관광지 제거 메서드
+    @Transactional
     public void removeFavoriteContent(String ID, String contentId) {
         User user = userRepository.findByUserId(ID);
         if (user != null) {
@@ -80,9 +81,11 @@ public class UserService {
     }
 
     // 관심 관광지 목록 조회 메서드
+    @Transactional(readOnly = true)
     public Map<String, String> getFavoriteContents(String ID) {
         User user = userRepository.findByUserId(ID);
         if (user != null) {
+            System.out.println("가져온 관심 관광지 목록: " + user.getFavoriteContents());
             return user.getFavoriteContents(); // Map<String, String> 반환
         } else {
             throw new RuntimeException("사용자를 찾을 수 없습니다: " + ID);

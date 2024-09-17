@@ -1,0 +1,159 @@
+/* 기본적인 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* 네비게이션 바 스타일 */
+.navbar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.navbar .nav-links li {
+    margin-left: 20px;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar .nav-links a:hover {
+    background-color: #45a049;
+}
+
+/* 전체 레이아웃 스타일 */
+.mypage-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.saved-places {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+/* 개별 관광지 박스 스타일 */
+.place-box {
+    width: 250px; /* 박스 너비를 250px로 설정 */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.place-box:hover {
+    transform: translateY(-5px); /* 호버 시 살짝 위로 움직이는 효과 */
+}
+
+.place-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.place-image {
+    width: 100%; /* 이미지가 박스 너비에 맞게 */
+    height: 150px;
+    object-fit: cover; /* 이미지 비율 유지 */
+    border-bottom: 1px solid #ddd;
+}
+
+.place-text {
+    text-align: center;
+    padding: 10px;
+}
+
+.place-text h4 {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.place-text p {
+    font-size: 14px;
+    color: #777;
+}
+
+.info-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.info-btn:hover {
+    background-color: #45a049;
+}
+
+/* 푸터 스타일 */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.footer-links ul li a {
+    text-decoration: none;
+    color: #4CAF50;
+}
+
+.footer-links ul li a:hover {
+    text-decoration: underline;
+}
