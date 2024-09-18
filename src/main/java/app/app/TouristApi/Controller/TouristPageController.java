@@ -34,7 +34,7 @@ public class TouristPageController {
     @GetMapping("/area-search")
     public String getAreaSearchPage(@AuthenticationPrincipal CustomUserDetails user, Model model) {
         if (user != null) {
-            model.addAttribute("username", user.getUsername());  // 로그인한 사용자의 이름을 모델에 추가
+            model.addAttribute("username", user.getRealUsername());  // 로그인한 사용자의 이름을 모델에 추가
         }
         return "touristSpot/Area_Search"; // templates/touristSpot/Area_Search.html로 이동
     }
@@ -58,7 +58,7 @@ public class TouristPageController {
         // 로그인된 사용자가 있는지 확인
         if (user != null) {
             // 로그인한 사용자의 이름을 모델에 추가
-            model.addAttribute("username", user.getUsername());
+            model.addAttribute("username", user.getRealUsername());
         } else {
             // 로그인하지 않은 경우 null 처리
             model.addAttribute("username", null);
@@ -75,7 +75,7 @@ public class TouristPageController {
     @GetMapping("/search-by-accessibility")
     public String getBarrierFreeSearchPage(@AuthenticationPrincipal CustomUserDetails user, Model model) {
         if (user != null) {
-            model.addAttribute("username", user.getUsername());
+            model.addAttribute("username", user.getRealUsername());
         }
         return "touristSpot/BarrierFreeSearch"; // touristSpot/BarrierFreeSearch.html로 이동
     }
@@ -86,7 +86,7 @@ public class TouristPageController {
         // 로그인된 사용자가 있을 경우, 사용자 이름을 모델에 추가
         if (user != null) {
             System.out.println("Logged in user: " + user.getUsername());  // 사용자 이름 출력
-            model.addAttribute("username", user.getUsername());  // 사용자 이름을 모델에 추가
+            model.addAttribute("username", user.getRealUsername());  // 사용자 이름을 모델에 추가
         } else {
             System.out.println("No user logged in");
             model.addAttribute("username", null);  // 비로그인 상태인 경우

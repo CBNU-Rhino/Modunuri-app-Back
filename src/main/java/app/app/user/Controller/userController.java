@@ -69,21 +69,29 @@ public class userController {
 
     // My Page를 표시하는 GET 메서드
     @GetMapping("/mypage")
-    public String showMyPage(Model model) {
-        // 현재 인증된 사용자 정보 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName(); // 이메일을 사용하여 사용자 식별
+    public String showMyPage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+        if (customUserDetails != null) {
+            // 사용자 이름 가져오기
+            String realUsername = customUserDetails.getRealUsername();
 
-        // 사용자의 관심 관광지 목록 가져오기
-        Map<String, String> favoriteContents = userService.getFavoriteContents(email);
-        // sout으로 로그 확인
-        System.out.println("사용자 아이디: " + email);
-        System.out.println("관심 관광지 목록: " + favoriteContents);
-        // 모델에 사용자 이름과 관심 관광지 목록 추가
-        model.addAttribute("username", email);
-        model.addAttribute("favoriteContents", favoriteContents);
+            // 사용자의 관심 관광지 목록 가져오기
+            Map<String, String> favoriteContents = customUserDetails.getUser().getFavoriteContents();
+
+            // 로그로 사용자 확인
+            System.out.println("사용자 이름: " + realUsername);
+            System.out.println("관심 관광지 목록: " + favoriteContents);
+
+            // 모델에 사용자 이름과 관심 관광지 목록 추가
+            model.addAttribute("username", realUsername);
+            model.addAttribute("favoriteContents", favoriteContents);
+        } else {
+            // 인증되지 않은 경우에 대한 처리
+            model.addAttribute("errorMessage", "로그인이 필요합니다.");
+        }
+
         return "users/mypage"; // My Page 템플릿 반환
     }
+
 
     // 관심 관광지 추가를 처리하는 POST 메서드
     @PostMapping("/addFavorite")
