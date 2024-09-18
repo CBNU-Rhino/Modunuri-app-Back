@@ -146,26 +146,28 @@ public class userController {
             @RequestBody Map<String, String> requestBody,
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-        User user = customUserDetails.getUser();  // CustomUserDetails에서 User 객체 추출
-
-        if (user != null) {
-            String contentId = requestBody.get("contentId");
-            String contentTypeId = requestBody.get("contentTypeId");  // contentTypeId 가져오기
-
-            // 데이터 유효성 검사
-            if (contentId == null || contentId.isEmpty()) {
-                return ResponseEntity.badRequest().body("contentId가 없습니다.");
-            }
-            if (contentTypeId == null || contentTypeId.isEmpty()) {
-                return ResponseEntity.badRequest().body("contentTypeId가 없습니다.");
-            }
-
-            userService.saveFavoriteContent(user, contentId, contentTypeId);
-            return ResponseEntity.ok("저장이 완료되었습니다.");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        // 로그인 여부 확인
+        if (customUserDetails == null || customUserDetails.getUser() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");  // 401 반환
         }
+
+        User user = customUserDetails.getUser();  // CustomUserDetails에서 User 객체 추출
+        String contentId = requestBody.get("contentId");
+        String contentTypeId = requestBody.get("contentTypeId");
+
+        // 데이터 유효성 검사
+        if (contentId == null || contentId.isEmpty()) {
+            return ResponseEntity.badRequest().body("contentId가 없습니다.");
+        }
+        if (contentTypeId == null || contentTypeId.isEmpty()) {
+            return ResponseEntity.badRequest().body("contentTypeId가 없습니다.");
+        }
+
+        // 관심 콘텐츠 저장 로직
+        userService.saveFavoriteContent(user, contentId, contentTypeId);
+        return ResponseEntity.ok("저장이 완료되었습니다.");
     }
+
 
 
 

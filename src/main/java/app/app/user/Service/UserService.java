@@ -125,5 +125,8 @@ public class UserService {
         System.out.println("User saved with favorite content: " + contentId + " and contentTypeId: " + contentTypeId);
     }
 
-
+    // 사용자 이름으로 사용자 찾기
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
