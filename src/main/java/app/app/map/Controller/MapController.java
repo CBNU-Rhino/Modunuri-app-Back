@@ -14,7 +14,7 @@ public class MapController {
     public String showMapPage(@AuthenticationPrincipal CustomUserDetails user, Model model) {
         if (user != null) {
             // 로그인된 사용자 정보를 모델에 추가
-            model.addAttribute("username", user.getUsername());
+            model.addAttribute("username", user.getRealUsername());
         }
         return "touristSpot/map";  // templates/touristSpot/map.html로 이동
     }
