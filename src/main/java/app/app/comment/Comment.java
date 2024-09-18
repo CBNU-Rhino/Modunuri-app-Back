@@ -78,7 +78,7 @@ public class Comment {
     private String content;
     private String author;
     private String userId;
-    @CreationTimestamp  // 댓글이 생성될 때 자동으로 시간 설정
+    @CreationTimestamp  // 댓글이 생성될 때 자동으로 시간 설정dd
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
