@@ -57,4 +57,10 @@ public class PostService {
     public Post save(Post post) {
         return postRepository.save(post);
     }
+    // 커스텀 findById 로직
+    public Post findById(Long id) {
+        // 기본 findById에서 추가적으로 처리하고 싶은 로직을 추가 가능
+        return postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No post found with id: " + id));
+    }
 }
