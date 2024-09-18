@@ -28,7 +28,16 @@ public class UserService {
         if (userRepository.findByUserId(ID) != null) {
             throw new RuntimeException("이미 사용 중인 ID입니다.");
         }
-
+        if (password == null || password.trim().isEmpty()) {
+            throw new RuntimeException("비밀번호는 필수 입력 사항입니다.");
+        }
+        // 비밀번호 중복 체크
+        List<User> allUsers = userRepository.findAll();
+        for (User user : allUsers) {
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                throw new RuntimeException("이미 사용 중인 비밀번호입니다.");
+            }
+        }
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(password);
         User newUser = new User(username, encodedPassword, ID);

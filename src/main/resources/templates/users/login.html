@@ -11,7 +11,7 @@
 <header class="navbar">
     <div class="logo">
         <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
-            <img src="test.png"> <!-- 이미지 추가 -->
+            <img src="/images/MODUNURI.png"> <!-- 이미지 추가 -->
             MODUNURI
         </a>
     </div>
@@ -21,10 +21,10 @@
 
     <nav>
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Travel Tips</a></li>
-            <li><a href="#">Community</a></li>
-            <li><a href="#">Support Center</a></li>
+            <li><a href="/touristSpot/area-search">지역 별 검색</a></li>
+            <li><a href="/touristSpot/search-by-accessibility">무장애 정보 검색</a></li>
+            <li><a href="/touristSpot/map">지도 보기</a></li>
+            <li><a href="#">여행 기록하기</a></li>
             <!-- 로그인 상태 확인 -->
             <li class="nav-item-right">
                 <span th:if="${username != null}">
@@ -45,6 +45,10 @@
     <div class="content-container">
         <div class="login-container">
             <h1>Login</h1>
+            <!-- 로그인 실패 시 에러 메시지 표시 -->
+            <div th:if="${param.error}" class="error" style="color: red;">
+                아이디 또는 비밀번호를 확인해 주세요. <!-- 에러 메시지 -->
+            </div>
             <!-- form 태그에 action과 method 추가 -->
             <form action="/users/login" method="POST">
                 <label for="userId">ID</label>
