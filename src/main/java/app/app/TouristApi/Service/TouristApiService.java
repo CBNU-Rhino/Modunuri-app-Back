@@ -127,6 +127,8 @@ public class TouristApiService {
                 return 6;
             case "울산광역시":
                 return 7;
+            case "세종특별자치시":
+                return 8;
             case "경기도":
                 return 31;
             case "강원도":
