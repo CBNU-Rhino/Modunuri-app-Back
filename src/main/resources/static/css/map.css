@@ -311,3 +311,6 @@ body {
     line-height: 30px;
     text-align: center;
 }
+.animation {
+    transition: transform 0.3s ease;
+}

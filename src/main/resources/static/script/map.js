@@ -306,12 +306,17 @@ function onDrop(event) {
     if (!targetElement || targetElement === selectedElement) return; // 유효하지 않은 타겟이면 무시
 
     const targetElementIndex = [...targetElement.parentNode.children].indexOf(targetElement);
+    const selectedElementIndex = [...selectedElement.parentNode.children].indexOf(selectedElement);
 
     // 애니메이션을 위해 먼저 위치 변경
     if (targetElementIndex > selectedElementIndex) {
+        // 아래로 이동할 경우, targetElement 이후로 배치
         targetElement.after(selectedElement);
+        moveElement(targetElement, selectedElement, "down");
     } else {
+        // 위로 이동할 경우, targetElement 이전으로 배치
         targetElement.before(selectedElement);
+        moveElement(targetElement, selectedElement, "up");
     }
 
     // 애니메이션 리셋 후 초기화
@@ -319,6 +324,26 @@ function onDrop(event) {
         selectedElement.classList.remove('dragging');
     });
 }
+function moveElement(targetElement, selectedElement, direction) {
+    const targetElementTop = targetElement.getBoundingClientRect().top;
+    const selectedElementTop = selectedElement.getBoundingClientRect().top;
+    const distance = targetElementTop - selectedElementTop;
+
+    if (direction === "down") {
+        selectedElement.style.transform = `translateY(${distance}px)`;
+        targetElement.style.transform = `translateY(${-distance}px)`;
+    } else {
+        selectedElement.style.transform = `translateY(${distance}px)`;
+        targetElement.style.transform = `translateY(${-distance}px)`;
+    }
+
+    // 일정 시간이 지나면 위치 고정
+    setTimeout(() => {
+        selectedElement.style.transform = '';
+        targetElement.style.transform = '';
+    }, 300);
+}
+
 
 function changePosition(targetElement) {
     if (!targetElement) {
