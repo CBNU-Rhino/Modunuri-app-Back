@@ -16,4 +16,9 @@ public interface TouristInfoRepository extends JpaRepository<TouristInfo, Long> 
     boolean existsByContentTypeIdAndAreaCodeAndSigunguCode(String contentTypeId, String areaCode, String sigunguCode);
     List<TouristInfo> findAllByAreaCode(String areaCode);
     boolean existsByContentId(String contentId);
+    // 특정 지역과 시군구에 해당하는 관광지 조회
+    List<TouristInfo> findByAreaCodeAndSigunguCodeIn(String areaCode, List<String> sigunguCodes);
+
+    // 광역시의 경우 시군구 코드 전체를 조회
+    List<TouristInfo> findByAreaCode(String areaCode);
 }
