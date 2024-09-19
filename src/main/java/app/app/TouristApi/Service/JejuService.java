@@ -29,7 +29,7 @@ public class JejuService {
     }
 
     public void fetchAndSaveJejuAccessibilityInfo() {
-        int jejuAreaCode = 39; // 제주도 지역 코드
+        int jejuAreaCode = 37; // 제주도 지역 코드
         List<TouristInfo> jejuTouristInfos = touristInfoRepository.findAllByAreaCode(String.valueOf(jejuAreaCode));
 
         for (TouristInfo touristInfo : jejuTouristInfos) {
@@ -83,8 +83,8 @@ public class JejuService {
     }
 
     public void fetchAndSaveJejuTouristInfo() {
-        int jejuAreaCode = 39; // 제주도 지역 코드
-        int jejusiCode = 3; // 제주시 시군구 코드
+        int jejuAreaCode = 37; // 제주도 지역 코드
+        int jejusiCode = 14; // 제주시 시군구 코드
         int[] contentTypeIds = {12, 14, 15, 25, 28, 32, 38, 39}; // 순회할 관광 타입
 
         for (int contentTypeId : contentTypeIds) {
