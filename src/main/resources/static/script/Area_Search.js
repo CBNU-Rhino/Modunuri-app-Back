@@ -92,6 +92,9 @@ async function searchItems() {
         // 페이지 수 계산
         totalPages = Math.ceil(currentData.length / itemsPerPage);
 
+        // 검색 결과를 localStorage에 저장
+        localStorage.setItem('searchResults', JSON.stringify(currentData));
+
         // 첫 페이지를 갤러리에 표시
         currentPage = 1; // 페이지를 1로 초기화
         displayGalleryPage(currentPage);
@@ -200,4 +203,51 @@ function resetFilters() {
 document.querySelector('.search-bar button').addEventListener('click', function() {
     document.getElementById('gallery').style.display = 'grid';
     searchItems();
+});
+document.addEventListener('DOMContentLoaded', function () {
+    // 페이지 로드 시 localStorage에 저장된 값을 가져와 필터에 적용
+    const savedRegion = localStorage.getItem('region');
+    const savedSido = localStorage.getItem('sido');
+    const savedCategory = localStorage.getItem('category');
+    const savedResults = localStorage.getItem('searchResults');  // 검색 결과 저장
+    if (savedRegion) {
+        document.getElementById('region').value = savedRegion;
+        updateSido();  // 시/군/구 선택 갱신
+        if (savedSido) document.getElementById('sido').value = savedSido;
+    }
+
+    if (savedCategory) {
+        document.querySelector(`input[name="category"][value="${savedCategory}"]`).checked = true;
+    }
+    // 저장된 검색 결과가 있으면 갤러리에 표시
+    if (savedResults) {
+        const parsedResults = JSON.parse(savedResults);
+        currentData = parsedResults;  // 검색 결과를 currentData에 저장
+        totalPages = Math.ceil(currentData.length / itemsPerPage);
+        displayGalleryPage(currentPage);  // 첫 번째 페이지 표시
+        updatePagination();  // 페이지네이션 갱신
+    }
+
+    // 검색 수행 시 localStorage에 값 저장
+    document.querySelector('.search-bar button').addEventListener('click', function () {
+        const region = document.getElementById('region').value;
+        const sido = document.getElementById('sido').value;
+        const category = document.querySelector('input[name="category"]:checked').value;
+
+        // localStorage에 선택한 값 저장
+        localStorage.setItem('region', region);
+        localStorage.setItem('sido', sido);
+        localStorage.setItem('category', category);
+
+        searchItems();  // 검색 함수 호출
+    });
+
+    // 검색 필터 초기화 시 localStorage도 초기화
+    document.querySelector('.reset-button').addEventListener('click', function () {
+        localStorage.removeItem('region');
+        localStorage.removeItem('sido');
+        localStorage.removeItem('category');
+        localStorage.removeItem('searchResults');  // 검색 결과 초기화
+        resetFilters();  // 기존 필터 초기화 함수
+    });
 });
