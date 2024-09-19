@@ -11,8 +11,8 @@
 <header class="navbar">
     <div class="logo">
         <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
-            <img src="/images/MODUNURI.png"> <!-- 이미지 추가 -->
-            MODUNURI
+            <img src="/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+            <span class="a">MODUNURI</span>
         </a>
     </div>
     <form class="search-container" action="/search" method="GET">
@@ -23,18 +23,19 @@
         <ul class="nav-links">
             <li><a href="/touristSpot/area-search">지역 별 검색</a></li>
             <li><a href="/touristSpot/search-by-accessibility">무장애 정보 검색</a></li>
-            <li><a href="/touristSpot/map">지도 보기</a></li>
+            <li><a href="#" id="community-link">지도 보기</a></li>
             <li><a href="#">여행 기록하기</a></li>
             <!-- 로그인 상태 확인 -->
             <li class="nav-item-right">
                 <span th:if="${username != null}">
-                    <a href="/users/mypage" class="my-page-button">My Page</a> <!-- My Page 버튼 추가 -->
-                    <a th:text="${username} + '님 안녕하세요'"></a>
+                    <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+                    <a href="/users/mypage" class="auth-button">MyPage</a> <!-- My Page 버튼 추가 -->
                     <a href="/users/logout" class="auth-button">Logout</a>
                 </span>
                 <span th:if="${username == null}">
-                    <a href="/users/signup" class="auth-button">Sign Up</a>
-                    <a href="/users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
+                    <a class="login-message" th:text="'로그인을 해주세요'"></a>
+                    <a href="users/signup" class="auth-button">SignUp</a>
+                    <a href="users/login" class="auth-button">Log In</a> <!-- Log In 버튼 추가 -->
                 </span>
             </li>
         </ul>
@@ -45,10 +46,6 @@
     <div class="content-container">
         <div class="login-container">
             <h1>Login</h1>
-            <!-- 로그인 실패 시 에러 메시지 표시 -->
-            <div th:if="${param.error}" class="error" style="color: red;">
-                아이디 또는 비밀번호를 확인해 주세요. <!-- 에러 메시지 -->
-            </div>
             <!-- form 태그에 action과 method 추가 -->
             <form action="/users/login" method="POST">
                 <label for="userId">ID</label>
@@ -65,23 +62,22 @@
 </div>
 
 
-    <!-- 로그인 실패 시 에러 메시지 표시 -->
-    <div th:if="${param.error}" class="error">
-        Invalid email or password. <!-- 테스토 용으로 쓴거임(변경가능) -->
-    </div>
+<!-- 로그인 실패 시 에러 메시지 표시 -->
+<div th:if="${param.error}" class="error">
+    Invalid email or password. <!-- 테스토 용으로 쓴거임(변경가능) -->
+</div>
 
 
 <!-- Footer Section -->
 <footer class="footer">
     <div class="footer-links">
         <ul>
-            <li><a href="#">Find a Store</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
+            <li><p>&copy; 2024 MODUNURI</p></li>
+
         </ul>
     </div>
 </footer>
-<script src="/static/script/script.js"></script>
+
+<script src="/script/script.js"></script>
 </body>
 </html>

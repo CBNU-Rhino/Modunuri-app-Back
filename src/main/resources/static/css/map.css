@@ -1,62 +1,153 @@
-/* 기본적인 스타일 초기화 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Global Styles */
 html, body {
-    margin: 0;
-    padding: 0;
     height: 100%;
+    margin: 0;
+    font-family: pretendard;
+    color: #717171;
+    background-color: #F5FFF5; /* index.css의 배경색과 동일하게 조정 */
 }
 
-/* 헤더 스타일 */
+/* Navbar */
 .navbar {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #F5FFF5; /* 배경색을 index.css와 동일하게 변경 */
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
 }
 
-.navbar .logo {
-    display: flex;
-    align-items: center;
-}
-
-.navbar .logo img {
-    width: 50px;
-    height: 50px;
+.logo img {
+    width: 40px; /* 로고 크기를 동일하게 설정 */
+    height: auto;
+    vertical-align: middle;
     margin-right: 10px;
 }
 
-.navbar .nav-links {
+.navbar .logo a {
+    color: #89B873; /* index.css와 동일한 색상 */
+    font-size: 24px;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.nav-links {
     list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    margin-right: 30px;
 }
 
-.navbar .nav-links li {
-    display: inline;
-    margin-left: 20px;
+.nav-links li {
+    margin: 0 15px;
 }
 
-.navbar .nav-links a {
-    color: white;
+.nav-links a {
+    color: #656565;
     text-decoration: none;
     font-size: 16px;
+    line-height: 1.5;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-.navbar .nav-links a:hover {
+.nav-links a:hover {
     text-decoration: underline;
+    font-weight: bold;
+    color: #45a049;
+    font-size: 18px;
+}
+
+.login-message {
+    color: #656565;
+    font-size: 16px;
+    margin-left: 40px;
+    margin-right: 15px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: rgba(148, 205, 147, 0.25); /* 투명한 배경 적용 */
+    border-radius: 30px;
+    padding: 5px 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    width: 300px;
+    margin-right: 3px;
+    margin-left: 3px;
+}
+
+.search-input {
+    padding: 10px 10px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    font-size: 16px;
+    color: #717171;
+    width: 270px;
+    background: transparent;
+}
+
+.nav-item {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.nav-item:hover {
+    background-color: #555;
+}
+
+/* 공통 버튼 스타일 */
+.auth-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #F5FFF5 !important;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    width: 100px;
+    box-sizing: border-box;
+    margin-left: 10px;
+}
+
+.auth-button:hover {
+    background-color: #45a049;
+}
+
+.nav-item-right {
+    margin-left: auto;
+}
+
+/* Back Container for Main Section */
+.back-container {
+    background-color: #ffffff; /* 메인 부분을 강조하기 위해 흰색 배경 설정 */
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1); /* 메인 부분에 그림자 추가 */
+    border-radius: 10px; /* 부드러운 모서리 설정 */
+    margin: 40px auto; /* 상하 마진과 중앙 정렬 */
+    padding: 20px;
+    max-width: 1200px; /* 최대 너비를 설정하여 콘텐츠가 너무 넓지 않게 제한 */
+    width: 90%; /* 반응형 레이아웃을 위해 너비를 비율로 설정 */
+    height: auto; /* 컨테이너 높이를 내용에 맞게 조정 */
+
 }
 
 /* 전체 레이아웃 */
 .container {
     display: flex;
     justify-content: space-between;
-    padding: 20px 0; /* 위아래 패딩을 줄이기 */
-    height: 100%; /* html과 body의 높이를 100%로 설정 */
+    padding-top: 60px;
+    height: auto;
     margin: 0;
 }
 
@@ -69,6 +160,7 @@ html, body {
     height: 100%;
     overflow-y: auto;
     border-radius: 5px;
+    margin-left: -20px; /* 왼쪽으로 20px 이동 (숫자를 더 크게 조정하여 더 이동 가능) */
 }
 
 .tour-list h2 {
@@ -113,6 +205,7 @@ html, body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     cursor: move;
+    transition: transform 0.5s ease-in-out;
 }
 
 .place-box:hover {
@@ -145,8 +238,11 @@ html, body {
 }
 
 #map {
-    width: 100%;
-    height: 100%;
+    flex-grow: 1; /* 부모 높이에 맞게 지도가 자동으로 크기를 채우도록 설정 */
+    width: 100%; /* 부모 컨테이너의 너비에 맞춤 */
+    height: 100%; /* 부모 컨테이너의 높이에 맞춤 */
+    border-radius: 10px; /* 백 컨테이너에 맞춰 부드러운 모서리 설정 */
+    overflow: hidden; /* 필요시 넘치는 부분을 숨김 */
 }
 
 /* 모달 창 스타일 */
@@ -190,15 +286,6 @@ html, body {
     border-radius: 50%;
 }
 
-.footer {
-    position: relative;
-    width: 100%;
-    background-color: #4CAF50;
-    padding: 10px;
-    text-align: center;
-    color: white;
-}
-
 /* 버튼 스타일 */
 button {
     background-color: #4CAF50;
@@ -208,6 +295,7 @@ button {
     cursor: pointer;
     font-size: 14px;
     border-radius: 4px;
+    margin-top: 20px; /* 버튼 위쪽에 20px 여백 추가 */
 }
 
 button:hover {
@@ -218,11 +306,6 @@ button:hover {
 .dragging {
     opacity: 0.6;
     transform: scale(1.1);
-    transition: transform 0.3s ease-in-out;
-}
-
-.place-box {
-    transition: transform 0.5s ease-in-out;
 }
 
 #tourist-detail-modal {
@@ -255,10 +338,6 @@ button:hover {
     background-color: #ccc;
     padding: 5px;
     border-radius: 50%;
-}
-
-body {
-    zoom: 0.67;
 }
 
 /* 모달 기본 스타일 */
@@ -310,4 +389,34 @@ body {
     font-size: 18px;
     line-height: 30px;
     text-align: center;
+}
+
+/* Footer 스타일 */
+.footer {
+    background-color: #B4D5A8;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.footer-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-links li {
+    margin: 20px;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
 }
