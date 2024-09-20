@@ -1,60 +1,211 @@
-/* 기본적인 스타일 초기화 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 html, body {
-    margin: 0;
-    padding: 0;
     height: 100%;
+    margin: 0;
+    font-family: pretendard;
+    color: #717171;
+    background-color: #FBFFFB;
 }
 
-/* 네비게이션 바 스타일 */
+/* Navbar */
 .navbar {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* 버튼을 오른쪽에 고정하기 위해 사용 */
     align-items: center;
-    position: sticky;
+    background-color: #FBFFFB;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
     top: 0;
     z-index: 1000;
 }
 
-.navbar .logo {
-    display: flex;
-    align-items: center;
+
+.logo img {
+    width: 40px; /* 원하는 크기로 이미지 크기 설정 */
+    height: auto; /* 이미지의 비율을 유지 */
+    vertical-align: middle; /* 텍스트와 이미지의 세로 정렬을 맞춤 */
+    margin-right: 10px; /* 이미지와 텍스트 사이의 간격 추가 */
 }
 
-.navbar .logo img {
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
+.navbar .logo a {
+    color: #89B873;
+    font-size: 24px;
+    font-weight: 900;
+    text-decoration: none;
+
 }
 
-.navbar .nav-links {
+.nav-links {
     list-style: none;
     display: flex;
+    align-items: center; /* nav-links를 다른 요소들과 높이를 맞추기 위해 사용 */
+    margin: 0;
+    padding: 0;
+    margin-right: 30px; /* nav-links와 login-message 사이의 간격 */
 }
 
-.navbar .nav-links li {
-    margin-left: 20px;
+.nav-links li {
+    margin: 0 15px;
 }
 
-.navbar .nav-links a {
-    color: white;
+.nav-links a {
+    color: #656565;
     text-decoration: none;
     font-size: 16px;
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    line-height: 1.5; /* 높이를 다른 요소들과 맞추기 위해 추가 */
+    transition: color 0.3s ease, background-color 0.3s ease; /* 부드러운 전환 효과 */
 }
 
-.navbar .nav-links a:hover {
+.nav-links a:hover {
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+    font-weight: bold; /* 호버 시 글씨 굵게 */
+    color: #45a049; /* 호버 시 글씨 색 변경 */
+    font-size: 18px; /* 호버 시 글씨 크기 증가 */
+}
+
+.login-message {
+    color: #656565;
+    font-size: 16px;
+    margin-left: 40px;
+    margin-right: 15px; /* 로그인 메시지와 회원가입 버튼 사이 간격 */
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: rgba(148, 205, 147, 0.25);
+    border-radius: 30px;
+    padding: 5px 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    width: 300px; /* 가로 길이를 300px로 설정 */
+    margin-right: 3px; /* nav-links와의 간격을 줄임 */
+    margin-left: 3px; /* 로고와의 간격을 조금 줄임 */
+}
+
+.search-input {
+    padding: 10px 10px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    font-size: 16px;
+    color: #717171;
+    width: 270px; /* 입력 필드의 너비를 컨테이너에 맞게 조정 */
+    background: transparent;
+}
+
+
+.nav-item {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.nav-item:hover {
+    background-color: #555;
+}
+
+/* 공통 버튼 스타일 */
+.auth-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #F5FFF5 !important;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    width: 100px; /* 동일한 너비 설정 */
+    box-sizing: border-box;
+    margin-left: 10px; /* 버튼 간격 조정 */
+}
+
+.auth-button:hover {
     background-color: #45a049;
+}
+
+.nav-item-right {
+    margin-left: auto; /* 오른쪽으로 밀어내기 */
+}
+
+
+/* Main Container */
+.main-container {
+    width: 70%;
+    margin: 100px auto; /* 중앙 정렬 */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 400px; /* 최소 높이 설정 */
+}
+
+/* 블록 섹션 공통 스타일 */
+.block {
+    background-color: #F3F8E6;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.block h2 {
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+/* 구분선 */
+.divider {
+    border: none;
+    border-top: 2px solid #4CAF50;
+    margin-bottom: 20px;
+}
+
+/* Profile Section */
+.profile-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-details {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.profile-info p {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #717171;
+}
+
+
+/* Favorite Places Section */
+.favorite-contents h2 {
+    color: #4CAF50;
+}
+
+.favorite-contents ul {
+    list-style: none;
+    padding: 0;
+}
+
+.favorite-contents li {
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 전체 레이아웃 스타일 */
@@ -67,13 +218,13 @@ html, body {
 .saved-places {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-around;
+    gap: 20px; /* 박스 간의 간격 */
+    justify-content: flex-start; /* 박스 사이의 간격을 왼쪽 정렬 */
 }
 
 /* 개별 관광지 박스 스타일 */
 .place-box {
-    width: 250px; /* 박스 너비를 250px로 설정 */
+    width: calc(25% - 20px); /* 박스 너비를 4개씩 맞추도록 설정 (간격을 고려한 너비 계산) */
     border: 1px solid #ddd;
     border-radius: 10px;
     overflow: hidden;
@@ -131,29 +282,45 @@ html, body {
     background-color: #45a049;
 }
 
-/* 푸터 스타일 */
+
+/* Footer */
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 최소 높이를 100% 뷰포트 높이로 설정 */
+}
+
+.content {
+    flex: 1; /* 남은 공간을 모두 차지, 콘텐츠가 없을 경우 이 공간이 늘어나 footer가 하단으로 밀려남 */
+}
+
+/* 푸터를 페이지 바닥에 고정하지 않고, 페이지 내용 아래에 배치 */
 .footer {
+    background-color: #B4D5A8;
+    color: #fff;
     text-align: center;
     padding: 20px;
-    background-color: #f4f4f4;
-    color: #333;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative; /* 푸터가 페이지 하단에 위치 */
 }
 
 .footer-links ul {
     list-style: none;
+    margin: 0;
     padding: 0;
 }
 
-.footer-links ul li {
-    display: inline;
-    margin: 0 15px;
+.footer-links li {
+    margin: 20px;
 }
 
-.footer-links ul li a {
+.footer-links a {
+    color: #fff;
     text-decoration: none;
-    color: #4CAF50;
 }
 
-.footer-links ul li a:hover {
+.footer-links a:hover {
     text-decoration: underline;
 }

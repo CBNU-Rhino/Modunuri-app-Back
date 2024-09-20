@@ -386,3 +386,5 @@ function addAnimation(element) {
     element.classList.add('animation'); // 애니메이션 적용
     console.log(`Animation applied to: ${element.id}`); // 로그 추가
 }
+
+
