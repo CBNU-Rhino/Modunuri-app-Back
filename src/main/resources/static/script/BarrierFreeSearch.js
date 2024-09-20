@@ -88,28 +88,19 @@ async function searchAccessibleItems() {
         data = removeDuplicates(data);
         saveSearchState(region, sigungu, accessibleType, contentTypeId, data);
 
-        // 검색 결과를 갤러리로 표시
+        // 전체 데이터를 currentData에 저장
+        currentData = data;
+
+        // 페이지 수 계산
+        totalPages = Math.ceil(currentData.length / itemsPerPage); // 총 페이지 수 계산
+
+        // 검색 결과를 표시
+        displayGalleryPage(currentPage); // 첫 번째 페이지 표시
+        updatePagination(); // 페이지네이션 업데이트
+
+        // 검색 결과가 없을 경우 처리
         if (data.length === 0) {
             gallery.innerHTML = '<p>검색 결과가 없습니다.</p>';
-        } else {
-            data.forEach(item => {
-                const galleryItem = document.createElement('div');
-                galleryItem.classList.add('gallery-item');
-
-                const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="/images/placeholder.jpg" alt="No Image">';
-
-                galleryItem.innerHTML = `
-                    <a href="searchresult.html?contentId=${item.contentid}&contentTypeId=${item.contenttypeid}">
-                        ${image}
-                        <p>${item.title}</p>
-                        <p>${item.addr1}</p>
-                    </a>
-                `;
-
-                gallery.appendChild(galleryItem);
-            });
-
-            gallery.style.display = 'grid';
         }
 
     } catch (error) {
@@ -117,6 +108,7 @@ async function searchAccessibleItems() {
         gallery.innerHTML = `<p>데이터를 불러오는 중 오류가 발생했습니다. 오류 메시지: ${error.message}</p>`;
     }
 }
+
 
 function updatePagination() {
     const pagination = document.querySelector('.pagination');
@@ -174,7 +166,7 @@ function displayGalleryPage(page) {
         const galleryItem = document.createElement('div');
         galleryItem.classList.add('gallery-item');
 
-        const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="placeholder.jpg" alt="No Image">';
+        const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="/images/placeholder.jpg" alt="No Image">';
 
         galleryItem.innerHTML = `
             <a href="searchresult.html?contentId=${item.contentid}&contentTypeId=${item.contenttypeid}">
