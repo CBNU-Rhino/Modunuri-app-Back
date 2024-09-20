@@ -4,152 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Details</title>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- 기본 스타일을 유지 -->
-    <style>
-        .post-section {
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 100px auto;
-            width: 80%; /* 화면의 80% 정도로 넓게 설정 */
-            font-family: Arial, sans-serif;
-            color: #333;
-        }
+    <link rel="stylesheet" href="/css/community.css"> <!-- 기본 스타일을 유지 -->
 
-        .post-title {
-            font-size: 26px;
-            font-weight: bold;
-            color: #1d1d1f;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .post-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            color: #999;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-        }
-
-        .post-content {
-            text-align: left;
-            font-size: 16px;
-            line-height: 1.8;
-            color: #333;
-            margin-bottom: 30px;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-
-        .button-group a {
-            background-color: #f1f3f5;
-            color: #333;
-            text-decoration: none;
-            padding: 10px 15px;
-            margin-left: 10px;
-            border-radius: 3px;
-            font-size: 14px;
-        }
-
-        .button-group a:hover {
-            background-color: #e5e5e5;
-        }
-
-        .comment-section {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-
-        .comment-title {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .comment-box {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .comment-input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            margin-right: 10px;
-        }
-
-        .comment-button {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .comment-button:hover {
-            background-color: #45a049;
-        }
-
-        .comment-list {
-            margin-top: 20px;
-        }
-
-        .comment-item {
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-
-        .comment-author {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .comment-content {
-            font-size: 14px;
-            color: #555;
-        }
-
-        .comment-meta {
-            font-size: 12px;
-            color: #999;
-            margin-top: 5px;
-        }
-
-    </style>
 </head>
 <body>
 
 <!-- Header Section -->
 <header class="navbar">
     <div class="logo">
-        <a href="/index">
-            <img src="/images/test.png" alt="MODUNURI Logo">
-            <span style="color: #89B873; font-size: 24px; font-weight: 900;">MODUNURI</span>
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+            <img src="/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+            <span class="a">MODUNURI</span>
         </a>
     </div>
+
     <nav>
         <ul class="nav-links">
-            <li><a href="/index">Home</a></li>
-            <li><a href="#">Travel Tips</a></li>
-            <li><a href="#" class="active">Community</a></li>
-            <li><a href="#">Support Center</a></li>
+            <li><a href="/touristSpot/area-search">지역 별 검색</a></li>
+            <li><a href="/touristSpot/search-by-accessibility">무장애 정보 검색</a></li>
+            <li><a href="/touristSpot/map">지도 보기</a></li>
+            <li><a href="/touristSpot/travelplan">여행 기록하기</a></li>
+            <li><a href="/community" id="community-link">커뮤니티</a></li>
+            <!-- 로그인 상태 확인 -->
+            <li class="nav-item-right">
+        <span th:if="${username != null}">
+        <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+        <a href="/users/mypage" class="auth-button">MyPage</a>
+        <a href="/users/logout" class="auth-button">Logout</a>
+        </span>
+                <span th:if="${username == null}">
+        <a class="login-message">로그인을 해주세요</a>
+        <a href="/users/signup" class="auth-button">SignUp</a>
+        <a href="/users/login" class="auth-button">Log In</a>
+    </span>
+            </li>
         </ul>
     </nav>
 </header>
@@ -213,14 +101,15 @@
     </section>
 </main>
 
+<!-- 빈 공간을 확보하기 위한 컨테이너 -->
+<div class="footer-space"></div>
+
 <!-- Footer Section -->
 <footer class="footer">
     <div class="footer-links">
         <ul>
-            <li><a href="#">Find a Store</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
+            <li><p>&copy; 2024 MODUNURI</p></li>
+
         </ul>
     </div>
 </footer>

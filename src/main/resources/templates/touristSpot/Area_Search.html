@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>지역별 관광지 찾기</title>
+    <title>MODUNURI</title>
     <link rel="stylesheet" href="/css/Area_Search.css">
-
 </head>
 <body>
-
 <!-- Header Section -->
 <header class="navbar">
     <div class="logo">
@@ -17,23 +15,21 @@
             <span class="a">MODUNURI</span>
         </a>
     </div>
-    <form class="search-container" action="/search" method="GET">
-        <input type="text" placeholder="Search..." class="search-input" name="query">
-    </form>
 
     <nav>
         <ul class="nav-links">
             <li><a href="/touristSpot/area-search">지역 별 검색</a></li>
             <li><a href="/touristSpot/search-by-accessibility">무장애 정보 검색</a></li>
             <li><a href="/touristSpot/map">지도 보기</a></li>
-            <li><a href="#">여행 기록하기</a></li>
+            <li><a href="/touristSpot/travelplan">여행 기록하기</a></li>
+            <li><a href="/community" id="community-link">커뮤니티</a></li>
             <!-- 로그인 상태 확인 -->
             <li class="nav-item-right">
-                 <span th:if="${username != null}">
-            <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
-            <a href="/users/mypage" class="auth-button">MyPage</a>
-            <a href="/users/logout" class="auth-button">Logout</a>
-            </span>
+        <span th:if="${username != null}">
+        <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+        <a href="/users/mypage" class="auth-button">MyPage</a>
+        <a href="/users/logout" class="auth-button">Logout</a>
+        </span>
                 <span th:if="${username == null}">
         <a class="login-message">로그인을 해주세요</a>
         <a href="/users/signup" class="auth-button">SignUp</a>
