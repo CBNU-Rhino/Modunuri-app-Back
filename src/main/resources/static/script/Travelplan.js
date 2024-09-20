@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 권역별 도시 목록
     const regionCities = {
-        수도권: ["서울", "인천", "수원", "파주", "용인"],
-        강원권: ["속초", "강릉", "춘천", "원주", "평창"],
-        충청권: ["대전", "청주", "천안"],
-        전라권: ["광주", "여수", "전주", "순천", "군산"],
-        경상권: ["대구", "부산", "울산", "경주", "포항", "거제", "창원"],
-        제주권: ["제주", "서귀포"]
+        수도권: ["서울특별시", "인천광역시", "수원시", "파주시", "용인시"],
+        강원권: ["속초시", "강릉시", "춘천시", "원주시", "평창시"],
+        충청권: ["대전광역시", "청주시", "천안시"],
+        전라권: ["광주광역시", "여수시", "전주시", "순천시", "군산시"],
+        경상권: ["대구광역시", "부산광역시", "울산광역시", "경주시", "포항시", "거제시", "창원시"],
+        제주권: ["제주시", "서귀포시"]
     };
 
     // 페이지 초기화 - 첫 번째 페이지만 보이게 함
@@ -281,5 +281,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 여행 이름과 정리된 여행 정보를 출력하거나 저장
         console.log('최종 여행 계획:', travelPlan);
+    }
+});
+
+document.getElementById('searchButton').addEventListener('click', function () {
+    const region = document.getElementById('region').value;
+    const accessibleFeature = document.getElementById('accessibleType').value;
+
+    if (region && accessibleFeature) {
+        displayAccessibleTouristSpots(region, accessibleFeature);
+    } else {
+        alert("지역과 무장애 정보를 선택해주세요.");
     }
 });
