@@ -1,7 +1,6 @@
 package app.app.TouristApi.Service;
 
 import app.app.TouristApi.AreaMapper;
-import app.app.TouristApi.DTO.AccessibilityRequestDTO;
 import app.app.TouristApi.Entity.AccessibleInfo;
 import app.app.TouristApi.Entity.TouristInfo;
 import app.app.TouristApi.Repository.AccessibleInfoRepository;
