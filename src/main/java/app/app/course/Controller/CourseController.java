@@ -38,7 +38,6 @@ public class CourseController {
         List<String> contentIds = (List<String>) courseData.get("contentIds");
 
         // 코스 저장 로직
-        // 예시:
         Course newCourse = new Course(courseName, contentIds, user.getUser());
         courseService.save(newCourse); // 코스를 저장하는 서비스 호출
 
