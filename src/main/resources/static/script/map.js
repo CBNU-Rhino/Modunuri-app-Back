@@ -5,7 +5,7 @@ let modal, modalBackdrop, modalClose;
 var mapContainer = document.getElementById('map'),
     mapOption = {
         center: new kakao.maps.LatLng(37.5665, 126.9780), // 서울 시청의 위도와 경도
-        level: 1 // 지도의 확대 레벨
+        level: 8 // 지도의 확대 레벨
     };
 
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
