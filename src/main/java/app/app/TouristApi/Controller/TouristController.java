@@ -99,6 +99,11 @@ public class TouristController {
                 dto.setAreaCode(spot.getAreaCode());
                 dto.setAddr1(spot.getAddr1());
                 dto.setFirstImage(spot.getFirstImage());
+                dto.setContentTypeId(spot.getContentTypeId()); // 콘텐츠 타입 ID 추가
+                dto.setMapX(spot.getMapx() != null ? spot.getMapx().toString() : null); // 지도 X좌표 추가
+                dto.setMapY(spot.getMapy() != null ? spot.getMapy().toString() : null); // 지도 Y좌표 추가
+
+
                 touristInfoDTOList.add(dto);
             }
 

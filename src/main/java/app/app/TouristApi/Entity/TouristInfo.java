@@ -77,11 +77,13 @@ public class TouristInfo {
     private String zipcode;           // 우편번호
 
     @JsonProperty("mapx")
-    private double mapx;              // 지도 X좌표
+    private Double mapx;              // 지도 X좌표
 
     @JsonProperty("mapy")
-    private double mapy;              // 지도 Y좌표
+    private Double mapy;              // 지도 Y좌표
 
     @JsonProperty("overview")
     private String overview;          // 개요
+    // Getter와 Setter 추가
+
 }
