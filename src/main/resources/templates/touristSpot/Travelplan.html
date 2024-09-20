@@ -3,51 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/Favicon.png" type="image/png"> <!-- 이미지 경로를 수정하세요 -->
     <title>여행 계획하기</title>
-    <link rel="stylesheet" href="/css/Travelplan.css">
-
-    <style>
-        /* 무장애 관광지 박스를 위한 스타일 */
-        .spot-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .spot-box {
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .spot-box img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-
-        .spot-box h3 {
-            font-size: 1.5rem;
-            margin: 10px 0;
-        }
-
-        .spot-box p {
-            color: #666;
-            font-size: 1rem;
-            margin: 5px 0;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/Travelplan.css}">
 </head>
 <body>
-
-<!-- 공통 이전 버튼 -->
-<div class="back-button-container">
-    <img src="/images/back-btn.png" alt="이전 버튼" class="back-button">
-</div>
 
 <!-- Main Page -->
 <div id="mainPage" class="full-page">
@@ -59,81 +19,66 @@
     </div>
 </div>
 
-<!-- 지도 권역 선택 페이지 -->
+<!-- 여행 기간 선택 페이지 -->
 <div id="durationPage" class="full-page hidden">
-    <h2>떠나고 싶은 지역은?</h2>
-    <p>원하는 지역 1곳을 선택해 주세요.</p>
-    <div class="map-container">
-        <img src="/images/korea_map.png" alt="대한민국 지도" class="korea-map">
-
-        <!-- 권역을 나타내는 동그라미 -->
-        <div class="circle region-seoul" data-region="수도권">수도권<br>3</div>
-        <div class="circle region-chungcheong" data-region="충청권">충청권<br>3</div>
-        <div class="circle region-gangwon" data-region="강원권">강원권<br>5</div>
-        <div class="circle region-jeolla" data-region="전라권">전라권<br>5</div>
-        <div class="circle region-gyeongsang" data-region="경상권">경상권<br>7</div>
-        <div class="circle region-jeju" data-region="제주권">제주권<br>2</div>
+    <div class="icon">
+        <img src="/images/calendar-icon.png" alt="여행 기간 아이콘" class="icon-image">
     </div>
-
-    <!-- '다음' 버튼 -->
+    <h2>여행 기간은?</h2>
+    <p>원하는 기간을 선택해 주세요.</p>
+    <div class="duration-buttons">
+        <button class="duration-btn">당일치기</button>
+        <button class="duration-btn">1박 2일</button>
+        <button class="duration-btn">2박 3일</button>
+        <button class="duration-btn">3박 4일</button>
+        <button class="duration-btn">4박 5일</button>
+        <button class="duration-btn">5박 6일</button>
+        <button class="duration-btn">그 이상</button>
+    </div>
     <button class="next-btn">다음</button>
 </div>
 
 <!-- 지역 선택 페이지 -->
 <div id="regionPage" class="full-page hidden">
-    <h2>여행할 지역을 선택하세요</h2>
-    <p>어떤 도시로 여행을 떠나볼까요?</p>
-    <div class="region-buttons"></div>
-
-    <!-- '다음' 버튼 -->
+    <h2>떠나고 싶은 지역은?</h2>
+    <p>지역 1곳을 선택해 주세요.</p>
+    <div class="region-buttons">
+        <button class="region-btn">제주</button>
+        <button class="region-btn">수원</button>
+        <button class="region-btn">서울</button>
+        <button class="region-btn">부산</button>
+        <button class="region-btn">대전</button>
+        <button class="region-btn">순천</button>
+        <button class="region-btn">대구</button>
+    </div>
     <button class="next-btn">다음</button>
 </div>
 
 <!-- 무장애 페이지 -->
 <div id="barrierPage" class="full-page hidden">
-    <h2>모두가 함께하는 여행을 위해, 무장애 시설을 선택하세요!</h2>
+    <h2>“모두가 함께하는 여행을 위해, 무장애 시설을 선택하세요!</h2>
     <p>걱정 없이 즐길 수 있는 편안한 여행을 위해 무장애 시설을 선택하세요.</p>
     <div class="barrier-buttons">
-        <button class="barrier-btn">주출입구</button>
-        <button class="barrier-btn">장애인 화장실</button>
-        <button class="barrier-btn">안내견</button>
-        <button class="barrier-btn">점자블록</button>
-        <button class="barrier-btn">엘리베이터</button>
-        <button class="barrier-btn">유아차</button>
-        <button class="barrier-btn">휠체어</button>
-        <button class="barrier-btn">장애인 주차구역</button>
+        <button class="barrier-btn">주출입구</button> <!-- exit -->
+        <button class="barrier-btn">장애인 화장실</button> <!--restroom -->
+        <button class="barrier-btn">안내견</button> <!-- helpdog -->
+        <button class="barrier-btn">점자블록</button> <!-- bailie block -->
+        <button class="barrier-btn">엘리베이터</button> <!-- elevator -->
+        <button class="barrier-btn">유아차</button> <!-- stroller -->
+        <button class="barrier-btn">휠체어</button> <!-- wheelchair -->
+        <button class="barrier-btn">장애인 주차구역</button> <!-- parking -->
     </div>
-    <button class="searchButton">다음</button>
-</div>
-
-<!-- 4번 페이지: 관광지 리스트 페이지 -->
-<div id="selectPage" class="full-page hidden">
-    <h2>마음에 드는 관광지를 선택해주세요</h2>
-    <p>선택하신 내용으로 관광지를 추천해봤어요.</p>
-
-    <!-- 결과가 표시될 컨테이너 -->
-    <div id="accessibleTouristSpots" class="spot-container">
-        <!-- 여기에 무장애 관광지 박스가 동적으로 추가될 예정 -->
-    </div>
-
     <button class="next-btn">다음</button>
 </div>
 
-<!-- 5번 페이지: 여행 계획 정리 페이지 -->
-<div id="planPage" class="full-page hidden">
-    <h2>여행 계획을 정리해보세요</h2>
-    <p>선택한 관광지를 드래그하여 순서를 조정할 수 있습니다.</p>
+<!-- 선택 내용 확인 페이지 -->
+<div id="selectPage" class="full-page hidden">
+    <h2>마음에 드는 관광지를 선택해주세요</h2>
+    <p>선택하신 내용으로 관광지를 추천해봤어요.</p>
+    <div class="select-box">
 
-    <!-- 여행 이름 설정 구간 -->
-    <label for="tripName">여행 이름을 정하세요:</label>
-    <input type="text" id="tripName" placeholder="여행 이름을 입력하세요">
-
-    <!-- 드래그 가능한 관광지 리스트 -->
-    <ul id="sortable">
-        <!-- 선택한 관광지 목록이 드래그 가능한 상태로 여기에 표시됨 -->
-    </ul>
-
-    <button class="next-btn">여행 완료</button>
+    </div>
+    <button class="next-btn">다음</button>
 </div>
 
 <!-- 완성 페이지 -->
@@ -144,90 +89,5 @@
 </div>
 
 <script src="/static/script/Travelplan.js"></script>
-
-<script>
-    const pages = [
-        document.getElementById('mainPage'),
-        document.getElementById('durationPage'),
-        document.getElementById('regionPage'),
-        document.getElementById('barrierPage'),
-        document.getElementById('selectPage'),
-        document.getElementById('planPage'),
-        document.getElementById('completionPage')
-    ];
-
-    let currentPageIndex = 0;
-
-    // 페이지를 보여주는 함수
-    function showPage(index) {
-        pages.forEach((page, i) => {
-            page.style.display = i === index ? 'block' : 'none';
-        });
-    }
-
-    // 초기에는 첫 번째 페이지만 보이게 설정
-    showPage(currentPageIndex);
-
-    // '다음' 버튼 클릭 시 다음 페이지로 이동하는 로직
-    document.querySelectorAll('.next-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (currentPageIndex < pages.length - 1) {
-                currentPageIndex++;
-                showPage(currentPageIndex);
-
-                // 선택된 무장애 관광지 정보를 불러옴 (barrierPage에서만)
-                if (currentPageIndex === 3) { // barrierPage의 인덱스가 3이므로
-                    const region = document.getElementById('region').value;
-                    const accessibleFeature = '엘리베이터'; // 예시로 '엘리베이터'를 넣음
-                    displayAccessibleTouristSpots(region, accessibleFeature);
-                }
-            }
-        });
-    });
-
-    // 무장애 관광지 정보를 불러와서 박스 형태로 표시하는 함수
-    async function displayAccessibleTouristSpots(region, accessibleFeature) {
-        try {
-            const apiUrl = `/api/accessible-tourist-spots?region=${region}&accessibleFeature=${accessibleFeature}`;
-            const response = await fetch(apiUrl);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            const container = document.getElementById('accessibleTouristSpots');
-            container.innerHTML = ''; // 기존 검색 결과 초기화
-
-            if (data.length === 0) {
-                container.innerHTML = '<p>검색 결과가 없습니다.</p>';
-            } else {
-                data.forEach(spot => {
-                    const spotBox = document.createElement('div');
-                    spotBox.classList.add('spot-box');
-
-                    // 이미지가 없을 경우 대체 이미지
-                    const image = spot.firstImage ? spot.firstImage : '/images/placeholder.jpg';
-
-                    spotBox.innerHTML = `
-                        <img src="${image}" alt="${spot.title}">
-                        <h3>${spot.title}</h3>
-                        <p>${spot.addr1}</p>
-                        <p>지도 좌표: ${spot.mapX}, ${spot.mapY}</p>
-                    `;
-
-                    container.appendChild(spotBox);
-                });
-            }
-
-        } catch (error) {
-            console.error('Error fetching accessible tourist spots:', error);
-            document.getElementById('accessibleTouristSpots').innerHTML = `<p>데이터를 불러오는 중 오류가 발생했습니다: ${error.message}</p>`;
-        }
-    }
-
-</script>
-
-
 </body>
 </html>

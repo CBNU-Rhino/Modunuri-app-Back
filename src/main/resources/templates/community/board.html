@@ -1,131 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/Favicon.png" type="image/png"> <!-- 이미지 경로를 수정하세요 -->
     <title>Community Board</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <style>
-        /* 기본 스타일 */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #F6F6F6;
-            color: #333;
-        }
+    <link rel="stylesheet" href="/static/css/community.css">
 
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        /* 네이버 카페 스타일 게시판 */
-        .board-section {
-            width: 80%;
-            margin: 0 auto;
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 24px;
-            color: #333;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #ddd;
-        }
-
-        .post-list {
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            padding: 15px 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #EFF5E9;
-            color: #333;
-            font-weight: bold;
-        }
-
-        td {
-            color: #555;
-        }
-
-        /* 제목 링크 스타일 */
-        td a {
-            color: #3B5998;
-            text-decoration: none;
-        }
-
-        td a:hover {
-            text-decoration: underline;
-        }
-
-        /* 날짜 스타일 */
-        .date {
-            color: #999;
-        }
-
-        /* New Post 버튼 */
-        .new-post-button {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
-        }
-
-        .new-post-button a {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .new-post-button a:hover {
-            background-color: #45a049;
-        }
-    </style>
 </head>
 <body>
 
 <!-- Header Section -->
 <header class="navbar">
     <div class="logo">
-        <!-- 로고를 클릭하면 index.html로 이동 -->
-        <a href="/">
-            <img src="../static/images/MODUNURI.png">
-            <span style="color: #89B873; font-size: 24px; font-weight: 900;">MODUNURI</span>
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+            <img src="/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+            <span class="a">MODUNURI</span>
         </a>
     </div>
+
     <nav>
         <ul class="nav-links">
             <li><a href="/touristSpot/area-search">지역 별 검색</a></li>
             <li><a href="/touristSpot/search-by-accessibility">무장애 정보 검색</a></li>
             <li><a href="/touristSpot/map">지도 보기</a></li>
-            <li><a href="#">여행 기록하기</a></li>
-            <li><a href="/community">커뮤니티</a></li>
+            <li><a href="/touristSpot/travelplan">여행 기록하기</a></li>
+            <li><a href="/community" id="community-link">커뮤니티</a></li>
+            <!-- 로그인 상태 확인 -->
             <li class="nav-item-right">
-                <span th:if="${username != null}">
-                    <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
-                    <a href="/users/mypage" class="auth-button">MyPage</a>
-                    <a href="/users/logout" class="auth-button">Logout</a>
-                </span>
+        <span th:if="${username != null}">
+        <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+        <a href="/users/mypage" class="auth-mypage">마이페이지</a>
+        <a href="/users/logout" class="auth-button">로그아웃</a>
+        </span>
                 <span th:if="${username == null}">
-                    <a class="login-message" th:text="'로그인을 해주세요'"></a>
-                    <a href="/users/signup" class="auth-button">SignUp</a>
-                    <a href="/users/login" class="auth-button">Log In</a>
-                </span>
+        <a class="login-message">로그인을 해주세요</a>
+        <a href="/users/signup" class="auth-button">회원가입</a>
+        <a href="/users/login" class="auth-button">로그인</a>
+    </span>
             </li>
         </ul>
     </nav>
@@ -205,14 +117,15 @@
     });
 </script>
 
+<!-- 빈 공간을 확보하기 위한 컨테이너 -->
+<div class="footer-space"></div>
+
 <!-- Footer Section -->
 <footer class="footer">
     <div class="footer-links">
         <ul>
-            <li><a href="#">Find a Store</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
+            <li><p>&copy; 2024 MODUNURI</p></li>
+
         </ul>
     </div>
 </footer>
