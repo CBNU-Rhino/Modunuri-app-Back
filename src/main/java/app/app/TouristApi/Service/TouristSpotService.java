@@ -51,15 +51,15 @@ public class TouristSpotService {
             List<String> sigunguCodes = AreaMapper.getSigunguCodesForMetropolitan(areaCode);
             touristSpots = touristInfoRepository.findByAreaCodeAndSigunguCodeIn(areaCode, sigunguCodes);
         } else {
-            // "순천시"와 같은 비광역시의 경우
+            //비광역시의 경우
             areaCode = AreaMapper.getAreaCodeByRegionName(region);
             if (areaCode == null) {
                 throw new IllegalArgumentException("Invalid region: " + region);
             }
             logger.debug("Non-metropolitan Area - Region: " + region + ", AreaCode: " + areaCode);
 
-            // "순천시"에 해당하는 시군구 코드만 검색
-            List<String> sigunguCodes = AreaMapper.getSigunguCodesForNonMetropolitan("순천시");
+
+            List<String> sigunguCodes = AreaMapper.getSigunguCodesForNonMetropolitan(region);
             touristSpots = touristInfoRepository.findByAreaCodeAndSigunguCodeIn(areaCode, sigunguCodes);
 
             return filterByAccessibleFeature(touristSpots, accessibleFeature);
