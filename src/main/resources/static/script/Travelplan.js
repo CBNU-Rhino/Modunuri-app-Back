@@ -1,3 +1,11 @@
+// 지도 및 관련 변수 초기화
+let map;  // 전역 변수로 선언
+let scheduleRoutes = {};  // 일정 경로 저장 객체
+let markers = {};  // 마커 저장 객체
+let currentPathPolyline = null;  // 경로 폴리라인 저장 객체
+let favoritePlaces = {};  // 저장된 관심 관광지 정보 저장 객체
+let selectedTouristSpots = [];  // 전역으로 관광지 정보 저장 배열
+
 document.addEventListener('DOMContentLoaded', function () {
     const pages = [
         document.getElementById('mainPage'),
@@ -19,13 +27,12 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedPlaces: [],
         tripName: ''
     };
-
     const userId = "사용자"; // 예시로 사용자 ID를 "사용자"로 설정, 실제로는 로그인 정보를 사용
 
     // 권역별 도시 목록
     const regionCities = {
         수도권: ["서울특별시", "인천광역시", "수원시", "파주시", "용인시"],
-        강원권: ["속초시", "강릉시", "춘천시", "원주시", "평창시"],
+        강원권: ["속초시", "강릉시", "춘천시", "원주시", "평창군"],
         충청권: ["대전광역시", "청주시", "천안시"],
         전라권: ["광주광역시", "여수시", "전주시", "순천시", "군산시"],
         경상권: ["대구광역시", "부산광역시", "울산광역시", "경주시", "포항시", "거제시", "창원시"],
@@ -41,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 처음에는 메인 페이지만 보이도록 설정
     showPage(currentPageIndex);
-
 
     // next-btn 클릭 시 다음 페이지로 이동
     document.querySelectorAll('.next-btn').forEach(btn => {
@@ -69,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     initializeDragEvents(); // 드래그 기능 활성화
                 }
                 if (currentPageIndex === 6) {
-                    // 여행 완료 페이지로 이동 시 여행 이름 설정
+                    loadSelectedTouristSpots(); // 여행 완료 페이지에 도착하면 로컬 스토리지에서 값 불러오기
                     finalizeTripName();
                 }
             }
@@ -83,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function () {
             showPage(currentPageIndex);
         }
     });
-
 
     // 권역 선택 관련 스크립트 추가
     let selectedRegion = null;
@@ -111,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function () {
             // 다음 버튼 활성화
             nextBtn.disabled = false;
             nextBtn.classList.add('active');
-
         });
     });
 
@@ -157,8 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
-
+    // 관광지 생성 함수
     function generateTouristSpots() {
         const region = travelPlan.region;  // 선택한 지역
         const accessibleFeature = travelPlan.barriers[0];  // 첫 번째 선택된 무장애 정보 (여러 개 가능 시 배열로 처리)
@@ -197,44 +200,33 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('관광지 정보를 불러오는 중 오류 발생:', error));
     }
 
-
-
-    // 5번 페이지: 선택한 관광지 목록을 드래그 가능한 리스트로 표시
+    // 5번 페이지에서 선택한 관광지 목록을 드래그 가능한 리스트로 표시
     function generateSortableList() {
         const sortableList = document.getElementById('sortable');
         sortableList.innerHTML = ''; // 기존 항목 초기화
         travelPlan.selectedPlaces.forEach((place, index) => {
-            console.log('Place:', place);
-            console.log('Content ID:', place.contentid);  // contentid를 제대로 가져오는지 확인
-            console.log('Content Type ID:', place.contenttypeid);  // contenttypeid를 제대로 가져오는지 확인
-
             const listItem = document.createElement('li');
             listItem.classList.add('list-item');
             listItem.setAttribute('data-content-id', place.contentid);  // contentId 저장
             listItem.setAttribute('data-content-type-id', place.contenttypeid);  // contentTypeId 저장
-            listItem.setAttribute('draggable', 'true');
+            listItem.setAttribute('data-mapx', place.mapx);  // 경도 저장
+            listItem.setAttribute('data-mapy', place.mapy);  // 위도 저장
             listItem.innerHTML = `
-            <div class="content">
-                <div class="left-info">
-                    <div class="icon"><img src="path-to-icon.png" alt="icon"></div>
-                    <div>
-                        <strong>${place.title}</strong>
-                        <p>${place.addr1}</p>
-                    </div>
-                </div>
-                <div class="drag-handle">
-                    <img src="path-to-drag-handle.png" alt="drag handle">
-                </div>
+        <div class="content">
+            <div class="left-info">
+                <strong>${place.title}</strong>
+                <p>${place.addr1}</p>
             </div>
+        </div>
         `;
 
             sortableList.appendChild(listItem);
         });
 
-        // 각 항목에 드래그 이벤트를 추가
-        initializeDragEvents();
-    }
+        console.log("Sortable list items:", document.querySelectorAll('.list-item'));  // 항목들이 제대로 추가되었는지 확인
 
+        initializeDragEvents(); // 드래그 앤 드롭 기능 활성화
+    }
 
     // 드래그 앤 드롭 기능 활성화
     function initializeDragEvents() {
@@ -287,35 +279,37 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('최종 여행 계획:', travelPlan);
     }
 });
-// 5번 페이지 여행 완료 버튼 클릭 시 실행되는 함수
+
 document.querySelector('#planPage .next-btn').addEventListener('click', function() {
     const tripName = document.getElementById('tripName').value;
     const sortableListItems = document.querySelectorAll('#sortable .list-item');
-
-    // 선택된 관광지 정보를 저장할 배열
-    const selectedTouristSpots = [];
+    selectedTouristSpots = [];
 
     sortableListItems.forEach(item => {
-        // 각 아이템에서 contentId와 contentTypeId를 추출
-        const contentid = item.getAttribute('data-content-id');  // 수정: contentId가 아니라 contentid로 해야 맞습니다.
-        const contenttypeid = item.getAttribute('data-content-type-id');  // 수정: contentTypeId가 아니라 contenttypeid로 해야 맞습니다.
+        const { contentId, contentTypeId, mapx, mapy } = item.dataset;
 
-        // 배열에 추가
-
-        // 배열에 추가
-        selectedTouristSpots.push({
-            contentId: contentid,
-            contentTypeId: contenttypeid
-        });
+        if (contentId && contentTypeId && mapx && mapy) {
+            selectedTouristSpots.push({
+                contentId: contentId,
+                contentTypeId: contentTypeId,
+                mapx: parseFloat(mapx),
+                mapy: parseFloat(mapy)
+            });
+        } else {
+            console.error('Missing attributes in list item:', { contentId, contentTypeId, mapx, mapy });
+        }
     });
 
-    // 서버로 전송할 데이터 객체
+    console.log('Selected Tourist Spots after:', selectedTouristSpots);
+
+    // 로컬 스토리지에 저장
+    localStorage.setItem('selectedTouristSpots', JSON.stringify(selectedTouristSpots));
+
     const courseData = {
-        courseName: tripName || "기본 여행 코스 이름", // 사용자 입력이 없을 경우 기본 이름 설정
-        contentInfos: selectedTouristSpots  // 선택된 관광지 목록
+        courseName: tripName || "기본 여행 코스 이름",
+        contentInfos: selectedTouristSpots
     };
 
-    // 서버에 POST 요청으로 데이터 전송
     fetch('/courses/courses/add', {
         method: 'POST',
         headers: {
@@ -333,4 +327,157 @@ document.querySelector('#planPage .next-btn').addEventListener('click', function
         .catch(error => console.error('Error:', error));
 });
 
+// 자동차 경로 그리기 함수
+async function drawCarRoute(touristSpots) {
+    const REST_API_KEY = '9e7786142c02ceecc7551f66b0d94383';
+    const url = 'https://apis-navi.kakaomobility.com/v1/directions';
 
+    const fullLinePath = [];
+
+    for (let i = 0; i < touristSpots.length - 1; i++) {
+        const origin = `${touristSpots[i].mapx},${touristSpots[i].mapy}`;
+        const destination = `${touristSpots[i + 1].mapx},${touristSpots[i + 1].mapy}`;
+
+        const queryParams = new URLSearchParams({
+            origin: origin,
+            destination: destination
+        });
+
+        const headers = {
+            Authorization: `KakaoAK ${REST_API_KEY}`,
+            'Content-Type': 'application/json'
+        };
+
+        const requestUrl = `${url}?${queryParams}`;
+
+        try {
+            const response = await fetch(requestUrl, {
+                method: 'GET',
+                headers: headers
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            data.routes[0].sections[0].roads.forEach(road => {
+                road.vertexes.forEach((vertex, index) => {
+                    if (index % 2 === 0) {
+                        fullLinePath.push(new kakao.maps.LatLng(road.vertexes[index + 1], road.vertexes[index]));
+                    }
+                });
+            });
+        } catch (error) {
+            console.error('오류 발생:', error);
+        }
+    }
+
+    const polyline = new kakao.maps.Polyline({
+        path: fullLinePath,
+        strokeWeight: 5,
+        strokeColor: '#00AFFF',
+        strokeOpacity: 0.8,
+        strokeStyle: 'solid'
+    });
+
+    polyline.setMap(map);
+}
+
+// 지도 생성 및 마커, 경로 표시 함수
+function initMapAndMarkers(touristSpots) {
+    const mapContainer = document.getElementById('kakao-map');
+    const mapOption = {
+        center: new kakao.maps.LatLng(touristSpots[0].mapy, touristSpots[0].mapx),
+        level: 8
+    };
+
+    map = new kakao.maps.Map(mapContainer, mapOption);
+
+    const linePath = [];
+
+    touristSpots.forEach((spot, index) => {
+        const markerPosition = new kakao.maps.LatLng(spot.mapy, spot.mapx);
+        const marker = new kakao.maps.Marker({
+            position: markerPosition,
+            map: map
+        });
+
+        const infowindow = new kakao.maps.InfoWindow({
+            content: `<div style="padding:5px;">${index + 1}. ${spot.title}</div>`
+        });
+        infowindow.open(map, marker);
+
+        linePath.push(markerPosition);
+    });
+
+    const polyline = new kakao.maps.Polyline({
+        path: linePath,
+        strokeWeight: 5,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8
+    });
+    polyline.setMap(map);
+}
+
+// 페이지가 로드되었을 때 실행되는 함수
+document.addEventListener('DOMContentLoaded', function () {
+    const completionPage = document.getElementById('completionPage');
+    // 로컬 스토리지에서 값을 불러옴
+    selectedTouristSpots = JSON.parse(localStorage.getItem('selectedTouristSpots')) || [];
+
+    console.log('Starting the process of loading Kakao map...');
+    console.log('Selected Tourist Spots:', selectedTouristSpots);
+
+    const observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+            console.log(mutation.target);
+            if (mutation.target === completionPage && !completionPage.classList.contains('hidden')) {
+                console.log('Completion page is visible');
+                console.log(selectedTouristSpots);
+                if (selectedTouristSpots.length > 0) {
+                    initMapAndMarkers(selectedTouristSpots);
+                    console.info('Kakao map initialized successfully.');
+                    drawCarRoute(selectedTouristSpots);
+                    setTimeout(() => {
+                        map.relayout();
+                        map.setCenter(new kakao.maps.LatLng(selectedTouristSpots[0].mapy, selectedTouristSpots[0].mapx));
+                    }, 100);
+                } else {
+                    console.log('selected 오류');
+                    alert('저장된 코스가 없습니다.');
+                }
+            }
+        });
+    });
+
+    observer.observe(completionPage, { attributes: true, attributeFilter: ['class'] });
+});
+
+// selectedTouristSpots 배열을 로컬 스토리지에 저장
+localStorage.setItem('selectedTouristSpots', JSON.stringify(selectedTouristSpots));
+
+// 페이지 로드 시 로컬 스토리지에서 값 불러오기
+document.addEventListener('DOMContentLoaded', function () {
+    selectedTouristSpots = JSON.parse(localStorage.getItem('selectedTouristSpots')) || [];
+    console.log('Loaded Selected Tourist Spots from localStorage:', selectedTouristSpots);
+});
+
+// 여행 완료 페이지에서 로컬 스토리지 값 불러오기
+function loadSelectedTouristSpots() {
+    // 로컬 스토리지에서 값을 불러옴
+    selectedTouristSpots = JSON.parse(localStorage.getItem('selectedTouristSpots')) || [];
+    console.log('Loaded Selected Tourist Spots from localStorage:', selectedTouristSpots);
+
+    const completionPage = document.getElementById('completionPage');
+
+    if (completionPage && selectedTouristSpots.length > 0) {
+        initMapAndMarkers(selectedTouristSpots);
+        drawCarRoute(selectedTouristSpots);
+        console.info('Kakao map initialized successfully.');
+    } else {
+        console.log('Selected tourist spots not found or empty');
+        alert('저장된 코스가 없습니다.');
+    }
+}
