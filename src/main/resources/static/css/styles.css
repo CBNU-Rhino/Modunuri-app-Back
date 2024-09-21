@@ -445,7 +445,7 @@ html, body {
 }
 
 .signup-button:hover, .login-button:hover {
-    background-color: #45a049;
+    background-color: #739c61;
 }
 
 /* Link to Login/Signup */
@@ -471,7 +471,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #739c61;
 }
 
 

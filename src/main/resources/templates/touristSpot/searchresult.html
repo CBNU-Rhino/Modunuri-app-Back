@@ -259,7 +259,7 @@
             .then(response => {
                 if (response.ok) {
                     alert('저장이 완료되었습니다!');
-                    saveButton.textContent = '저장된 관광지';
+                    saveButton.textContent = '저장됨';
                     saveButton.disabled = true;
                     saveButton.style.backgroundColor = '#4CAF50';
                     saveIcon.src = '/icons/saved_icon.png';
@@ -306,7 +306,7 @@
                 const saveIcon = document.getElementById('save-icon');
 
                 if (isSaved) {
-                    saveButton.textContent = '저장된 관광지';
+                    saveButton.textContent = '저장됨';
                     saveButton.disabled = true;
                     saveButton.style.backgroundColor = '#4CAF50';
                     saveIcon.src = '/icons/saved_icon.png';

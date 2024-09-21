@@ -182,7 +182,7 @@ html, body {
 .place-img {
     width: 100%; /* 섹션의 가로 너비에 맞춤 */
     max-width: 650px; /* 가로 크기를 고정 (원하는 크기로 설정) */
-    height: 450px; /* 기존보다 약간 줄어든 높이 */
+    height: 520px; /* 기존보다 약간 줄어든 높이 */
     object-fit: cover; /* 이미지 비율을 유지하며 고정된 크기에 맞춤 */
     border-radius: 10px;
     margin-left: 20px;
@@ -206,6 +206,8 @@ html, body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
     margin-left: 50px;
+    width: 580px;
+    height: 40px;
 
 }
 
@@ -223,7 +225,7 @@ html, body {
     padding: 20px;
     border-radius: 10px;
     background-color: rgba(148, 205, 147, 0.25);
-    height: 470px; /* 이미지 섹션과 일관된 높이로 줄임 */
+    height: 530px; /* 이미지 섹션과 일관된 높이로 줄임 */
     margin-right: 20px;
 }
 
