@@ -82,14 +82,17 @@
     <div class="block blog-posts-block">
         <h3>블로그 후기</h3>
         <hr class="hr-line">
-        <ul id="blog-posts"></ul>
+        <!-- 블로그 포스팅을 감싸는 블록 -->
+        <ul id="blog-posts" class="blog-posts-container"></ul>
     </div>
 </div>
 
+<!-- Footer Section -->
 <footer class="footer">
     <div class="footer-links">
         <ul>
-            <li><p>(주)코뿔소코퍼레이션</p></li>
+            <li><p>&copy; 2024 MODUNURI</p></li>
+
         </ul>
     </div>
 </footer>
@@ -145,7 +148,8 @@
                     elevator: '/icons/elevator_icon.png',
                     stroller: '/icons/babystroller_icon.png',
                     wheelchair: '/icons/wheelchair_icon.png',
-                    parking: '/icons/parking_icon.png'
+                    parking: '/icons/parking_icon.png',
+                    blindhandicapetc: '/icons/blind_icon.png'
                 };
 
                 const noInfoIcons = {
@@ -156,7 +160,8 @@
                     elevator: '/icons/no_elevator_icon.png',
                     stroller: '/icons/no_babystroller_icon.png',
                     wheelchair: '/icons/no_wheelchair_icon.png',
-                    parking: '/icons/no_parking_icon.png'
+                    parking: '/icons/no_parking_icon.png',
+                    blindhandicapetc: '/icons/no_blind_icon.png'
                 };
 
                 Object.keys(iconMapping).forEach(key => {

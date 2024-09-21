@@ -163,10 +163,10 @@ html, body {
     padding: 20px;
     background-color: white;
     border-right: 2px solid #ddd;
-    height: 100%;
-    overflow-y: auto;
+    max-height: 600px; /* 높이를 600px로 고정 */
+    overflow-y: auto;  /* 세로 스크롤 허용 */
     border-radius: 5px;
-    margin-left: -20px; /* 왼쪽으로 20px 이동 (숫자를 더 크게 조정하여 더 이동 가능) */
+    margin-left: -20px; /* 왼쪽으로 20px 이동 */
 }
 
 .tour-list h2 {
@@ -175,7 +175,19 @@ html, body {
 }
 
 .saved-places {
+    max-height: 200px; /* 저장된 관광지 박스의 최대 높이를 300px로 설정 */
+    overflow-y: auto;  /* 스크롤 가능하게 설정 */
     margin-bottom: 20px;
+}
+
+/* 일정 드롭 영역 높이 및 스크롤 허용 */
+#schedule {
+    max-height: 150px; /* 일정 드롭 영역의 최대 높이 */
+    overflow-y: auto;  /* 세로 스크롤 허용 */
+    padding: 10px;
+    border: 2px dashed #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
 }
 
 /* 일정 드롭 영역 스타일 */
@@ -243,12 +255,13 @@ html, body {
     color: #777;
 }
 
+/* 지도 영역 */
 #map {
-    flex-grow: 1; /* 부모 높이에 맞게 지도가 자동으로 크기를 채우도록 설정 */
-    width: 100%; /* 부모 컨테이너의 너비에 맞춤 */
-    height: 100%; /* 부모 컨테이너의 높이에 맞춤 */
-    border-radius: 10px; /* 백 컨테이너에 맞춰 부드러운 모서리 설정 */
-    overflow: hidden; /* 필요시 넘치는 부분을 숨김 */
+    flex-grow: 1; /* 부모 높이에 맞게 지도 크기가 자동으로 조절 */
+    width: 70%;   /* 지도 영역 너비 */
+    height: 600px; /* 고정된 높이 */
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 /* 모달 창 스타일 */
