@@ -42,9 +42,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // 처음에는 메인 페이지만 보이도록 설정
     showPage(currentPageIndex);
 
+
     // next-btn 클릭 시 다음 페이지로 이동
     document.querySelectorAll('.next-btn').forEach(btn => {
         btn.addEventListener('click', function () {
+            // selectedRegion이 null일 경우 페이지 전환을 막음
+            if (!selectedRegion && currentPageIndex === 1) {
+                alert("권역을 선택해주세요.");
+                return; // 권역이 선택되지 않으면 페이지 전환하지 않음
+            }
+
             if (currentPageIndex < pages.length - 1) {
                 currentPageIndex++;
                 showPage(currentPageIndex);
@@ -77,37 +84,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // 여행 기간 버튼 클릭 시 이벤트 처리
-    const durationButtons = document.querySelectorAll('.duration-btn');
-    durationButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            durationButtons.forEach(btn => {
-                btn.style.backgroundColor = '#f9f9f9';
-                btn.style.color = '#555';
-            });
-            this.style.backgroundColor = '#007bff';
-            this.style.color = '#ffffff';
-            travelPlan.duration = this.textContent;
-        });
-    });
-
-    // 무장애 시설 선택 버튼 클릭 시 이벤트 처리
-    const barrierButtons = document.querySelectorAll('.barrier-btn');
-    barrierButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const selectedBarrier = this.textContent;
-            const index = travelPlan.barriers.indexOf(selectedBarrier);
-            if (index === -1) {
-                travelPlan.barriers.push(selectedBarrier);
-                this.style.backgroundColor = '#007bff';
-                this.style.color = '#ffffff';
-            } else {
-                travelPlan.barriers.splice(index, 1);
-                this.style.backgroundColor = '#f9f9f9';
-                this.style.color = '#555';
-            }
-        });
-    });
 
     // 권역 선택 관련 스크립트 추가
     let selectedRegion = null;
@@ -135,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 다음 버튼 활성화
             nextBtn.disabled = false;
             nextBtn.classList.add('active');
-            nextBtn.innerText = `${selectedRegion} 선택 완료`;
+
         });
     });
 
@@ -157,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     btn.style.backgroundColor = '#f9f9f9';
                     btn.style.color = '#555';
                 });
-                this.style.backgroundColor = '#007bff';
+                this.style.backgroundColor = '#89B873';
                 this.style.color = '#ffffff';
             });
 
@@ -165,42 +141,62 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // '다음' 버튼 클릭 시 다음 페이지로 이동
-    nextBtn.addEventListener('click', function () {
-        if (selectedRegion) {
-            updateRegionButtons(selectedRegion);  // 지역 선택 페이지의 버튼을 업데이트
-            travelPlan.region = selectedRegion;
-        }
+    // 무장애 시설 선택 버튼 클릭 시 이벤트 처리
+    const barrierButtons = document.querySelectorAll('.barrier-btn');
+    barrierButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const selectedBarrier = this.value;
+            const index = travelPlan.barriers.indexOf(selectedBarrier);
+            if (index === -1) {
+                travelPlan.barriers.push(selectedBarrier);
+                this.style.backgroundColor = '#89B873';  // 선택된 상태
+            } else {
+                travelPlan.barriers.splice(index, 1);
+                this.style.backgroundColor = '#f9f9f9';  // 선택 해제 상태
+            }
+        });
     });
 
-    // 4번 페이지: 관광지 리스트 생성
+
+
     function generateTouristSpots() {
-        const touristSpots = [
-            "관광지 1", "관광지 2", "관광지 3",
-            "관광지 4", "관광지 5", "관광지 6"
-        ]; // API에서 데이터를 받아오는 로직으로 대체 가능
-        const selectBox = document.querySelector('.select-box');
-        selectBox.innerHTML = ''; // 기존 항목 초기화
-        touristSpots.forEach(spot => {
-            const spotElement = document.createElement('div');
-            spotElement.classList.add('spot-item');
-            spotElement.textContent = spot;
+        const region = travelPlan.region;  // 선택한 지역
+        const accessibleFeature = travelPlan.barriers[0];  // 첫 번째 선택된 무장애 정보 (여러 개 가능 시 배열로 처리)
 
-            spotElement.addEventListener('click', function () {
-                if (travelPlan.selectedPlaces.includes(spot)) {
-                    travelPlan.selectedPlaces = travelPlan.selectedPlaces.filter(item => item !== spot);
-                    this.style.backgroundColor = '#f9f9f9';
-                    this.style.color = '#555';
-                } else {
-                    travelPlan.selectedPlaces.push(spot);
-                    this.style.backgroundColor = '#007bff';
-                    this.style.color = '#ffffff';
-                }
-            });
+        // API 호출
+        fetch(`http://localhost:8080/touristSpot/Json/accessible-tourist-spots?region=${region}&accessibleFeature=${accessibleFeature}`)
+            .then(response => response.json())
+            .then(data => {
+                const selectBox = document.querySelector('.select-box');
+                selectBox.innerHTML = '';  // 기존 항목 초기화
 
-            selectBox.appendChild(spotElement);
-        });
+                // 받아온 관광지 데이터로 목록 생성
+                data.forEach(spot => {
+                    const spotElement = document.createElement('div');
+                    spotElement.classList.add('spot-item');
+                    spotElement.innerHTML = `
+                    <img src="${spot.firstimage}" alt="관광지 이미지">
+                    <h3>${spot.title}</h3>
+                    <p>${spot.addr1}</p>
+                `;
+
+                    // 클릭 이벤트: 선택/해제
+                    spotElement.addEventListener('click', function () {
+                        if (travelPlan.selectedPlaces.includes(spot.title)) {
+                            travelPlan.selectedPlaces = travelPlan.selectedPlaces.filter(item => item !== spot.title);
+                            this.style.backgroundColor = '#f9f9f9';  // 선택 해제
+                        } else {
+                            travelPlan.selectedPlaces.push(spot.title);
+                            this.style.backgroundColor = '#89B873';  // 선택됨
+                        }
+                    });
+
+                    selectBox.appendChild(spotElement);
+                });
+            })
+            .catch(error => console.error('관광지 정보를 불러오는 중 오류 발생:', error));
     }
+
 
     // 5번 페이지: 선택한 관광지 목록을 드래그 가능한 리스트로 표시
     function generateSortableList() {
@@ -281,16 +277,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 여행 이름과 정리된 여행 정보를 출력하거나 저장
         console.log('최종 여행 계획:', travelPlan);
-    }
-});
-
-document.getElementById('searchButton').addEventListener('click', function () {
-    const region = document.getElementById('region').value;
-    const accessibleFeature = document.getElementById('accessibleType').value;
-
-    if (region && accessibleFeature) {
-        displayAccessibleTouristSpots(region, accessibleFeature);
-    } else {
-        alert("지역과 무장애 정보를 선택해주세요.");
     }
 });

@@ -6,41 +6,6 @@
     <title>여행 계획하기</title>
     <link rel="stylesheet" href="/css/Travelplan.css">
 
-    <style>
-        /* 무장애 관광지 박스를 위한 스타일 */
-        .spot-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .spot-box {
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .spot-box img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-
-        .spot-box h3 {
-            font-size: 1.5rem;
-            margin: 10px 0;
-        }
-
-        .spot-box p {
-            color: #666;
-            font-size: 1rem;
-            margin: 5px 0;
-        }
-    </style>
 </head>
 <body>
 
@@ -59,7 +24,7 @@
     </div>
 </div>
 
-<!-- 지도 권역 선택 페이지 -->
+<!-- 지도 권역 선택 페이지 (구)기간 선택 페이지 -->
 <div id="durationPage" class="full-page hidden">
     <h2>떠나고 싶은 지역은?</h2>
     <p>원하는 지역 1곳을 선택해 주세요.</p>
@@ -89,33 +54,28 @@
     <button class="next-btn">다음</button>
 </div>
 
-<!-- 무장애 페이지 -->
+<!-- 무장애 선택 페이지 -->
 <div id="barrierPage" class="full-page hidden">
     <h2>모두가 함께하는 여행을 위해, 무장애 시설을 선택하세요!</h2>
     <p>걱정 없이 즐길 수 있는 편안한 여행을 위해 무장애 시설을 선택하세요.</p>
     <div class="barrier-buttons">
-        <button class="barrier-btn">주출입구</button>
-        <button class="barrier-btn">장애인 화장실</button>
-        <button class="barrier-btn">안내견</button>
-        <button class="barrier-btn">점자블록</button>
-        <button class="barrier-btn">엘리베이터</button>
-        <button class="barrier-btn">유아차</button>
-        <button class="barrier-btn">휠체어</button>
-        <button class="barrier-btn">장애인 주차구역</button>
+        <button class="barrier-btn" value="wheelchair">휠체어</button>
+        <button class="barrier-btn" value="stroller">유아차</button>
+        <button class="barrier-btn" value="elevator">엘리베이터</button>
+        <button class="barrier-btn" value="help_dog">안내견</button>
+        <button class="barrier-btn" value="braille_block">점자블록</button>
     </div>
-    <button class="searchButton">다음</button>
+    <button class="next-btn">다음</button>
 </div>
+
 
 <!-- 4번 페이지: 관광지 리스트 페이지 -->
 <div id="selectPage" class="full-page hidden">
     <h2>마음에 드는 관광지를 선택해주세요</h2>
     <p>선택하신 내용으로 관광지를 추천해봤어요.</p>
-
-    <!-- 결과가 표시될 컨테이너 -->
-    <div id="accessibleTouristSpots" class="spot-container">
-        <!-- 여기에 무장애 관광지 박스가 동적으로 추가될 예정 -->
+    <div class="select-box">
+        <!-- 관광지 리스트가 동적으로 여기에 표시됨 -->
     </div>
-
     <button class="next-btn">다음</button>
 </div>
 
@@ -144,90 +104,5 @@
 </div>
 
 <script src="/static/script/Travelplan.js"></script>
-
-<script>
-    const pages = [
-        document.getElementById('mainPage'),
-        document.getElementById('durationPage'),
-        document.getElementById('regionPage'),
-        document.getElementById('barrierPage'),
-        document.getElementById('selectPage'),
-        document.getElementById('planPage'),
-        document.getElementById('completionPage')
-    ];
-
-    let currentPageIndex = 0;
-
-    // 페이지를 보여주는 함수
-    function showPage(index) {
-        pages.forEach((page, i) => {
-            page.style.display = i === index ? 'block' : 'none';
-        });
-    }
-
-    // 초기에는 첫 번째 페이지만 보이게 설정
-    showPage(currentPageIndex);
-
-    // '다음' 버튼 클릭 시 다음 페이지로 이동하는 로직
-    document.querySelectorAll('.next-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (currentPageIndex < pages.length - 1) {
-                currentPageIndex++;
-                showPage(currentPageIndex);
-
-                // 선택된 무장애 관광지 정보를 불러옴 (barrierPage에서만)
-                if (currentPageIndex === 3) { // barrierPage의 인덱스가 3이므로
-                    const region = document.getElementById('region').value;
-                    const accessibleFeature = '엘리베이터'; // 예시로 '엘리베이터'를 넣음
-                    displayAccessibleTouristSpots(region, accessibleFeature);
-                }
-            }
-        });
-    });
-
-    // 무장애 관광지 정보를 불러와서 박스 형태로 표시하는 함수
-    async function displayAccessibleTouristSpots(region, accessibleFeature) {
-        try {
-            const apiUrl = `/api/accessible-tourist-spots?region=${region}&accessibleFeature=${accessibleFeature}`;
-            const response = await fetch(apiUrl);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            const container = document.getElementById('accessibleTouristSpots');
-            container.innerHTML = ''; // 기존 검색 결과 초기화
-
-            if (data.length === 0) {
-                container.innerHTML = '<p>검색 결과가 없습니다.</p>';
-            } else {
-                data.forEach(spot => {
-                    const spotBox = document.createElement('div');
-                    spotBox.classList.add('spot-box');
-
-                    // 이미지가 없을 경우 대체 이미지
-                    const image = spot.firstImage ? spot.firstImage : '/images/placeholder.jpg';
-
-                    spotBox.innerHTML = `
-                        <img src="${image}" alt="${spot.title}">
-                        <h3>${spot.title}</h3>
-                        <p>${spot.addr1}</p>
-                        <p>지도 좌표: ${spot.mapX}, ${spot.mapY}</p>
-                    `;
-
-                    container.appendChild(spotBox);
-                });
-            }
-
-        } catch (error) {
-            console.error('Error fetching accessible tourist spots:', error);
-            document.getElementById('accessibleTouristSpots').innerHTML = `<p>데이터를 불러오는 중 오류가 발생했습니다: ${error.message}</p>`;
-        }
-    }
-
-</script>
-
-
 </body>
 </html>
