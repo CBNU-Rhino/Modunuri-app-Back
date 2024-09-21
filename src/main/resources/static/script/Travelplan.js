@@ -211,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function () {
             listItem.setAttribute('data-content-type-id', place.contenttypeid);  // contentTypeId 저장
             listItem.setAttribute('data-mapx', place.mapx);  // 경도 저장
             listItem.setAttribute('data-mapy', place.mapy);  // 위도 저장
+            listItem.setAttribute('data-title', place.title);  // title 저장
             listItem.innerHTML = `
         <div class="content">
             <div class="left-info">
@@ -286,14 +287,15 @@ document.querySelector('#planPage .next-btn').addEventListener('click', function
     selectedTouristSpots = [];
 
     sortableListItems.forEach(item => {
-        const { contentId, contentTypeId, mapx, mapy } = item.dataset;
+        const { contentId, contentTypeId, mapx, mapy,title  } = item.dataset;
 
-        if (contentId && contentTypeId && mapx && mapy) {
+        if (contentId && contentTypeId && mapx && mapy&& title) {
             selectedTouristSpots.push({
                 contentId: contentId,
                 contentTypeId: contentTypeId,
                 mapx: parseFloat(mapx),
-                mapy: parseFloat(mapy)
+                mapy: parseFloat(mapy),
+                title: title  // title 추가
             });
         } else {
             console.error('Missing attributes in list item:', { contentId, contentTypeId, mapx, mapy });
@@ -412,13 +414,13 @@ function initMapAndMarkers(touristSpots) {
         linePath.push(markerPosition);
     });
 
-    const polyline = new kakao.maps.Polyline({
+    /*const polyline = new kakao.maps.Polyline({
         path: linePath,
         strokeWeight: 5,
         strokeColor: '#FF0000',
         strokeOpacity: 0.8
     });
-    polyline.setMap(map);
+    polyline.setMap(map);*/
 }
 
 // 페이지가 로드되었을 때 실행되는 함수
@@ -453,6 +455,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     observer.observe(completionPage, { attributes: true, attributeFilter: ['class'] });
+    // 완료 버튼 클릭 시 /users/mypage로 이동
+    document.querySelector('#completionPage .complete-btn').addEventListener('click', function () {
+        window.location.href = '/users/mypage';
+    });
 });
 
 // selectedTouristSpots 배열을 로컬 스토리지에 저장
