@@ -86,28 +86,21 @@ async function searchAccessibleItems() {
 
         let data = await response.json();
         data = removeDuplicates(data);
-        // 검색 결과를 갤러리로 표시
+        saveSearchState(region, sigungu, accessibleType, contentTypeId, data);
+
+        // 전체 데이터를 currentData에 저장
+        currentData = data;
+
+        // 페이지 수 계산
+        totalPages = Math.ceil(currentData.length / itemsPerPage); // 총 페이지 수 계산
+
+        // 검색 결과를 표시
+        displayGalleryPage(currentPage); // 첫 번째 페이지 표시
+        updatePagination(); // 페이지네이션 업데이트
+
+        // 검색 결과가 없을 경우 처리
         if (data.length === 0) {
             gallery.innerHTML = '<p>검색 결과가 없습니다.</p>';
-        } else {
-            data.forEach(item => {
-                const galleryItem = document.createElement('div');
-                galleryItem.classList.add('gallery-item');
-
-                const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="/images/placeholder.jpg" alt="No Image">';
-
-                galleryItem.innerHTML = `
-                    <a href="searchresult.html?contentId=${item.contentid}&contentTypeId=${item.contenttypeid}">
-                        ${image}
-                        <p>${item.title}</p>
-                        <p>${item.addr1}</p>
-                    </a>
-                `;
-
-                gallery.appendChild(galleryItem);
-            });
-
-            gallery.style.display = 'grid';
         }
 
     } catch (error) {
@@ -115,6 +108,7 @@ async function searchAccessibleItems() {
         gallery.innerHTML = `<p>데이터를 불러오는 중 오류가 발생했습니다. 오류 메시지: ${error.message}</p>`;
     }
 }
+
 
 function updatePagination() {
     const pagination = document.querySelector('.pagination');
@@ -172,7 +166,7 @@ function displayGalleryPage(page) {
         const galleryItem = document.createElement('div');
         galleryItem.classList.add('gallery-item');
 
-        const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="placeholder.jpg" alt="No Image">';
+        const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="/images/placeholder.jpg" alt="No Image">';
 
         galleryItem.innerHTML = `
             <a href="searchresult.html?contentId=${item.contentid}&contentTypeId=${item.contenttypeid}">
@@ -203,6 +197,7 @@ function resetFilters() {
 
     const pagination = document.querySelector('.pagination');
     pagination.innerHTML = ''; // 페이지네이션 초기화
+    localStorage.removeItem('searchState');  // 저장된 검색 상태 초기화
 }
 
 document.querySelector('.search-bar button').addEventListener('click', function() {
@@ -210,4 +205,58 @@ document.querySelector('.search-bar button').addEventListener('click', function(
     searchItems();
 });
 
+function saveSearchState(region, sigungu, accessibleType, contentTypeId, searchResults) {
+    const searchState = {
+        region: region,
+        sigungu: sigungu,
+        accessibleType: accessibleType,
+        contentTypeId: contentTypeId,
+        searchResults: searchResults
+    };
+    localStorage.setItem('searchState', JSON.stringify(searchState));
+}
 
+
+function loadSearchState() {
+    const savedState = localStorage.getItem('searchState');
+    if (savedState) {
+        const { region, sigungu, accessibleType, contentTypeId, searchResults } = JSON.parse(savedState);
+
+        // 필터 복원
+        document.getElementById('region').value = region;
+        updateSido();  // 시/군/구 옵션을 업데이트
+        document.getElementById('sido').value = sigungu;
+        document.getElementById('accessibleType').value = accessibleType;
+        document.querySelector(`input[name="category"][value="${contentTypeId}"]`).checked = true;
+
+        // 검색 결과 복원
+        displayGalleryPageFromData(searchResults);
+    }
+}
+function displayGalleryPageFromData(data) {
+    const gallery = document.getElementById('gallery');
+    gallery.innerHTML = '';  // 기존 갤러리 초기화
+
+    data.forEach(item => {
+        const galleryItem = document.createElement('div');
+        galleryItem.classList.add('gallery-item');
+
+        const image = item.firstimage ? `<img src="${item.firstimage}" alt="${item.title}">` : '<img src="/images/placeholder.jpg" alt="No Image">';
+
+        galleryItem.innerHTML = `
+            <a href="searchresult.html?contentId=${item.contentid}&contentTypeId=${item.contenttypeid}">
+                ${image}
+                <p>${item.title}</p>
+                <p>${item.addr1}</p>
+            </a>
+        `;
+        gallery.appendChild(galleryItem);
+    });
+
+    gallery.style.display = 'grid';
+}
+
+// 페이지 로드 시 저장된 검색 상태 복원
+document.addEventListener('DOMContentLoaded', function() {
+    loadSearchState();
+});

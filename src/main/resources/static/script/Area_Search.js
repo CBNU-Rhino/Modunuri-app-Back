@@ -13,7 +13,7 @@ const sidoOptions = {
     '충청남도': ['천안시', '공주시', '보령시', '아산시', '서산시', '논산시', '계룡시', '당진시', '금산군', '부여군', '서천군', '청양군', '홍성군', '예산군', '태안군'],
     '전라북도': ['전주시', '군산시', '익산시', '정읍시', '남원시', '김제시', '완주군', '진안군', '무주군', '장수군', '임실군', '순창군', '고창군', '부안군'],
     '전라남도': ['목포시', '여수시', '순천시', '나주시', '광양시', '담양군', '곡성군', '구례군', '고흥군', '보성군', '화순군', '장흥군', '강진군', '해남군', '영암군', '무안군', '함평군', '영광군', '장성군', '완도군', '진도군', '신안군'],
-    '경상북도': ['포항시', '경주시', '김천시', '안동시', '구미시', '영주시', '영천시', '상주시', '문경시', '경산시', '군위군', '의성군', '청송군', '영양군', '영덕군', '청도군', '고령군', '성주군', '칠곡군', '예천군', '봉화군', '울진군', '울릉군'],
+    '경상북도': ['포항시', '경주시', '김천시', '안동시', '구미시', '영주시', '영천시', '상주시', '문경시', '경산시', '의성군', '청송군', '영양군', '영덕군', '청도군', '고령군', '성주군', '칠곡군', '예천군', '봉화군', '울진군', '울릉군'],
     '경상남도': ['창원시', '진주시', '통영시', '사천시', '김해시', '밀양시', '거제시', '양산시', '의령군', '함안군', '창녕군', '고성군', '남해군', '하동군', '산청군', '함양군', '거창군', '합천군'],
     '제주특별자치도': ['제주시', '서귀포시']
 };
@@ -200,11 +200,10 @@ function resetFilters() {
     pagination.innerHTML = ''; // 페이지네이션 초기화
 }
 
-document.querySelector('.search-bar button').addEventListener('click', function() {
+document.querySelector('.search-btn').addEventListener('click', function() {
     document.getElementById('gallery').style.display = 'grid';
     searchItems();
 });
-
 document.addEventListener('DOMContentLoaded', function () {
     // 페이지 로드 시 localStorage에 저장된 값을 가져와 필터에 적용
     const savedRegion = localStorage.getItem('region');
@@ -216,6 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSido();  // 시/군/구 선택 갱신
         if (savedSido) document.getElementById('sido').value = savedSido;
     }
+
     if (savedCategory) {
         document.querySelector(`input[name="category"][value="${savedCategory}"]`).checked = true;
     }
@@ -227,19 +227,23 @@ document.addEventListener('DOMContentLoaded', function () {
         displayGalleryPage(currentPage);  // 첫 번째 페이지 표시
         updatePagination();  // 페이지네이션 갱신
     }
+
     // 검색 수행 시 localStorage에 값 저장
-    document.querySelector('.search-bar button').addEventListener('click', function () {
+    document.querySelector('.search-btn').addEventListener('click', function () {
         const region = document.getElementById('region').value;
         const sido = document.getElementById('sido').value;
         const category = document.querySelector('input[name="category"]:checked').value;
+
         // localStorage에 선택한 값 저장
         localStorage.setItem('region', region);
         localStorage.setItem('sido', sido);
         localStorage.setItem('category', category);
+
         searchItems();  // 검색 함수 호출
     });
+
     // 검색 필터 초기화 시 localStorage도 초기화
-    document.querySelector('.reset-button').addEventListener('click', function () {
+    document.querySelector('.reset-btn').addEventListener('click', function () {
         localStorage.removeItem('region');
         localStorage.removeItem('sido');
         localStorage.removeItem('category');

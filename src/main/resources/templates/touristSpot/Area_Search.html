@@ -78,25 +78,39 @@
 
     <!-- 체크박스 추가된 부분 (콘텐츠 타입 필터링) -->
     <div class="checkbox-container">
-        <label><input type="radio"  name="category" value="12"> 관광지</label>
-        <label><input type="radio"  name="category" value="14"> 문화시설</label>
-        <label><input type="radio"  name="category" value="15"> 축제공연행사</label>
-        <label><input type="radio"  name="category" value="25"> 여행코스</label>
-        <label><input type="radio"  name="category" value="28"> 레포츠</label>
-        <label><input type="radio"  name="category" value="32"> 숙박</label>
-        <label><input type="radio"  name="category" value="38"> 쇼핑</label>
-        <label><input type="radio" name="category" value="39"> 음식점</label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="12">
+            <span class="radio-btn">관광지</span>
+        </label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="14">
+            <span class="radio-btn">문화시설</span>
+        </label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="28">
+            <span class="radio-btn">레포츠</span>
+        </label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="32">
+            <span class="radio-btn">숙박</span>
+        </label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="38">
+            <span class="radio-btn">쇼핑</span>
+        </label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="39">
+            <span class="radio-btn">음식점</span>
+        </label>
     </div>
 
     <!-- 검색 및 초기화 버튼 -->
-    <div class="search-bar">
-        <input type="text" placeholder="검색">
-        <button onclick="searchItems()">
-            <img src="../../static/images/search-icon.png" alt="검색 버튼" style="width: 20px; height: 20px;">
-        </button>
+    <div class="search-btn">
+        <button class="search-btn">검색</button>
     </div>
+
     <div class="selected-area">
-        <button onclick="resetFilters()">초기화</button>
+        <button class="reset-btn">초기화</button>
     </div>
 
     <!-- 결과를 보여줄 갤러리 -->
