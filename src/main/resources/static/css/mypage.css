@@ -94,6 +94,8 @@ html, body {
 
 /* 공통 버튼 스타일 */
 .auth-button {
+    border: none !important; /* 기존에 설정된 border를 없앰 */
+    box-shadow: none !important; /* box-shadow를 없앰 */
     padding: 10px 20px;
     background-color: #89B873;
     color: #F5FFF5 !important;
@@ -105,6 +107,7 @@ html, body {
     width: 100px; /* 동일한 너비 설정 */
     box-sizing: border-box;
     margin-left: 5px; /* 버튼 간격 조정 */
+
 }
 
 .auth-button:hover {
@@ -149,7 +152,7 @@ html, body {
 
 /* 블록 섹션 공통 스타일 */
 .block {
-    background-color: #F3F8E6;
+    background-color: #f9f9f9;
     margin-bottom: 20px;
     padding: 20px;
     border-radius: 10px;
@@ -286,6 +289,10 @@ html, body {
     background-color: #45a049;
 }
 
+/* 푸터 위에 빈 공간 확보 */
+.footer-space {
+    height: 200px; /* 원하는 높이로 빈 공간 확보 */
+}
 
 /* Footer */
 

@@ -218,7 +218,8 @@ td a:hover {
 .search-container {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
+    height: 40px;
 }
 
 .search-input {
@@ -230,17 +231,20 @@ td a:hover {
 }
 
 .search-button {
-    padding: 10px 20px;
+    border: none !important; /* 기존에 설정된 border를 없앰 */
+    box-shadow: none !important; /* box-shadow를 없앰 */
+    padding-top: -10px;
     background-color: #89B873;
     color: #F5FFF5 !important;
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: 5px;
     display: inline-block;
     text-align: center;
     font-size: 16px;
     width: 100px; /* 동일한 너비 설정 */
-    box-sizing: border-box;
     margin-left: 5px; /* 버튼 간격 조정 */
+    margin-bottom: 22px;
+    height: 40px;
 }
 
 .search-button:hover {
@@ -250,7 +254,7 @@ td a:hover {
 
     /* 푸터 위에 빈 공간 확보 */
     .footer-space {
-        height: 300px; /* 원하는 높이로 빈 공간 확보 */
+        height: 200px; /* 원하는 높이로 빈 공간 확보 */
     }
 
     /* 푸터를 페이지 바닥에 고정 */

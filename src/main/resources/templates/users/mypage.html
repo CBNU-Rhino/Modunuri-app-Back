@@ -73,6 +73,9 @@
     </div>
 </main>
 
+<!-- 빈 공간을 확보하기 위한 컨테이너 -->
+<div class="footer-space"></div>
+
 <!-- Footer Section -->
 <footer class="footer">
     <div class="footer-links">
@@ -137,7 +140,7 @@
                 <!-- 동기식 폼을 이용한 삭제 버튼 -->
                 <form action="/users/removeFavorite" method="POST">
                     <input type="hidden" name="contentId" value="${touristDetail.contentid}">
-                    <button type="submit" class="remove-button">지우기</button>
+                    <button type="submit" class="auth-button">지우기</button>
                 </form>
             </div>
         </div>
