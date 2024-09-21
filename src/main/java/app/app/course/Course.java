@@ -20,9 +20,8 @@ public class Course {
     private String courseName;  // 코스 이름
 
     @ElementCollection
-    @CollectionTable(name = "course_content_ids", joinColumns = @JoinColumn(name = "course_id"))
-    @Column(name = "content_id")
-    private List<String> contentIds = new ArrayList<>();  // 여러 관광지의 contentId 리스트로 저장
+    @CollectionTable(name = "course_content", joinColumns = @JoinColumn(name = "course_id"))
+    private List<ContentInfo> contentInfos = new ArrayList<>();  // contentId와 contentTypeId를 함께 저장하는 리스트
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -31,20 +30,20 @@ public class Course {
     // 기본 생성자
     public Course() {}
 
-    // 수정된 생성자: contentIds 포함
-    public Course(String courseName, List<String> contentIds, User user) {
+    // 수정된 생성자: contentInfos 포함
+    public Course(String courseName, List<ContentInfo> contentInfos, User user) {
         this.courseName = courseName;
-        this.contentIds = contentIds;  // contentIds 초기화 추가
+        this.contentInfos = contentInfos;  // contentInfos 초기화
         this.user = user;
     }
 
-    // 관광지 contentId 추가 메서드
-    public void addContentId(String contentId) {
-        this.contentIds.add(contentId);
+    // 관광지 contentInfo 추가 메서드
+    public void addContentInfo(ContentInfo contentInfo) {
+        this.contentInfos.add(contentInfo);
     }
 
-    // 관광지 contentId 삭제 메서드
-    public void removeContentId(String contentId) {
-        this.contentIds.remove(contentId);
+    // 관광지 contentInfo 삭제 메서드
+    public void removeContentInfo(ContentInfo contentInfo) {
+        this.contentInfos.remove(contentInfo);
     }
 }

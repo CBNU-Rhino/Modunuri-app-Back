@@ -96,8 +96,9 @@
 
 <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const contentId = urlParams.get('contentId');
-    const contentTypeId = urlParams.get('contentTypeId');
+    const contentid = urlParams.get('contentid');
+    const contenttypeid = urlParams.get('contenttypeid');
+
 
     if (!contentId || !contentTypeId) {
         document.getElementById('tourist-spot-info').innerHTML = '<p>유효하지 않은 관광지입니다.</p>';
@@ -252,8 +253,8 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                contentId: contentId,
-                contentTypeId: contentTypeId
+                contentId: contentid,
+                contentTypeId: contenttypeid
             })
         })
             .then(response => {

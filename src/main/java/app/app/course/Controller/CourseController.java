@@ -1,5 +1,6 @@
 package app.app.course.Controller;
 
+import app.app.course.ContentInfo;
 import app.app.course.Course;
 import app.app.course.Service.CourseService;
 import app.app.user.CustomUserDetails;
@@ -35,11 +36,10 @@ public class CourseController {
         }
 
         String courseName = (String) courseData.get("courseName");
-        List<String> contentIds = (List<String>) courseData.get("contentIds");
+        List<Map<String, String>> contentData = (List<Map<String, String>>) courseData.get("contentInfos");
 
         // 코스 저장 로직
-        Course newCourse = new Course(courseName, contentIds, user.getUser());
-        courseService.save(newCourse); // 코스를 저장하는 서비스 호출
+        Course newCourse = courseService.addCourse(user.getUser().getId(), courseName, contentData);
 
         return ResponseEntity.ok("관심 코스가 저장되었습니다.");
     }

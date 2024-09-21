@@ -182,11 +182,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // 클릭 이벤트: 선택/해제
                     spotElement.addEventListener('click', function () {
-                        if (travelPlan.selectedPlaces.includes(spot.title)) {
-                            travelPlan.selectedPlaces = travelPlan.selectedPlaces.filter(item => item !== spot.title);
+                        if (travelPlan.selectedPlaces.includes(spot)) {
+                            travelPlan.selectedPlaces = travelPlan.selectedPlaces.filter(item => item !== spot);
                             this.style.backgroundColor = '#f9f9f9';  // 선택 해제
                         } else {
-                            travelPlan.selectedPlaces.push(spot.title);
+                            travelPlan.selectedPlaces.push(spot);  // spot 객체 전체를 추가
                             this.style.backgroundColor = '#89B873';  // 선택됨
                         }
                     });
@@ -198,28 +198,35 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+
     // 5번 페이지: 선택한 관광지 목록을 드래그 가능한 리스트로 표시
     function generateSortableList() {
         const sortableList = document.getElementById('sortable');
         sortableList.innerHTML = ''; // 기존 항목 초기화
         travelPlan.selectedPlaces.forEach((place, index) => {
+            console.log('Place:', place);
+            console.log('Content ID:', place.contentid);  // contentid를 제대로 가져오는지 확인
+            console.log('Content Type ID:', place.contenttypeid);  // contenttypeid를 제대로 가져오는지 확인
+
             const listItem = document.createElement('li');
             listItem.classList.add('list-item');
+            listItem.setAttribute('data-content-id', place.contentid);  // contentId 저장
+            listItem.setAttribute('data-content-type-id', place.contenttypeid);  // contentTypeId 저장
             listItem.setAttribute('draggable', 'true');
             listItem.innerHTML = `
-                <div class="content">
-                    <div class="left-info">
-                        <div class="icon"><img src="path-to-icon.png" alt="icon"></div>
-                        <div>
-                            <strong>${index + 1}. ${place}</strong>
-                            <p>설명 또는 정보</p>
-                        </div>
-                    </div>
-                    <div class="drag-handle">
-                        <img src="path-to-drag-handle.png" alt="drag handle">
+            <div class="content">
+                <div class="left-info">
+                    <div class="icon"><img src="path-to-icon.png" alt="icon"></div>
+                    <div>
+                        <strong>${place.title}</strong>
+                        <p>${place.addr1}</p>
                     </div>
                 </div>
-            `;
+                <div class="drag-handle">
+                    <img src="path-to-drag-handle.png" alt="drag handle">
+                </div>
+            </div>
+        `;
 
             sortableList.appendChild(listItem);
         });
@@ -227,6 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 각 항목에 드래그 이벤트를 추가
         initializeDragEvents();
     }
+
 
     // 드래그 앤 드롭 기능 활성화
     function initializeDragEvents() {
@@ -279,3 +287,50 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('최종 여행 계획:', travelPlan);
     }
 });
+// 5번 페이지 여행 완료 버튼 클릭 시 실행되는 함수
+document.querySelector('#planPage .next-btn').addEventListener('click', function() {
+    const tripName = document.getElementById('tripName').value;
+    const sortableListItems = document.querySelectorAll('#sortable .list-item');
+
+    // 선택된 관광지 정보를 저장할 배열
+    const selectedTouristSpots = [];
+
+    sortableListItems.forEach(item => {
+        // 각 아이템에서 contentId와 contentTypeId를 추출
+        const contentid = item.getAttribute('data-content-id');  // 수정: contentId가 아니라 contentid로 해야 맞습니다.
+        const contenttypeid = item.getAttribute('data-content-type-id');  // 수정: contentTypeId가 아니라 contenttypeid로 해야 맞습니다.
+
+        // 배열에 추가
+
+        // 배열에 추가
+        selectedTouristSpots.push({
+            contentId: contentid,
+            contentTypeId: contenttypeid
+        });
+    });
+
+    // 서버로 전송할 데이터 객체
+    const courseData = {
+        courseName: tripName || "기본 여행 코스 이름", // 사용자 입력이 없을 경우 기본 이름 설정
+        contentInfos: selectedTouristSpots  // 선택된 관광지 목록
+    };
+
+    // 서버에 POST 요청으로 데이터 전송
+    fetch('/courses/courses/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(courseData)
+    })
+        .then(response => {
+            if (response.ok) {
+                alert('여행 코스가 성공적으로 저장되었습니다!');
+            } else {
+                alert('코스 저장에 실패했습니다.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+});
+
+

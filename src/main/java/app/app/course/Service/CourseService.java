@@ -1,5 +1,6 @@
 package app.app.course.Service;
 
+import app.app.course.ContentInfo;
 import app.app.course.Course;
 import app.app.course.Repository.CourseRepository;
 import app.app.user.User;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -19,11 +22,16 @@ public class CourseService {
     private UserRepository userRepository;
 
     // 코스 추가
-    public Course addCourse(Long userId, String courseName, List<String> contentIds) {
+    public Course addCourse(Long userId, String courseName, List<Map<String, String>> contentData) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Course 생성 시 contentIds도 전달하도록 수정
-        Course course = new Course(courseName, contentIds, user);
+        // contentId와 contentTypeId를 묶어서 ContentInfo 객체로 변환
+        List<ContentInfo> contentInfos = contentData.stream()
+                .map(data -> new ContentInfo(data.get("contentId"), data.get("contentTypeId")))
+                .collect(Collectors.toList());
+
+        // Course 생성 시 contentInfos 전달
+        Course course = new Course(courseName, contentInfos, user);
         return courseRepository.save(course);
     }
 
