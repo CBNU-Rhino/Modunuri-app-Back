@@ -68,6 +68,16 @@
                 <p id="no-places-message" style="display: none; color: #777; text-align: center;">관광지를 저장해보세요</p>
             </ul>
         </section>
+        <!-- 관심 관광지 목록 아래에 유저의 저장된 코스 목록 추가 -->
+        <section class="block saved-courses">
+            <h2 th:text="${username} + '님이 저장한 코스 목록'">Your Saved Courses</h2>
+            <hr class="divider"> <!-- 구분선 추가 -->
+            <ul id="saved-courses" class="saved-courses">
+                <!-- 코스 목록이 동적으로 추가됩니다 -->
+            </ul>
+            <!-- 빈 목록일 때 보여줄 메시지 -->
+            <p id="no-courses-message" style="display: none; color: #777; text-align: center;">코스를 저장해보세요</p>
+        </section>
     </div>
 </main>
 
@@ -84,6 +94,7 @@
 <script>
     window.addEventListener('DOMContentLoaded', (event) => {
         loadSavedPlaces(); // 페이지가 로드될 때 관심 관광지 목록 불러오기
+        loadSavedCourses(); // 저장된 코스 불러오기
     });
 
     function loadSavedPlaces() {
@@ -143,6 +154,54 @@
 
         savedPlaces.appendChild(placeBox);
     }
+    function loadSavedCourses() {
+        fetch('/courses/courses/get')
+            .then(response => response.json())
+            .then(courseData => {
+                const savedCourses = document.querySelector('#saved-courses');
+                const noCoursesMessage = document.querySelector('#no-courses-message');
+                savedCourses.innerHTML = ''; // 기존 목록을 초기화
+
+                if (courseData.length === 0) {
+                    noCoursesMessage.style.display = 'block'; // 빈 목록일 때 메시지 표시
+                } else {
+                    noCoursesMessage.style.display = 'none'; // 목록이 있을 때 메시지 숨김
+                    courseData.forEach(course => {
+                        displaySavedCourse(course);
+                    });
+                }
+            })
+            .catch(error => console.error('Error loading saved courses:', error));
+    }
+    function displaySavedCourse(course) {
+        const savedCourses = document.querySelector('#saved-courses');
+        const courseBox = document.createElement('div');
+        courseBox.classList.add('course-box');
+        courseBox.id = `course-${course.id}`;
+
+        // 코스 클릭 시 상세 페이지로 이동하는 이벤트
+        courseBox.addEventListener('click', () => {
+            window.location.href = `/courses/${course.id}`;
+        });
+
+        const courseName = course.courseName || "코스 이름 없음";
+        const contentCount = course.contentInfos.length;
+
+        courseBox.innerHTML = `
+        <div class="course-info">
+            <h4>${courseName}</h4>
+            <p>포함된 관광지 수: ${contentCount}</p>
+            <!-- 동기식 폼을 이용한 삭제 버튼 -->
+            <form action="/courses/remove" method="POST">
+                <input type="hidden" name="courseId" value="${course.id}">
+                <button type="submit" class="remove-button">코스 삭제</button>
+            </form>
+        </div>
+    `;
+
+        savedCourses.appendChild(courseBox);
+    }
+
 </script>
 
 </body>
