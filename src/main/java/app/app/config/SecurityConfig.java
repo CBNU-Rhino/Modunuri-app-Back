@@ -30,6 +30,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/css/**", "/script/**", "/images/**", "/static/**").permitAll() // /static/** 또는 /script/** 경로 허용
                         .requestMatchers("/users/signup", "/users/login", "/users/signup_complete").permitAll()
                         .requestMatchers("/touristSpot/**","/api/**","/api/tourist-accessible-info","/touristSpot/Json/**","/**").permitAll() // 이 줄을 추가하여 URL을 허용합니다.
+                        .requestMatchers("/touristSpot/travelplan").authenticated() // 여기에 /travelplan 경로를 인증 요구로 설정
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

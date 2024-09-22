@@ -5,6 +5,7 @@ import app.app.TouristApi.Entity.AccessibleInfo;
 import app.app.TouristApi.Service.TouristApiService;
 import app.app.TouristApi.Service.TouristSpotService;
 import app.app.user.CustomUserDetails;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,14 +84,15 @@ public class TouristPageController {
 
     // GET 요청을 처리하고 Travelplan.html을 반환
     @GetMapping("/travelplan")
-    public String showTravelPlanPage(@AuthenticationPrincipal CustomUserDetails user, Model model) {
+    public String showTravelPlanPage(@AuthenticationPrincipal CustomUserDetails user, Model model, HttpServletResponse response) throws IOException {
         // 로그인된 사용자가 있을 경우, 사용자 이름을 모델에 추가
         if (user != null) {
             System.out.println("Logged in user: " + user.getUsername());  // 사용자 이름 출력
             model.addAttribute("username", user.getRealUsername());  // 사용자 이름을 모델에 추가
         } else {
             System.out.println("No user logged in");
-            model.addAttribute("username", null);  // 비로그인 상태인 경우
+            response.sendRedirect("/users/login");
+            return null;  // 리다이렉트 후에는 null을 반환하여 다른 처리를 막음
         }
 
         return "touristSpot/Travelplan";  // templates/touristSpot/Travelplan.html 파일 반환
