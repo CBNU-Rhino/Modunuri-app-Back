@@ -144,7 +144,7 @@ html, body {
     padding: 20px;
     margin-top: 80px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
     /* 수평 및 수직 중앙 정렬 */
     margin-left: auto;
@@ -153,11 +153,11 @@ html, body {
 
 /* 블록 스타일 */
 .block {
+    background-color: #f9f9f9;
     margin-bottom: 20px;
-    background-color: #e1fbdf;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 구분선 */
@@ -333,7 +333,7 @@ html, body {
 
 /* 블로그 포스팅 섹션 */
 .blog-posts-block {
-    background-color: #e1fbdf; /* 다른 블록과 동일한 배경색 */
+    background-color: #f9f9f9; /* 다른 블록과 동일한 배경색 */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* 다른 블록과 동일한 그림자 */
@@ -372,8 +372,8 @@ html, body {
 
 /* 블로그 카드 스타일 */
 .blog-card {
-    background-color: #F3F8E6; /* 카드 배경색 */
-    border: 2px solid #BCC7A3;
+    background-color: white; /* 카드 배경색 */
+    border: 1px solid #ddd;
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 카드 그림자 */

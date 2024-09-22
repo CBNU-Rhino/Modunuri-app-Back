@@ -137,13 +137,13 @@ html, body {
 
 /* 네이버 카페 스타일 게시판 */
 .board-section {
-    width: 80%;
-    margin: 0 auto;
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 60px;
+    width: 90% !important;
+    margin: 100px auto !important; /* 중앙 정렬 */
+    background-color: #ffffff !important;
+    padding: 20px !important;
+    border-radius: 10px !important;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1) !important;
+    min-height: 400px !important; /* 최소 높이 설정 */
 }
 
 h1 {

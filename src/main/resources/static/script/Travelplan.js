@@ -177,11 +177,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 data.forEach(spot => {
                     const spotElement = document.createElement('div');
                     spotElement.classList.add('spot-item');
+
+                    // 이미지가 없는 경우 placeholder 이미지로 대체
+                    const imageUrl = spot.firstimage ? spot.firstimage : '/images/placeholder.png'; // placeholder 이미지 경로 설정
+
                     spotElement.innerHTML = `
-                    <img src="${spot.firstimage}" alt="관광지 이미지">
-                    <h3>${spot.title}</h3>
-                    <p>${spot.addr1}</p>
-                `;
+        <img src="${imageUrl}" alt="관광지 이미지" onerror="this.onerror=null; this.src='/images/placeholder.png';">
+        <h3>${spot.title}</h3>
+        <p>${spot.addr1}</p>
+    `; // 백틱을 제대로 닫습니다
 
                     // 클릭 이벤트: 선택/해제
                     spotElement.addEventListener('click', function () {
