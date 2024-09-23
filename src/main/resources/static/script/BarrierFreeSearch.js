@@ -200,9 +200,15 @@ function resetFilters() {
     localStorage.removeItem('searchState');  // 저장된 검색 상태 초기화
 }
 
-document.querySelector('.search-bar button').addEventListener('click', function() {
+// 검색 버튼 클릭 이벤트
+document.querySelector('.search-btn').addEventListener('click', function() {
     document.getElementById('gallery').style.display = 'grid';
-    searchItems();
+    searchAccessibleItems();
+});
+
+// 초기화 버튼 클릭 이벤트 추가
+document.querySelector('.reset-btn').addEventListener('click', function() {
+    resetFilters(); // 초기화 버튼 클릭 시 resetFilters 함수 실행
 });
 
 function saveSearchState(region, sigungu, accessibleType, contentTypeId, searchResults) {

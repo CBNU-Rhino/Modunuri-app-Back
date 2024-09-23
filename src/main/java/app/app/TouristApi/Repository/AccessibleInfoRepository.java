@@ -48,4 +48,7 @@ public interface AccessibleInfoRepository extends JpaRepository<AccessibleInfo, 
     @Query("SELECT COUNT(ai) > 0 FROM AccessibleInfo ai WHERE ai.contentId = :contentId AND ai.elevator IS NOT NULL AND ai.elevator <> ''")
     boolean existsByContentIdAndElevator(@Param("contentId") String contentId);
 
+    @Query("SELECT COUNT(ai) > 0 FROM AccessibleInfo ai WHERE ai.contentId = :contentId AND ai.parking IS NOT NULL AND ai.parking <> ''")
+    boolean existsByContentIdAndParking(@Param("contentId") String contentId);
+
 }

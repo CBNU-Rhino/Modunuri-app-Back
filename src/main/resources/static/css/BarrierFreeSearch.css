@@ -1,6 +1,7 @@
 @font-face {
     font-family: 'Pretendard';
-    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff') format('woff');
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff2') format('woff2'),
+    url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff') format('woff');
     font-weight: 100 900;
     font-style: normal;
 }
@@ -147,7 +148,7 @@ html, body {
 .header {
     font-size: 24px;
     font-weight: bold;
-    color: #6C7A40;
+    color: #4b7a40;
     margin-bottom: 30px;
 }
 
@@ -167,43 +168,6 @@ html, body {
     margin-right: 0;
 }
 
-.search-bar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    border: 2px solid #BCC7A3;
-    border-radius: 8px;
-    background-color: #e1fbdf;
-    padding: 12px;
-    margin-bottom: 20px;
-}
-
-.search-bar input {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background-color: transparent;
-    font-size: 16px;
-    outline: none;
-    color: #e1fbdf;
-}
-
-.search-bar button {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.search-bar button img {
-    width: 20px;
-    height: 20px;
-    filter: invert(36%) sepia(6%) saturate(1999%) hue-rotate(69deg) brightness(93%) contrast(89%);
-}
-
 .location-filters {
     display: flex;
     justify-content: space-between;
@@ -220,20 +184,6 @@ html, body {
     appearance: none;
 }
 
-.dropdown {
-    margin-bottom: 20px;
-}
-
-.dropdown select {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #BCC7A3;
-    border-radius: 8px;
-    background-color: #F3F8E6;
-    font-size: 16px;
-    color: #6C7A40;
-}
-
 .checkbox-container {
     display: flex;
     justify-content: space-between;
@@ -241,16 +191,80 @@ html, body {
     flex-wrap: wrap;
 }
 
-.checkbox-container label {
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-    font-size: 25px;
-    color: #6C7A40;
-}
-
 .checkbox-container label input {
     margin-right: 10px;
+}
+/* 기본 라디오 버튼을 숨기고, 시각적인 스타일만 나타내기 */
+input[type="radio"] {
+    display: none; /* 기존 라디오 버튼 숨기기 */
+}
+
+.custom-radio {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* 라디오 버튼과 검색 버튼 스타일 */
+.radio-btn, .search-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f9f9f9; /* 기본 배경 색상 */
+    border-radius: 30px; /* 둥근 모서리 */
+    border: 2px solid #89B873; /* 기본 테두리 색상 */
+    color: #555;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+    flex-grow: 1; /* 버튼 크기가 창 크기에 따라 유동적으로 조절됨 */
+    min-width: 120px; /* 버튼의 최소 너비 */
+}
+
+/* 라디오 버튼 선택된 상태와 검색 버튼의 활성화 상태 */
+input[type="radio"]:checked + .radio-btn, .search-btn.active {
+    background-color: #89B873; /* 선택된 상태의 배경 색상 */
+    color: white; /* 선택된 상태의 글자 색상 */
+    border-color: #89B873; /* 선택된 상태의 테두리 색상 */
+}
+
+/* 마우스 오버 시 스타일 */
+.radio-btn:hover, .search-btn:hover {
+    background-color: #e0e0e0; /* 마우스 오버 시 배경 색상 */
+    color: #555;
+}
+
+/* 라디오 버튼과 검색 버튼이 같은 줄에 위치하도록 설정 */
+.checkbox-container {
+    display: flex;
+    justify-content: space-between; /* 버튼들 사이 일정 간격 유지 */
+    align-items: center; /* 버튼의 세로 정렬 */
+    margin-bottom: 10px; /* 검색 버튼과 아래 요소 사이 간격 */
+    gap: 10px; /* 버튼들 사이의 간격을 일정하게 유지 */
+    width: 100%; /* 컨테이너가 화면 너비를 가득 채우도록 설정 */
+}
+
+/* 검색 버튼 스타일 */
+.search-btn {
+    background-color: #f9f9f9;
+    border-radius: 30px;
+    border: 2px solid #ddd;
+    color: #555;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+}
+
+.search-btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* 반응형 디자인 - 화면 크기에 따라 버튼이 줄어듦 */
+@media (max-width: 768px) {
+    .radio-btn, .search-btn {
+        padding: 8px 16px; /* 버튼 패딩을 줄여 크기 조정 */
+        font-size: 14px; /* 폰트 크기를 줄임 */
+    }
 }
 
 .selected-area {
@@ -263,18 +277,40 @@ html, body {
     color: #6C7A40;
 }
 
-.selected-area button {
-    background-color: #C8D5A6;
+.reset-btn {
+    display: flex; /* 이미지와 텍스트를 나란히 배치 */
+    align-items: center; /* 이미지와 텍스트를 수직 가운데 정렬 */
+    padding: 10px 20px;
+    background-color: #89B873;
     border: 2px solid #A3AE79;
     border-radius: 8px;
-    padding: 8px 16px;
     cursor: pointer;
     color: #4C5A30;
     font-size: 16px;
+    gap: 10px; /* 이미지와 텍스트 사이 간격 */
 }
 
-.selected-area button:hover {
+.reset-btn img {
+    width: 16px;  /* 이미지 크기 조정 */
+    height: 16px;
+}
+
+.reset-btn:hover {
     background-color: #B8C793;
+}
+
+.dropdown {
+    margin-bottom: 20px;
+}
+
+.dropdown select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #89B873;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    color: #6C7A40;
 }
 
 .gallery {
@@ -286,20 +322,24 @@ html, body {
 }
 
 .gallery-item {
-    background-color: #F3F8E6;
-    border: 2px solid #BCC7A3;
+    background-color: #fff;
+    border: 2px solid #ddd;
     border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
+    text-decoration: none ;
     color: #6C7A40;
     font-size: 18px;
 }
 
 .gallery-item img {
-    max-width: 100%;
+    width: 100%; /* 이미지가 박스 너비에 맞게 */
     height: 200px;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    object-fit: cover; /* 이미지 비율 유지 */
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 5px; /* 이미지와 텍스트 사이의 간격을 5px로 설정 */
 }
 
 .gallery-item p {
@@ -307,6 +347,20 @@ html, body {
     margin: 0;
     color: #6C7A40;
 }
+
+.gallery-item:hover {
+    transform: translateY(-5px); /* 호버 시 살짝 위로 움직이는 효과 */
+}
+
+.gallery-item a {
+    text-decoration: none; /* 링크에서 밑줄 제거 */
+    color: inherit; /* 부모 요소의 색상 상속 */
+}
+
+.gallery-item a:hover {
+    text-decoration: none; /* 마우스 오버 시에도 밑줄 제거 */
+}
+
 
 .pagination {
     display: flex;
@@ -322,22 +376,22 @@ html, body {
     display: flex; /* 중앙 정렬을 위한 flex 설정 */
     align-items: center; /* 세로 중앙 정렬 */
     justify-content: center; /* 가로 중앙 정렬 */
-    background-color: #F3F8E6; /* 페이지 번호 배경색 */
-    border: 2px solid #BCC7A3; /* 경계선 설정 */
+    background-color: rgba(148, 205, 147, 0.25);
+    border: 2px solid rgba(148, 205, 147, 0.25); /* 경계선 설정 */
     border-radius: 8px; /* 모서리 둥글게 */
     margin: 0 5px;
-    color: #6C7A40;
+    color: #45a049;
     font-size: 16px;
     text-align: center;
     cursor: pointer;
 }
 
 .page-number:hover, .page-arrow:hover {
-    background-color: #E6F2D9; /* 마우스 오버 시 배경색 변경 */
+    background-color: rgba(148, 205, 147, 0.25); /* 마우스 오버 시 배경색 변경 */
 }
 
 .page-number.active {
-    background-color: #A3AE79;
+    background-color: rgba(148, 205, 147, 0.25);
     color: white;
 }
 
@@ -347,17 +401,6 @@ html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* 최소 높이를 100% 뷰포트 높이로 설정 */
-}
-
-/* Footer */
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* 뷰포트 전체 높이를 차지 */
-}
-
-.content {
-    flex: 1; /* 페이지 내용이 없을 때도 남은 공간을 차지하여 푸터를 아래로 밀어냄 */
 }
 
 .footer {
@@ -387,5 +430,3 @@ html, body {
 .footer-links a:hover {
     text-decoration: underline;
 }
-
-

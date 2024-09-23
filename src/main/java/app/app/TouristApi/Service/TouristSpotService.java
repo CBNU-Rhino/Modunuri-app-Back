@@ -94,6 +94,9 @@ public class TouristSpotService {
                 case "blind_handicap_etc":
                     hasAccessibleFeature = accessibleInfoRepository.existsByContentIdAndBlindHandicapEtc(spot.getContentId());
                     break;
+                case "parking":
+                    hasAccessibleFeature = accessibleInfoRepository.existsByContentIdAndParking(spot.getContentId());
+                    break;
                 default:
                     continue;
             }

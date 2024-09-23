@@ -9,7 +9,38 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9795bab39c2cc262f3aec7f26ec16196&libraries=services,drawing"></script>
 </head>
 <body>
+<!-- Header Section -->
+<header class="navbar">
+    <div class="logo">
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+            <img src="/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+            <span class="a">MODUNURI</span>
+        </a>
+    </div>
 
+    <nav>
+        <ul class="nav-links">
+            <li><a href="/touristSpot/area-search">지역 별 검색</a></li>
+            <li><a href="/touristSpot/search-by-accessibility">무장애 정보 검색</a></li>
+            <li><a href="/touristSpot/map">지도 보기</a></li>
+            <li><a href="/touristSpot/travelplan">여행 기록하기</a></li>
+            <li><a href="/community">커뮤니티</a></li>
+            <!-- 로그인 상태 확인 -->
+            <li class="nav-item-right">
+        <span th:if="${username != null}">
+        <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+        <a href="/users/mypage" class="auth-mypage">마이페이지</a>
+        <a href="/users/logout" class="auth-button">로그아웃</a>
+        </span>
+                <span th:if="${username == null}">
+        <a class="login-message">로그인을 해주세요</a>
+        <a href="/users/signup" class="auth-button">회원가입</a>
+        <a href="/users/login" class="auth-button">로그인</a>
+    </span>
+            </li>
+        </ul>
+    </nav>
+</header>
 <!-- 공통 이전 버튼 -->
 <div class="back-button-container">
     <img src="/images/back-btn.png" alt="이전 버튼" class="back-button">
@@ -60,11 +91,13 @@
     <h2>모두가 함께하는 여행을 위해, 무장애 시설을 선택하세요!</h2>
     <p>걱정 없이 즐길 수 있는 편안한 여행을 위해 무장애 시설을 선택하세요.</p>
     <div class="barrier-buttons">
-        <button class="barrier-btn" value="wheelchair">휠체어</button>
-        <button class="barrier-btn" value="stroller">유아차</button>
+        <button class="barrier-btn" value="wheelchair">휠체어 대여</button>
+        <button class="barrier-btn" value="stroller">유아차 대여</button>
         <button class="barrier-btn" value="elevator">엘리베이터</button>
         <button class="barrier-btn" value="help_dog">안내견</button>
         <button class="barrier-btn" value="braille_block">점자블록</button>
+        <button class="barrier-btn" value="blind_handicap_etc">시각장애인 편의시설</button>
+        <button class="barrier-btn" value="parking">장애인 주차구역</button>
     </div>
     <button class="next-btn">다음</button>
 </div>

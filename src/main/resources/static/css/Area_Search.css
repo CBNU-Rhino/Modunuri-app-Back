@@ -1,7 +1,7 @@
-
 @font-face {
     font-family: 'Pretendard';
-    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff') format('woff');
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff2') format('woff2'),
+    url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff') format('woff');
     font-weight: 100 900;
     font-style: normal;
 }
@@ -176,7 +176,7 @@ html, body {
 .location-filters select {
     width: 30%;
     padding: 12px;
-    background-color: rgba(148, 205, 147, 0.25);
+    border: 2px solid #BCC7A3;
     border-radius: 8px;
     background-color: #F3F8E6;
     font-size: 16px;
@@ -191,110 +191,112 @@ html, body {
     flex-wrap: wrap;
 }
 
-.checkbox-container label {
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-    font-size: 25px;
-    color: #6C7A40;
-}
-
-input[type="radio"] {
-    display: none;
-}
-
 .checkbox-container label input {
     margin-right: 10px;
-    display: none;
+}
+/* 기본 라디오 버튼을 숨기고, 시각적인 스타일만 나타내기 */
+input[type="radio"] {
+    display: none; /* 기존 라디오 버튼 숨기기 */
 }
 
 .custom-radio {
     display: flex;
     align-items: center;
     cursor: pointer;
-    margin-bottom: 10px;
 }
 
-.radio-btn {
+/* 라디오 버튼과 검색 버튼 스타일 */
+.radio-btn, .search-btn {
     display: inline-block;
     padding: 10px 20px;
     background-color: #f9f9f9; /* 기본 배경 색상 */
-    border-radius: 30px; /* 둥근 버튼 */
-    border: 2px solid #ddd; /* 테두리 색상 */
+    border-radius: 30px; /* 둥근 모서리 */
+    border: 2px solid #89B873; /* 기본 테두리 색상 */
     color: #555;
     font-size: 16px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    margin-right: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     cursor: pointer;
+    text-align: center;
+    flex-grow: 1; /* 버튼 크기가 창 크기에 따라 유동적으로 조절됨 */
+    min-width: 120px; /* 버튼의 최소 너비 */
 }
 
-/* 선택된 상태의 스타일 */
-input[type="radio"]:checked + .radio-btn {
+/* 라디오 버튼 선택된 상태와 검색 버튼의 활성화 상태 */
+input[type="radio"]:checked + .radio-btn, .search-btn.active {
     background-color: #89B873; /* 선택된 상태의 배경 색상 */
     color: white; /* 선택된 상태의 글자 색상 */
     border-color: #89B873; /* 선택된 상태의 테두리 색상 */
 }
 
-/* 호버 시 스타일 */
-.radio-btn:hover {
-    background-color: #e0e0e0; /* 호버 시 배경 색상 */
+/* 마우스 오버 시 스타일 */
+.radio-btn:hover, .search-btn:hover {
+    background-color: #e0e0e0; /* 마우스 오버 시 배경 색상 */
     color: #555;
 }
 
-/* selected-area 정렬 */
-.selected-area {
+/* 라디오 버튼과 검색 버튼이 같은 줄에 위치하도록 설정 */
+.checkbox-container {
     display: flex;
-    justify-content: space-between; /* 검색 버튼과 초기화 버튼을 양 끝으로 배치 */
-    align-items: center;
-    margin-top: 20px;
-    padding: 10px;
-    border-top: 2px solid rgba(148, 205, 147, 0.25);
-    color: #717171;
-}
-
-/* 검색 버튼 컨테이너 */
-.search-btn-container {
-    display: flex;
-    justify-content: center; /* 가로 중앙 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-    /* 페이지 전체 높이를 채워서 중앙에 위치하게 함 */
+    justify-content: space-between; /* 버튼들 사이 일정 간격 유지 */
+    align-items: center; /* 버튼의 세로 정렬 */
+    margin-bottom: 10px; /* 검색 버튼과 아래 요소 사이 간격 */
+    gap: 10px; /* 버튼들 사이의 간격을 일정하게 유지 */
+    width: 100%; /* 컨테이너가 화면 너비를 가득 채우도록 설정 */
 }
 
 /* 검색 버튼 스타일 */
 .search-btn {
-    width: 20%; /* 컨테이너의 85% 비율로 설정 */
-    padding: 5px 0 !important;; /* 버튼의 상하 패딩을 줄임 */
-    background-color: #4CAF50; /* 초록색 배경 */
-    color: white; /* 흰색 텍스트 */
-    border: none; /* 테두리 제거 */
-    border-radius: 30px; /* 둥근 모서리 */
-    font-size: 16px; /* 폰트 크기 */
-    cursor: pointer; /* 마우스 포인터를 손 모양으로 변경 */
-    margin-bottom: 10px; /* 아래쪽 여백 추가 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    margin-top: 10px;
+    background-color: #f9f9f9;
+    border-radius: 30px;
+    border: 2px solid #ddd;
+    color: #555;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
 }
 
 .search-btn:hover {
-    background-color: #45a049; /* 마우스 오버 시 배경색 변경 */
+    background-color: #e0e0e0;
 }
 
-/* 초기화 버튼 스타일 */
+/* 반응형 디자인 - 화면 크기에 따라 버튼이 줄어듦 */
+@media (max-width: 768px) {
+    .radio-btn, .search-btn {
+        padding: 8px 16px; /* 버튼 패딩을 줄여 크기 조정 */
+        font-size: 14px; /* 폰트 크기를 줄임 */
+    }
+}
+
+.selected-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px;
+    border-top: 2px solid #D0D8C0;
+    color: #6C7A40;
+}
+
 .reset-btn {
-    width: 12%;
-    align-items: center;  /* 이미지와 텍스트를 수직 가운데 정렬 */
+    display: flex; /* 이미지와 텍스트를 나란히 배치 */
+    align-items: center; /* 이미지와 텍스트를 수직 가운데 정렬 */
     padding: 10px 20px;
-    background-color: rgba(148, 205, 147, 0.25);
-    border: 2px solid rgba(148, 205, 147, 0.25);
+    background-color: #89B873;
+    border: 2px solid #A3AE79;
     border-radius: 8px;
     cursor: pointer;
-    color: #717171;
+    color: #4C5A30;
     font-size: 16px;
-    gap: 10px;  /* 이미지와 텍스트 사이에 간격 추가 */
+    gap: 10px; /* 이미지와 텍스트 사이 간격 */
+}
+
+.reset-btn img {
+    width: 16px;  /* 이미지 크기 조정 */
+    height: 16px;
 }
 
 .reset-btn:hover {
-    background-color: rgba(148, 205, 147, 0.25);
+    background-color: #B8C793;
 }
 
 .dropdown {
@@ -304,11 +306,11 @@ input[type="radio"]:checked + .radio-btn {
 .dropdown select {
     width: 100%;
     padding: 10px;
+    border: 2px solid #89B873;
     border-radius: 8px;
-    background-color: white; /* 카드 배경색 */
-    border: 1px solid #ddd;
+    background-color: #f9f9f9;
     font-size: 16px;
-    color: #717171;
+    color: #6C7A40;
 }
 
 .gallery {
@@ -320,27 +322,45 @@ input[type="radio"]:checked + .radio-btn {
 }
 
 .gallery-item {
-    background-color: white; /* 카드 배경색 */
-    border: 1px solid #ddd;
+    background-color: #fff;
+    border: 2px solid #ddd;
     border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
-    color: #717171;
+    text-decoration: none ;
+    color: #6C7A40;
     font-size: 18px;
 }
 
 .gallery-item img {
-    max-width: 100%;
+    width: 100%; /* 이미지가 박스 너비에 맞게 */
     height: 200px;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    object-fit: cover; /* 이미지 비율 유지 */
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 5px; /* 이미지와 텍스트 사이의 간격을 5px로 설정 */
 }
 
 .gallery-item p {
     font-weight: bold;
     margin: 0;
-    color: #717171;
+    color: #6C7A40;
 }
+
+.gallery-item:hover {
+    transform: translateY(-5px); /* 호버 시 살짝 위로 움직이는 효과 */
+}
+
+.gallery-item a {
+    text-decoration: none; /* 링크에서 밑줄 제거 */
+    color: inherit; /* 부모 요소의 색상 상속 */
+}
+
+.gallery-item a:hover {
+    text-decoration: none; /* 마우스 오버 시에도 밑줄 제거 */
+}
+
 
 .pagination {
     display: flex;
