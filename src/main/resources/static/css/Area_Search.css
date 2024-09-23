@@ -141,7 +141,7 @@ html, body {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     min-height: 400px; /* 최소 높이 설정 */
 }
 
@@ -304,9 +304,9 @@ input[type="radio"]:checked + .radio-btn {
 .dropdown select {
     width: 100%;
     padding: 10px;
-    border: 2px solid rgba(148, 205, 147, 0.25);
     border-radius: 8px;
-    background-color: rgba(148, 205, 147, 0.25);
+    background-color: white; /* 카드 배경색 */
+    border: 1px solid #ddd;
     font-size: 16px;
     color: #717171;
 }
@@ -320,8 +320,8 @@ input[type="radio"]:checked + .radio-btn {
 }
 
 .gallery-item {
-    background-color: rgba(148, 205, 147, 0.25);
-    border: 2px solid rgba(148, 205, 147, 0.25);
+    background-color: white; /* 카드 배경색 */
+    border: 1px solid #ddd;
     border-radius: 12px;
     padding: 20px;
     text-align: center;
@@ -360,7 +360,7 @@ input[type="radio"]:checked + .radio-btn {
     border: 2px solid rgba(148, 205, 147, 0.25); /* 경계선 설정 */
     border-radius: 8px; /* 모서리 둥글게 */
     margin: 0 5px;
-    color: #717171;
+    color: #45a049;
     font-size: 16px;
     text-align: center;
     cursor: pointer;

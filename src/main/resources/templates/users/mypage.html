@@ -46,15 +46,8 @@
 <main class="main-container">
     <div class="mypage-content">
         <!-- Profile Section -->
-        <section class="block profile-section">
-            <h2>Profile</h2>
-            <hr class="divider"> <!-- 구분선 추가 -->
-            <div class="profile-details">
-                <img src="/images/travelers.png" alt="Profile Image" class="profile-img">
-                <div class="profile-info">
-                    <p><strong>Username:</strong> <span th:text="${username}"></span></p>
-                </div>
-            </div>
+        <section class="profile-contents">
+            <h2><span th:text="${username} + '님의 마이페이지'"></span></h2>
         </section>
 
         <!-- 관심 관광지 목록 -->
@@ -137,7 +130,6 @@
             .catch(error => console.error('Error loading saved places:', error));
     }
 
-
     // 저장된 관광지 정보를 표시
     function displaySavedPlace(touristDetail) {
         const savedPlaces = document.querySelector('#saved-places');
@@ -207,15 +199,17 @@
         const contentCount = course.contentInfos.length;
 
         courseBox.innerHTML = `
+    <div class="course-box-content">
         <div class="course-info">
             <h4>${courseName}</h4>
             <p>포함된 관광지 수: ${contentCount}</p>
-            <!-- 동기식 폼을 이용한 삭제 버튼 -->
-            <form action="/courses/remove" method="POST">
-                <input type="hidden" name="courseId" value="${course.id}">
-                <button type="submit" class="remove-button">코스 삭제</button>
-            </form>
         </div>
+        <!-- 동기식 폼을 이용한 삭제 버튼 -->
+        <form action="/courses/remove" method="POST" style="margin-left: auto;">
+            <input type="hidden" name="courseId" value="${course.id}">
+            <button type="submit" class="remove-button">코스 삭제</button>
+        </form>
+    </div>
     `;
 
         savedCourses.appendChild(courseBox);
