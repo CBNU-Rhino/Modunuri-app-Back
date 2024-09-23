@@ -42,7 +42,7 @@ function displaySavedPlace(touristDetail) {
     placeBox.setAttribute('ondragstart', 'drag(event)');
     placeBox.id = `place-${touristDetail.contentid}`;
 
-    const imageUrl = touristDetail.firstimage || '/images/placeholder.png';
+    const imageUrl = touristDetail.firstimage || '/images/placeholder.jpg';
     const title = touristDetail.title || "제목 없음";
     const address = touristDetail.addr1 || "주소 없음";
 

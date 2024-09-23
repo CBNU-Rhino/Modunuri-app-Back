@@ -166,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const region = travelPlan.region;  // 선택한 지역
         const accessibleFeature = travelPlan.barriers[0];  // 첫 번째 선택된 무장애 정보 (여러 개 가능 시 배열로 처리)
 
+
         // API 호출
         fetch(`http://localhost:8080/touristSpot/Json/accessible-tourist-spots?region=${region}&accessibleFeature=${accessibleFeature}`)
             .then(response => response.json())
@@ -178,14 +179,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     const spotElement = document.createElement('div');
                     spotElement.classList.add('spot-item');
 
-                    // 이미지가 없는 경우 placeholder 이미지로 대체
-                    const imageUrl = spot.firstimage ? spot.firstimage : '/images/placeholder.png'; // placeholder 이미지 경로 설정
+                    // 이미지가 없을 때 placeholder 이미지로 대체
+                    const imageUrl = spot.firstimage ? spot.firstimage : '/images/placeholder.jpg'; // placeholder 이미지 경로 설정
 
                     spotElement.innerHTML = `
-        <img src="${imageUrl}" alt="관광지 이미지" onerror="this.onerror=null; this.src='/images/placeholder.png';">
-        <h3>${spot.title}</h3>
-        <p>${spot.addr1}</p>
-    `; // 백틱을 제대로 닫습니다
+                    <img src="${spot.firstimage}" alt="관광지 이미지">
+                    <h3>${spot.title}</h3>
+                    <p>${spot.addr1}</p>
+                `;
 
                     // 클릭 이벤트: 선택/해제
                     spotElement.addEventListener('click', function () {
@@ -205,77 +206,83 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 5번 페이지에서 선택한 관광지 목록을 드래그 가능한 리스트로 표시
+    // 관광지 목록을 드래그 앤 드롭으로 정렬하는 함수
     function generateSortableList() {
         const sortableList = document.getElementById('sortable');
         sortableList.innerHTML = ''; // 기존 항목 초기화
+
         travelPlan.selectedPlaces.forEach((place, index) => {
             const listItem = document.createElement('li');
-            listItem.classList.add('list-item');
-            listItem.setAttribute('data-content-id', place.contentid);  // contentId 저장
-            listItem.setAttribute('data-content-type-id', place.contenttypeid);  // contentTypeId 저장
-            listItem.setAttribute('data-mapx', place.mapx);  // 경도 저장
-            listItem.setAttribute('data-mapy', place.mapy);  // 위도 저장
-            listItem.setAttribute('data-title', place.title);  // title 저장
+            listItem.classList.add('list-item', 'draggable');
+            listItem.setAttribute('draggable', 'true');
+            listItem.setAttribute('data-content-id', place.contentid);
+            listItem.setAttribute('data-content-type-id', place.contenttypeid);
+            listItem.setAttribute('data-mapx', place.mapx);
+            listItem.setAttribute('data-mapy', place.mapy);
+            listItem.setAttribute('data-title', place.title);
             listItem.innerHTML = `
-        <div class="content">
-            <div class="left-info">
-                <strong>${place.title}</strong>
-                <p>${place.addr1}</p>
-            </div>
-        </div>
-        `;
-
+                <div class="content">
+                    <div class="left-info">
+                        <strong>${place.title}</strong>
+                        <p>${place.addr1}</p>
+                    </div>
+                </div>
+            `;
             sortableList.appendChild(listItem);
         });
 
-        console.log("Sortable list items:", document.querySelectorAll('.list-item'));  // 항목들이 제대로 추가되었는지 확인
-
-        initializeDragEvents(); // 드래그 앤 드롭 기능 활성화
+        // 드래그 앤 드롭 이벤트 활성화
+        initializeDragAndDrop();
     }
 
-    // 드래그 앤 드롭 기능 활성화
-    function initializeDragEvents() {
-        let draggedItem = null;
+    // 드래그 앤 드롭 기능을 추가하는 함수
+    function initializeDragAndDrop() {
+        const draggables = document.querySelectorAll(".draggable");
+        const container = document.getElementById("sortable");
 
-        document.querySelectorAll('.list-item').forEach(item => {
-            const dragHandle = item.querySelector('.drag-handle');
-
-            dragHandle.addEventListener('mousedown', function (event) {
-                draggedItem = item;
-                item.classList.add('dragging');
-
-                document.addEventListener('mousemove', onMouseMove);
-                document.addEventListener('mouseup', onMouseUp);
+        draggables.forEach(draggable => {
+            draggable.addEventListener("dragstart", () => {
+                draggable.classList.add("dragging");
             });
 
-            function onMouseMove(event) {
-                if (!draggedItem) return;
+            draggable.addEventListener("dragend", () => {
+                draggable.classList.remove("dragging");
+            });
+        });
 
-                draggedItem.style.position = 'absolute';
-                draggedItem.style.top = `${event.clientY - draggedItem.offsetHeight / 2}px`;
-                draggedItem.style.left = `${event.clientX - draggedItem.offsetWidth / 2}px`;
-            }
-
-            function onMouseUp() {
-                if (!draggedItem) return;
-
-                draggedItem.classList.remove('dragging');
-                draggedItem.style.position = '';
-                draggedItem.style.top = '';
-                draggedItem.style.left = '';
-                draggedItem = null;
-
-                document.removeEventListener('mousemove', onMouseMove);
-                document.removeEventListener('mouseup', onMouseUp);
+        container.addEventListener("dragover", e => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(container, e.clientY);
+            const draggable = document.querySelector(".dragging");
+            if (afterElement == null) {
+                container.appendChild(draggable);
+            } else {
+                container.insertBefore(draggable, afterElement);
             }
         });
+
+        // 현재 마우스 위치에 놓일 요소를 결정하는 함수
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll(".draggable:not(.dragging)")];
+
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
     }
 
-    // 6번 페이지: 여행 이름 설정 및 여행 완료 처리
+    // 여행 이름 설정 및 완료 처리
     function finalizeTripName() {
         const tripNameInput = document.getElementById('tripName').value;
         if (tripNameInput.trim() === "") {
-            travelPlan.tripName = `${userId}의 멋진 여행`; // 기본 여행 이름 설정
+            travelPlan.tripName = `${userId}의 멋진 여행`;
         } else {
             travelPlan.tripName = tripNameInput;
         }
