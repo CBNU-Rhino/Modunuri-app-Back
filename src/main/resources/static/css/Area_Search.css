@@ -403,7 +403,7 @@ input[type="radio"]:checked + .radio-btn {
     height: 200px;
     object-fit: cover; /* 이미지 비율 유지 */
     border-bottom: 1px solid #ddd;
-    margin-bottom: 5px; /* 이미지와 텍스트 사이의 간격을 5px로 설정 */
+    margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격을 10px로 설정 */
 }
 
 .gallery-item p {
