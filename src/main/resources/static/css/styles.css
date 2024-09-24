@@ -337,6 +337,7 @@ html, body {
 .additional-content h2 {
     font-size: 3rem;
     margin-bottom: 10px;
+    color: #4CAF4F;
 }
 
 .additional-content p {
@@ -624,7 +625,7 @@ button:hover {
 
 .travel-container h2 {
     font-size: 2.5rem;
-    color: #4CAF50; /* 초록색 텍스트 */
+    color: #4CAF4F; /* 초록색 텍스트 */
     margin-bottom: 20px;
 }
 

@@ -463,11 +463,7 @@ input[type="radio"]:checked + .radio-btn {
 
 /* Footer */
 /* 푸터 위에 빈 공간 확보 */
-.footer-space {
-    height: 200px; /* 원하는 높이로 빈 공간 확보 */
-}
-
-/* 푸터를 페이지 바닥에 고정 */
+/* 푸터를 페이지 하단에 고정 */
 .footer {
     background-color: #B4D5A8;
     color: #fff;
@@ -475,9 +471,12 @@ input[type="radio"]:checked + .radio-btn {
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
-    bottom: 0; /* 화면 하단에 위치 */
+    position: fixed; /* 페이지 하단에 고정 */
+    bottom: 0;       /* 페이지의 맨 아래에 위치 */
     left: 0;
+    z-index: 1000;   /* 푸터가 다른 콘텐츠 위에 표시되도록 설정 */
 }
+
 
 .footer-links ul {
     list-style: none;
@@ -497,3 +496,4 @@ input[type="radio"]:checked + .radio-btn {
 .footer-links a:hover {
     text-decoration: underline;
 }
+

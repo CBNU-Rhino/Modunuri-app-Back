@@ -191,6 +191,10 @@ function resetFilters() {
     document.getElementById('region').value = '';
     document.getElementById('sido').innerHTML = '<option value="">시/구/군을 선택하세요</option>';
 
+    // 무장애 필터 선택 초기화 (드롭다운)
+    document.getElementById('accessibleType').value = '';  // 무장애 선택 필터 초기화
+
+
     const gallery = document.getElementById('gallery');
     gallery.style.display = 'none';
     gallery.innerHTML = ''; // 갤러리 초기화
