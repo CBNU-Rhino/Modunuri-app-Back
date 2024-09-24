@@ -375,6 +375,8 @@ input[type="radio"]:checked + .radio-btn {
     background-color: #f9f9f9;
     font-size: 16px;
     color: #6C7A40;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif; /* 라디오 버튼과 동일한 폰트 적용 */
+    appearance: none;
 }
 
 .gallery {
