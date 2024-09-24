@@ -173,7 +173,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const region = travelPlan.region;  // 선택한 지역
         const accessibleFeature = travelPlan.barriers[0];  // 첫 번째 선택된 무장애 정보 (여러 개 가능 시 배열로 처리)
 
-
         // API 호출
         fetch(`http://localhost:8080/touristSpot/Json/accessible-tourist-spots?region=${region}&accessibleFeature=${accessibleFeature}`)
             .then(response => response.json())
@@ -186,11 +185,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     const spotElement = document.createElement('div');
                     spotElement.classList.add('spot-item');
 
-                    // 이미지가 없을 때 placeholder 이미지로 대체
-                    const imageUrl = spot.firstimage ? spot.firstimage : '/images/placeholder.jpg'; // placeholder 이미지 경로 설정
+                    // 이미지가 없는 경우 대체 이미지로 설정
+                    const imageUrl = (spot.firstimage && spot.firstimage.trim() !== '')
+                        ? spot.firstimage
+                        : '/images/placeholder.jpg'; // 대체 이미지 경로 설정
 
                     spotElement.innerHTML = `
-                    <img src="${spot.firstimage}" alt="관광지 이미지">
+                    <img src="${imageUrl}" alt="관광지 이미지">
                     <h3>${spot.title}</h3>
                     <p>${spot.addr1}</p>
                 `;
@@ -211,6 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => console.error('관광지 정보를 불러오는 중 오류 발생:', error));
     }
+
 
     // 5번 페이지에서 선택한 관광지 목록을 드래그 가능한 리스트로 표시
     // 관광지 목록을 드래그 앤 드롭으로 정렬하는 함수

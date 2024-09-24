@@ -155,6 +155,7 @@ html, body {
     width: 100px; /* 동일한 너비 설정 */
     box-sizing: border-box;
     margin-left: 5px; /* 버튼 간격 조정 */
+
 }
 
 .auth-button:hover {
@@ -205,8 +206,7 @@ p {
     position: relative; /* 컨테이너 안에서 요소를 배치하기 위한 기준점 설정 */
     width: 80vw;
     max-width: 1200px;
-    height: auto;
-    height: 610px; /* 최소 높이 설정 */
+    height: 700px; /* 최소 높이 설정 */
     margin: 100px auto; /* 중앙 정렬 */
     background-color: #ffffff;
     padding: 30px;
@@ -271,6 +271,8 @@ p {
     cursor: pointer;
     margin-top: 20px;
     transition: background-color 0.3s ease;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
+
 }
 
 .main-button:hover {
@@ -324,7 +326,7 @@ p {
 }
 
 .region-chungcheong {
-    top: 42%;
+    top: 45%;
     left: 45%;
 }
 
@@ -360,6 +362,8 @@ p {
     margin: 40px auto; /* 페이지 하단에 중앙 정렬 */
     display: block; /* 중앙 정렬을 위해 block 요소로 변경 */
     transition: background-color 0.3s ease;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
+
 }
 
 .next-btn.active {
@@ -374,7 +378,8 @@ p {
     justify-content: center; /* 버튼을 가운데 정렬 */
     gap: 20px; /* 버튼 간 간격을 조정 */
     margin-bottom: 15px; /* 하단 여백 설정 */
-    margin-top: 60px;
+    margin-top: 50px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .region-btn {
@@ -390,6 +395,7 @@ p {
     max-width: 200px; /* 버튼의 최대 너비 제한 */
     text-align: center; /* 버튼 내 텍스트 중앙 정렬 */
     height: 50px; /* 버튼 높이 설정 */
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 /* 무장애 버튼 스타일 */
@@ -400,6 +406,8 @@ p {
     justify-content: center; /* 버튼을 가운데 정렬 */
     gap: 10px; /* 버튼 사이의 간격 */
     margin-bottom: 20px;
+    margin-top: 50px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .barrier-btn {
@@ -415,6 +423,7 @@ p {
     transition: background-color 0.3s ease;
     flex: 1 0 calc(25% - 20px); /* 한 줄에 3개씩 배치되도록 설정 */
     text-align: center; /* 버튼 안의 텍스트를 중앙 정렬 */
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .region-btn:hover,
@@ -451,6 +460,7 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: space-between;  /* 이미지와 텍스트 간 균형 유지 */
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 /* 이미지 크기 고정 및 자르기 */
@@ -501,8 +511,14 @@ p {
     background-color: #d9e8c7;
 }
 
+/* 부모 컨테이너 스타일 */
+.parent-container {
+    text-align: center;
+}
+
 /* 여행 이름 입력 필드 스타일 */
 #tripName {
+    display: inline-block; /* 중앙 정렬을 위해 inline-block으로 변경 */
     width: 100%;
     max-width: 600px;
     padding: 10px;
@@ -513,26 +529,33 @@ p {
     border-radius: 8px;
     background-color: white;
     color: #6C7A40;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
+}
+
+
+.complete-btn-container {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center;     /* 세로 중앙 정렬 (필요 시) */
+    margin-top: 20px;        /* 상단 여백 */
 }
 
 .complete-btn {
-    border: none !important; /* 기존에 설정된 border를 없앰 */
-    box-shadow: none !important; /* box-shadow를 없앰 */
-    padding: 10px 20px;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 15px 40px; /* 패딩을 늘려 버튼 크기 확대 */
     background-color: #89B873;
     color: #F5FFF5 !important;
     text-decoration: none;
     border-radius: 10px;
     display: inline-block;
     text-align: center;
-    font-size: 16px;
-    width: 100px; /* 동일한 너비 설정 */
+    font-size: 18px; /* 글자 크기도 확대 */
+    width: 150px; /* 너비를 늘림 */
     box-sizing: border-box;
-    margin-left: 5px; /* 버튼 간격 조정 */
-    margin-top: 20px;
-    align-items: center;
-    justify-content: center;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
+
 
 .complete-btn:hover {
     background-color: #739c61;
@@ -567,6 +590,7 @@ p {
         width: 90%;
     }
 }
+
 .tourist-spot-box {
     padding: 10px;
     margin: 10px;

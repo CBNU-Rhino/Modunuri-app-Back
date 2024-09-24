@@ -135,8 +135,10 @@
     <p>선택한 관광지를 드래그하여 순서를 조정할 수 있습니다.</p>
 
     <!-- 여행 이름 설정 구간 -->
-    <label for="tripName">여행 이름을 정하세요:</label>
-    <input type="text" id="tripName" placeholder="여행 이름을 입력하세요">
+    <div class="parent-container"> <!-- 중앙 정렬을 위한 부모 컨테이너 -->
+        <label for="tripName"></label>
+        <input type="text" id="tripName" placeholder="여행 이름을 입력하세요">
+    </div>
 
     <!-- 드래그 가능한 관광지 리스트 -->
     <ul id="sortable">
@@ -162,7 +164,9 @@
         <!-- 관광지들이 코스 순서대로 여기에 표시됨 -->
     </div>
 
-    <button class="complete-btn">완료</button>
+    <div class="complete-btn-container">
+        <button class="complete-btn">완료</button>
+    </div>
 </div>
 
 <!-- Footer Section -->
