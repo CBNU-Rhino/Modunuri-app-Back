@@ -52,35 +52,42 @@ document.addEventListener('DOMContentLoaded', function () {
     // next-btn 클릭 시 다음 페이지로 이동
     document.querySelectorAll('.next-btn').forEach(btn => {
         btn.addEventListener('click', function () {
-            // selectedRegion이 null일 경우 페이지 전환을 막음
             if (!selectedRegion && currentPageIndex === 1) {
                 alert("권역을 선택해주세요.");
-                return; // 권역이 선택되지 않으면 페이지 전환하지 않음
+                return;
             }
 
             if (currentPageIndex < pages.length - 1) {
                 currentPageIndex++;
                 showPage(currentPageIndex);
                 if (currentPageIndex === 2) {
-                    // 2번 지역 선택 페이지에서 버튼 업데이트
                     updateRegionButtons(selectedRegion);
                 }
                 if (currentPageIndex === 4) {
-                    // 4번 페이지: 관광지 리스트 생성
                     generateTouristSpots();
                 }
                 if (currentPageIndex === 5) {
-                    // 5번 페이지: 선택한 관광지 정렬하기
                     generateSortableList();
-                    initializeDragEvents(); // 드래그 기능 활성화
+                    initializeDragEvents();
                 }
                 if (currentPageIndex === 6) {
-                    loadSelectedTouristSpots(); // 여행 완료 페이지에 도착하면 로컬 스토리지에서 값 불러오기
+                    loadSelectedTouristSpots();
                     finalizeTripName();
                 }
             }
         });
     });
+
+    // 모든 백버튼을 선택하고 각 버튼에 이벤트 리스너를 추가
+    document.querySelectorAll('.back-button').forEach(button => {
+        button.addEventListener('click', function () {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                showPage(currentPageIndex);
+            }
+        });
+    });
+
 
     // 이전 버튼 클릭 시 이전 페이지로 이동
     document.querySelector('.back-button').addEventListener('click', function () {
