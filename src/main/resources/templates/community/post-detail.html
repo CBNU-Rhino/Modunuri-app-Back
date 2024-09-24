@@ -52,16 +52,15 @@
         <!-- Post Metadata (Author, Date, 조회수 등) -->
         <div class="post-meta">
             <span>작성자: <strong th:text="${post.author}">Author</strong></span>
-            <span>작성일: <strong th:text="${post.createdAt}">Date</strong></span>
+            <span>작성일: <strong id="postCreatedAt" th:data-iso-date="${post.createdAt}">Date</strong></span> <!-- 작성일 추가 -->
+        </div>
         </div>
 
         <!-- Post Content -->
         <div class="post-content" th:text="${post.content}">
             Loading content...
         </div>
-        <!-- Current and Post User IDs -->
-        <p>Current User ID: <span th:text="${currentUserId}">Unknown User</span></p>
-        <p>Post User ID: <span th:text="${postUserId}">Unknown Post User</span></p>
+
 
         <!-- 게시물 ID 값을 숨겨서 전달 -->
         <input type="hidden" id="postId" th:value="${postId}">
@@ -122,6 +121,24 @@
             return;
         }
 
+        // 1. 날짜만 반환하도록 수정된 formatDateTime 함수
+        function formatDateTime(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+
+            // 시간 없이 날짜만 반환 (연-월-일 형식)
+            return `${year}-${month}-${day}`;
+        }
+
+        // 2. 포스트 작성일 데이터를 읽어서 포맷팅된 날짜로 변경
+        if (postCreatedAtElement) {
+            const isoDate = postCreatedAtElement.getAttribute('data-iso-date');
+            const formattedDate = formatDateTime(isoDate); // 날짜만 포맷
+            postCreatedAtElement.textContent = formattedDate;  // 포맷팅된 날짜로 업데이트
+        }
+
         function loadComments(postId) {
             fetch(`/api/comments/post/${postId}`)
                 .then(response => response.json())
@@ -130,7 +147,7 @@
                     const currentUserId = currentUserIdElement.value; // 현재 로그인한 사용자 ID
 
                     data.forEach(comment => {
-                        const formattedDate = formatDateTime(comment.createdAt);
+                        const formattedDate = formatDateTime(comment.createdAt); // 댓글 날짜만 포맷
                         let deleteButtonHTML = '';
 
                         // 댓글 작성자와 현재 로그인한 사용자가 같으면 삭제 버튼을 추가
@@ -139,14 +156,14 @@
                         }
 
                         const commentItem = `
-                            <div class="comment-item" data-comment-id="${comment.id}">
-                                <div class="comment-author">${comment.author}</div>
-                                <div class="comment-content">${comment.content}</div>
-                                <div class="comment-meta">${formattedDate}
-                                    ${deleteButtonHTML} <!-- 삭제 버튼을 조건부로 추가 -->
-                                </div>
+                        <div class="comment-item" data-comment-id="${comment.id}">
+                            <div class="comment-author">${comment.author}</div>
+                            <div class="comment-content">${comment.content}</div>
+                            <div class="comment-meta">${formattedDate}
+                                ${deleteButtonHTML} <!-- 삭제 버튼을 조건부로 추가 -->
                             </div>
-                        `;
+                        </div>
+                    `;
                         commentList.insertAdjacentHTML('beforeend', commentItem);
                     });
 
@@ -189,7 +206,7 @@
                 });
         }
 
-        function formatDateTime(dateString) {
+    function formatDateTime(dateString) {
             const date = new Date(dateString);
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -197,12 +214,7 @@
             return `${year}-${month}-${day}`;  // 시간 없이 날짜만 반환
         }
 
-        // 포스트 작성일 데이터를 읽어서 포맷팅된 날짜로 변경
-        if (postCreatedAtElement) {
-            const isoDate = postCreatedAtElement.getAttribute('data-iso-date');
-            const formattedDate = formatDateTime(isoDate);
-            postCreatedAtElement.textContent = formattedDate;  // 포맷팅된 날짜로 업데이트
-        }
+
 
         // 댓글 작성 기능
         const commentButton = document.querySelector('.comment-button');

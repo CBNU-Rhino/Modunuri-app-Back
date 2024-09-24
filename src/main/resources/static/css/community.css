@@ -278,6 +278,7 @@ td a:hover {
     border-radius: 5px;
     font-size: 16px;
     width: 300px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .search-button {
@@ -295,6 +296,7 @@ td a:hover {
     margin-left: 5px; /* 버튼 간격 조정 */
     margin-bottom: 22px;
     height: 40px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .search-button:hover {
@@ -358,6 +360,7 @@ td a:hover {
     margin-bottom: 20px;
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .post-meta {
@@ -368,6 +371,7 @@ td a:hover {
     margin-bottom: 20px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .post-content {
@@ -376,12 +380,14 @@ td a:hover {
     line-height: 1.8;
     color: #333;
     margin-bottom: 30px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .button-group {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 20px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .button-group a {
@@ -402,6 +408,7 @@ td a:hover {
     margin-top: 30px;
     padding-top: 20px;
     border-top: 1px solid #eee;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .comment-title {
@@ -409,6 +416,7 @@ td a:hover {
     margin-bottom: 20px;
     color: #333;
     font-weight: bold;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .comment-box {
@@ -424,6 +432,7 @@ td a:hover {
     border-radius: 5px;
     font-size: 14px;
     margin-right: 10px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .comment-button {
@@ -474,7 +483,8 @@ td a:hover {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 10px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .delete-comment-button:hover {
