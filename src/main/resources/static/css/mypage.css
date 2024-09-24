@@ -385,15 +385,14 @@ html, body {
     display: flex;
     justify-content: space-between; /* 요소들을 좌우로 배치 */
     align-items: center; /* 수직 중앙 정렬 */
-    width: 100%; /* 부모 섹션을 넘지 않도록 설정 */
-    max-width: 980px; /* 최대 너비 설정 */
+    width: 95%;
     padding: 20px; /* 내부 패딩 추가 */
     border: 1px solid #ccc;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     cursor: pointer;
-    margin: 5px 0; /* 위아래 간격 추가 */
+    margin: 5px 0;  /* 위아래 간격 추가 */
     height: 100px;
 }
 

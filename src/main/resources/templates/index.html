@@ -92,16 +92,6 @@
 
     <!-- 새로운 컨테이너: 여행 문구와 버튼 -->
     <div class="travel-container hidden">
-    <span th:if="${username != null}">
-        <h2>모두누리와 함께 여행을 떠날 준비가 되셨나요?</h2>
-        <div class="button-container">
-            <a href="/touristSpot/area-search" class="action-button">지역 별 검색</a>
-            <a href="/touristSpot/search-by-accessibility" class="action-button">무장애 관광 정보 검색</a>
-            <a href="/touristSpot/map" class="action-button">지도 보기</a>
-            <a href="/touristSpot/Travelplan" class="action-button">여행 계획하기</a>
-            <a href="/users/mypage" class="action-button">마이페이지</a>
-        </div>
-    </span>
         <span th:if="${username == null}">
         <h2>모두가 함께 누릴 수 있는 여행, 모두누리로 시작하세요</h2>
         <div class="button-container">
