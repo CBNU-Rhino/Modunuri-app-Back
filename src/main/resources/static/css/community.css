@@ -418,6 +418,20 @@ td a:hover {
     color: #999;
     margin-top: 5px;
 }
+
+.delete-comment-button {
+    padding: 5px 10px;
+    background-color: #89B873;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete-comment-button:hover {
+    background-color: #739c61;
+}
 /* post-detail */
 
     /* new-post */

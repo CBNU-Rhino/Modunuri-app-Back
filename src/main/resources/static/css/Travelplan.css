@@ -175,10 +175,13 @@ p {
 
 /* 이전 버튼을 포함하는 컨테이너 스타일 */
 .back-button-container {
-    position: absolute; /* 컨테이너 내에서 절대 위치 지정 */
-    top: 110px; /* 컨테이너 상단에서 10px 간격 */
-    left: 140px; /* 컨테이너 좌측에서 10px 간격 */
-    z-index: 100; /* 다른 요소보다 앞에 오도록 설정 */
+    position: absolute; /* 부모 요소인 .full-page 내에서 위치를 절대값으로 지정 */
+    top: 20px; /* 컨테이너 상단에서 20px 간격 */
+    left: 20px; /* 컨테이너 좌측에서 20px 간격 */
+    z-index: 999; /* 다른 요소보다 앞에 오도록 충분히 높은 값 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .back-button {
@@ -186,6 +189,8 @@ p {
     height: 40px;
     cursor: pointer;
     transition: transform 0.3s ease;
+    background-color: #89B873; /* 백 버튼 배경색 추가 */
+    border-radius: 50%; /* 동그란 모양으로 변경 */
 }
 
 .back-button:hover {

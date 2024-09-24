@@ -194,15 +194,14 @@
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            return `${year}-${month}-${day} ${hours}:${minutes}`;
+            return `${year}-${month}-${day}`;  // 시간 없이 날짜만 반환
         }
 
-        if (postId) {
-            loadComments(postId);
-        } else {
-            console.error('Post ID를 불러오지 못했습니다.');
+        // 포스트 작성일 데이터를 읽어서 포맷팅된 날짜로 변경
+        if (postCreatedAtElement) {
+            const isoDate = postCreatedAtElement.getAttribute('data-iso-date');
+            const formattedDate = formatDateTime(isoDate);
+            postCreatedAtElement.textContent = formattedDate;  // 포맷팅된 날짜로 업데이트
         }
 
         // 댓글 작성 기능
