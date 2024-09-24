@@ -153,6 +153,8 @@ html, body {
     width: 100px; /* 동일한 너비 설정 */
     box-sizing: border-box;
     margin-left: 5px; /* 버튼 간격 조정 */
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif; /* 라디오 버튼과 동일한 폰트 적용 */
+    appearance: none;
 }
 
 .auth-button:hover {
