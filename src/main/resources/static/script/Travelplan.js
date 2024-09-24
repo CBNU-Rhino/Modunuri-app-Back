@@ -88,15 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
-    // 이전 버튼 클릭 시 이전 페이지로 이동
-    document.querySelector('.back-button').addEventListener('click', function () {
-        if (currentPageIndex > 0) {
-            currentPageIndex--;
-            showPage(currentPageIndex);
-        }
-    });
-
     // 권역 선택 관련 스크립트 추가
     let selectedRegion = null;
 
@@ -213,7 +204,6 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('관광지 정보를 불러오는 중 오류 발생:', error));
     }
 
-
     // 5번 페이지에서 선택한 관광지 목록을 드래그 가능한 리스트로 표시
     // 관광지 목록을 드래그 앤 드롭으로 정렬하는 함수
     function generateSortableList() {
@@ -229,8 +219,11 @@ document.addEventListener('DOMContentLoaded', function () {
             listItem.setAttribute('data-mapx', place.mapx);
             listItem.setAttribute('data-mapy', place.mapy);
             listItem.setAttribute('data-title', place.title);
+
+            // 순번을 포함하는 HTML 구조
             listItem.innerHTML = `
                 <div class="content">
+                    <span class="item-number">${index + 1}</span> <!-- 순번 표시 -->
                     <div class="left-info">
                         <strong>${place.title}</strong>
                         <p>${place.addr1}</p>
@@ -242,6 +235,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 드래그 앤 드롭 이벤트 활성화
         initializeDragAndDrop();
+    }
+
+    // 순번을 업데이트하는 함수
+    function updateItemNumbers() {
+        const listItems = document.querySelectorAll('#sortable .list-item');
+        listItems.forEach((item, index) => {
+            const numberElement = item.querySelector('.item-number');
+            numberElement.textContent = index + 1; // 순번 갱신
+        });
     }
 
     // 드래그 앤 드롭 기능을 추가하는 함수
@@ -256,6 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             draggable.addEventListener("dragend", () => {
                 draggable.classList.remove("dragging");
+                updateItemNumbers(); // 드래그 완료 후 순번 업데이트
             });
         });
 
@@ -270,7 +273,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // 현재 마우스 위치에 놓일 요소를 결정하는 함수
         function getDragAfterElement(container, y) {
             const draggableElements = [...container.querySelectorAll(".draggable:not(.dragging)")];
 
@@ -287,7 +289,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 여행 이름 설정 및 완료 처리
+
+// 여행 이름 설정 및 완료 처리
     function finalizeTripName() {
         const tripNameInput = document.getElementById('tripName').value;
         if (tripNameInput.trim() === "") {
