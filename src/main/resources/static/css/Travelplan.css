@@ -157,7 +157,7 @@ p {
     width: 80vw;
     max-width: 1200px;
     height: auto;
-    min-height: 400px; /* 최소 높이 설정 */
+    height: 610px; /* 최소 높이 설정 */
     margin: 100px auto; /* 중앙 정렬 */
     background-color: #ffffff;
     padding: 30px;
@@ -166,6 +166,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-y: auto;
 }
 
 .full-page:not(.hidden) {
@@ -199,7 +200,7 @@ p {
 
 .center-image {
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
     height: auto;
     margin: 0 auto;
     border-radius: 10px;
@@ -524,4 +525,40 @@ p {
     width: 100%; /* 원하는 너비 설정 */
     height: 400px; /* 높이를 적절하게 설정 */
     z-index: 10; /* 다른 요소보다 위에 오도록 설정 */
+}
+
+/* Footer */
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 최소 높이를 100% 뷰포트 높이로 설정 */
+}
+
+.footer {
+    background-color: #B4D5A8;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-links li {
+    margin: 20px;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
 }
