@@ -371,6 +371,7 @@ button {
     font-size: 14px;
     border-radius: 4px;
     margin-top: 20px; /* 버튼 위쪽에 20px 여백 추가 */
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif; /* 라디오 버튼과 동일한 폰트 적용 */
 }
 
 button:hover {
