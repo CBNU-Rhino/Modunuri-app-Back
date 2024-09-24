@@ -490,9 +490,16 @@ p {
     color: white;
 }
 
+
+/* 5번 페이지: 여행 계획 정리 페이지 */
+#sortable {
+    list-style-type: none;
+    padding: 0;
+}
+
 #sortable li {
-    display: flex;  /* 항목을 가로로 배치 */
-    align-items: center;  /* 이미지와 텍스트를 세로 가운데 정렬 */
+    display: flex;
+    align-items: center;
     justify-content: flex-start;  /* 좌측 정렬 */
     background-color: white;
     border: 1px solid #ddd;
@@ -503,19 +510,20 @@ p {
     margin-bottom: 10px;
     cursor: move;
     transition: background-color 0.3s ease;
-    gap: 15px;  /* 이미지와 텍스트 사이의 간격 설정 */
+    gap: 50px;  /* 순번과 텍스트 사이의 간격 설정 */
 }
 
-/* 순번 표시를 위한 스타일 */
+/* 순번 스타일 */
 .list-index {
     font-weight: bold;  /* 순번을 굵게 표시 */
-    margin-right: 20px;  /* 순번과 텍스트 사이 간격 */
-    width: 30px;  /* 순번을 일정 크기로 고정 */
+    margin-right: 20px;  /* 순번과 텍스트 사이 간격 조절 */
+    width: 50px;  /* 순번을 일정 크기로 고정 */
     text-align: center;  /* 순번 가운데 정렬 */
     color: #4CAF50;  /* 순번 색상 */
+    font-size: 18px;  /* 순번 크기 */
 }
 
-/* 관광지 이름과 주소가 한 줄로 나란히 */
+/* 관광지 정보 (이름과 주소) */
 .left-info {
     display: flex;
     flex-direction: column; /* 세로로 정렬 */
@@ -532,37 +540,26 @@ p {
     color: #777;
 }
 
-
+/* 마우스 호버 시 배경색 */
 #sortable li:hover {
     background-color: #d9e8c7;
 }
 
 
-/* 5번 페이지: 여행 계획 정리 페이지 */
-#sortable {
-    list-style-type: none;
-    padding: 0;
+/* 드래그할 때 배경색 */
+.dragging {
+    opacity: 0.8;
+    background-color: #f0f0f0;
 }
 
-#sortable li {
-    background-color: white;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 15px;
-    text-align: center;
-    margin-bottom: 10px;
-    cursor: move;
-    transition: background-color 0.3s ease;
-}
-
-#sortable li:hover {
-    background-color: #d9e8c7;
-}
-
-/* 부모 컨테이너 스타일 */
+/* 부모 컨테이너 스타일 (리스트를 감싸는 요소) */
 .parent-container {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
 }
 
 /* 여행 이름 입력 필드 스타일 */
@@ -581,7 +578,7 @@ p {
     font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
-
+/* 완료 버튼 컨테이너 (가운데 정렬) */
 .complete-btn-container {
     display: flex;
     justify-content: center; /* 가로 중앙 정렬 */
@@ -589,6 +586,7 @@ p {
     margin-top: 20px;        /* 상단 여백 */
 }
 
+/* 완료 버튼 스타일 */
 .complete-btn {
     border: none !important;
     box-shadow: none !important;
@@ -604,7 +602,6 @@ p {
     box-sizing: border-box;
     font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
-
 
 .complete-btn:hover {
     background-color: #739c61;
@@ -639,6 +636,7 @@ p {
         width: 90%;
     }
 }
+
 
 .tourist-spot-box {
     padding: 10px;
