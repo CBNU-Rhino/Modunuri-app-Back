@@ -255,7 +255,7 @@ input[type="radio"] {
 }
 
 /* 라디오 버튼과 검색 버튼 스타일 */
-.radio-btn, .search-btn {
+.radio-btn{
     display: inline-block;
     padding: 10px 20px;
     background-color: #f9f9f9; /* 기본 배경 색상 */
@@ -283,7 +283,7 @@ input[type="radio"]:checked + .radio-btn, .search-btn.active {
     color: #555;
 }
 
-/* 라디오 버튼과 검색 버튼이 같은 줄에 위치하도록 설정 */
+
 .checkbox-container {
     display: flex;
     justify-content: space-between; /* 버튼들 사이 일정 간격 유지 */
@@ -301,7 +301,7 @@ input[type="radio"]:checked + .radio-btn, .search-btn.active {
     color: #555;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+    white-space: nowrap;
 }
 
 .search-btn:hover {

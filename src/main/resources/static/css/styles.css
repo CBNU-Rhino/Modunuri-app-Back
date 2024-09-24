@@ -344,19 +344,29 @@ html, body {
     color: #555;
 }
 
-/* 이미지 컨테이너 스타일 */
 .image-container {
     display: flex;
     justify-content: space-between;
     padding: 40px;
 }
 
-/* 초기 상태: 이미지를 보이지 않게 설정 */
 .image-container a {
-    flex-basis: 30%; /* 각 이미지 크기 */
-    margin: 0 1px; /* 이미지 간의 간격을 줄임 (기존 2px에서 1px으로) */
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* 애니메이션 설정 */
+    flex-basis: 30%; /* 기본적으로 각 이미지가 30% 너비 차지 */
+    margin: 0 1px;
 }
+
+/* 큰 화면을 위한 레이아웃 조정 */
+@media (min-width: 1600px) {
+    .image-container {
+        max-width: 1400px; /* 큰 화면에서 최대 1400px로 고정 */
+        margin: 0 auto;
+    }
+    .image-container a {
+        flex-basis: 30%; /* 큰 화면에서도 30%로 유지 */
+        margin: 0 0.5vw; /* 이미지 간 간격을 상대적으로 줄임 */
+    }
+}
+
 
 /* 스크롤 애니메이션용 스타일 */
 .additional-content, .image-container a, .split-container {

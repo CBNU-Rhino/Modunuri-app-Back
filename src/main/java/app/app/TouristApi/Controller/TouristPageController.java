@@ -1,24 +1,19 @@
 package app.app.TouristApi.Controller;
 
 import app.app.TouristApi.DTO.TouristInfoWithAccessibilityDTO;
-import app.app.TouristApi.Entity.AccessibleInfo;
 import app.app.TouristApi.Service.TouristApiService;
 import app.app.TouristApi.Service.TouristSpotService;
 import app.app.user.CustomUserDetails;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 @RequestMapping("/touristSpot")
@@ -46,12 +41,22 @@ public class TouristPageController {
     public String getTouristInformation(
             @RequestParam String contentId,
             @RequestParam String contentTypeId,
+            @AuthenticationPrincipal CustomUserDetails user, // 로그인한 사용자 정보 추가
             Model model) {
 
+        // 관광지 정보와 접근성 정보를 가져옵니다.
         TouristInfoWithAccessibilityDTO touristInfo = touristApiService.getTouristInfoWithAccessibility(contentId, contentTypeId);
 
-        // 데이터를 모델에 추가하여 view로 넘깁니다.
+        // 로그인된 사용자가 있는 경우 사용자 정보를 모델에 추가
+        if (user != null) {
+            model.addAttribute("username", user.getRealUsername());
+        } else {
+            model.addAttribute("username", null); // 비로그인 상태일 때
+        }
+
+        // 관광지 정보를 모델에 추가하여 view로 넘깁니다.
         model.addAttribute("touristInfo", touristInfo);
+
         return "touristSpot/searchresult"; // searchresult.html로 이동
     }
 
