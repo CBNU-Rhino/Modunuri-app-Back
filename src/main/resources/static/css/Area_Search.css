@@ -90,6 +90,7 @@ html, body {
     font-weight: 900;
     text-decoration: none;
     margin-top: 5px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold','Pretendard-Black','Pretendard-Bold', sans-serif;
 }
 
 .nav-links {
