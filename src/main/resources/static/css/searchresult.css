@@ -276,6 +276,7 @@ html, body {
     background-color: rgba(148, 205, 147, 0.25);
     height: 530px; /* 이미지 섹션과 일관된 높이로 줄임 */
     margin-right: 20px;
+
 }
 
 .right-section h3 {
@@ -283,12 +284,14 @@ html, body {
     font-size: 22px;
     color: #4CAF50;
     margin-bottom: 5px;
+
 }
 
 .right-section ul {
     list-style: none;
     padding: 0;
     text-align: left;
+
 }
 
 .right-section ul li {
@@ -341,24 +344,28 @@ html, body {
     font-size: 22px;
     color: #4CAF50;
     margin-bottom: 10px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold','Pretendard-Black','Pretendard-Bold', sans-serif;
 }
 
 .place-details-block ul {
     list-style: none;
     padding: 0;
     text-align: left;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold','Pretendard-Black','Pretendard-Bold', sans-serif;
 }
 
 .place-details-block ul li {
     margin-bottom: 10px;
     font-size: 18px;
     color: #717171;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold','Pretendard-Black','Pretendard-Bold', sans-serif;
 }
 
 .place-details-block p {
     font-size: 16px;
     line-height: 1.5;
     text-align: center;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold','Pretendard-Black','Pretendard-Bold', sans-serif;
 }
 
 /* 지도 블록 */
