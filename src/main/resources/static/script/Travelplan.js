@@ -341,7 +341,7 @@ document.querySelector('#planPage .next-btn').addEventListener('click', function
     localStorage.setItem('selectedTouristSpots', JSON.stringify(selectedTouristSpots));
 
     const courseData = {
-        courseName: tripName || "기본 여행 코스 이름",
+        courseName: tripName || "모두누리와 함께한 여행",
         contentInfos: selectedTouristSpots
     };
 
