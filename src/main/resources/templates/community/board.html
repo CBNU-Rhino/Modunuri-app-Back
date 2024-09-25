@@ -126,10 +126,11 @@
                         emptyRow.innerHTML = `<td colspan="4" style="text-align: center;">No posts available</td>`;
                         postList.appendChild(emptyRow);
                     } else {
-                        posts.forEach(post => {
+                        const totalPosts = posts.length; // 게시물의 총 개수
+                        posts.forEach((post, index) => {
                             const row = document.createElement('tr');
                             row.innerHTML = `
-                        <td>${post.id}</td>
+                        <td>${totalPosts - index}</td>  <!-- 게시물 번호는 총 게시물 수에서 index를 빼서 역순으로 표시 -->
                         <td><a href="/board/post/${post.id}/detail">${post.title}</a></td>
                         <td>${post.author}</td>
                         <td class="date">${new Date(post.createdAt).toLocaleDateString()}</td>
