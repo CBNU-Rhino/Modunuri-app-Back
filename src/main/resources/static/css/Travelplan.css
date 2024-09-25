@@ -697,11 +697,12 @@ p {
 
 .footer {
     background-color: #B4D5A8;
-    color: #fff;
+    color: #fff !important;
     text-align: center;
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold','Pretendard-Black','Pretendard-Bold', sans-serif !important;
 }
 
 .footer-links ul {

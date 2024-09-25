@@ -314,9 +314,209 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('최종 여행 계획:', travelPlan);
     }
 });
+document.querySelector('#planPage .next-btn').addEventListener('click', function() {
+    const tripName = document.getElementById('tripName').value;
+    const sortableListItems = document.querySelectorAll('#sortable .list-item');
+    selectedTouristSpots = [];
+
+    sortableListItems.forEach(item => {
+        const { contentId, contentTypeId, mapx, mapy,title  } = item.dataset;
+
+        if (contentId && contentTypeId && mapx && mapy&& title) {
+            selectedTouristSpots.push({
+                contentId: contentId,
+                contentTypeId: contentTypeId,
+                mapx: parseFloat(mapx),
+                mapy: parseFloat(mapy),
+                title: title  // title 추가
+            });
+        } else {
+            console.error('Missing attributes in list item:', { contentId, contentTypeId, mapx, mapy });
+        }
+    });
+
+    console.log('Selected Tourist Spots after:', selectedTouristSpots);
+
+    // 로컬 스토리지에 저장
+    localStorage.setItem('selectedTouristSpots', JSON.stringify(selectedTouristSpots));
+
+    const courseData = {
+        courseName: tripName || "기본 여행 코스 이름",
+        contentInfos: selectedTouristSpots
+    };
+
+    fetch('/courses/courses/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(courseData)
+    })
+        .then(response => {
+            if (response.ok) {
+                alert('여행 코스가 성공적으로 저장되었습니다!');
+            } else {
+                alert('코스 저장에 실패했습니다.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+});
+
+// 자동차 경로 그리기 함수
+async function drawCarRoute(touristSpots) {
+    const REST_API_KEY = '9e7786142c02ceecc7551f66b0d94383';
+    const url = 'https://apis-navi.kakaomobility.com/v1/directions';
+
+    const fullLinePath = [];
+
+    for (let i = 0; i < touristSpots.length - 1; i++) {
+        const origin = `${touristSpots[i].mapx},${touristSpots[i].mapy}`;
+        const destination = `${touristSpots[i + 1].mapx},${touristSpots[i + 1].mapy}`;
+
+        const queryParams = new URLSearchParams({
+            origin: origin,
+            destination: destination
+        });
+
+        const headers = {
+            Authorization: `KakaoAK ${REST_API_KEY}`,
+            'Content-Type': 'application/json'
+        };
+
+        const requestUrl = `${url}?${queryParams}`;
+
+        try {
+            const response = await fetch(requestUrl, {
+                method: 'GET',
+                headers: headers
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            data.routes[0].sections[0].roads.forEach(road => {
+                road.vertexes.forEach((vertex, index) => {
+                    if (index % 2 === 0) {
+                        fullLinePath.push(new kakao.maps.LatLng(road.vertexes[index + 1], road.vertexes[index]));
+                    }
+                });
+            });
+        } catch (error) {
+            console.error('오류 발생:', error);
+        }
+    }
+
+    const polyline = new kakao.maps.Polyline({
+        path: fullLinePath,
+        strokeWeight: 5,
+        strokeColor: '#00AFFF',
+        strokeOpacity: 0.8,
+        strokeStyle: 'solid'
+    });
+
+    polyline.setMap(map);
+}
+
+// 지도 생성 및 마커, 경로 표시 함수
+function initMapAndMarkers(touristSpots) {
+    const mapContainer = document.getElementById('kakao-map');
+    const mapOption = {
+        center: new kakao.maps.LatLng(touristSpots[0].mapy, touristSpots[0].mapx),
+        level: 8
+    };
+
+    map = new kakao.maps.Map(mapContainer, mapOption);
+
+    const linePath = [];
+
+    touristSpots.forEach((spot, index) => {
+        const markerPosition = new kakao.maps.LatLng(spot.mapy, spot.mapx);
+        const marker = new kakao.maps.Marker({
+            position: markerPosition,
+            map: map
+        });
+
+        const infowindow = new kakao.maps.InfoWindow({
+            content: `<div style="padding:5px;">${index + 1}. ${spot.title}</div>`
+        });
+        infowindow.open(map, marker);
+
+        linePath.push(markerPosition);
+    });
+
+    /*const polyline = new kakao.maps.Polyline({
+        path: linePath,
+        strokeWeight: 5,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8
+    });
+    polyline.setMap(map);*/
+}
+
+// 페이지가 로드되었을 때 실행되는 함수
+document.addEventListener('DOMContentLoaded', function () {
+    const completionPage = document.getElementById('completionPage');
+    // 로컬 스토리지에서 값을 불러옴
+    selectedTouristSpots = JSON.parse(localStorage.getItem('selectedTouristSpots')) || [];
+
+    console.log('Starting the process of loading Kakao map...');
+    console.log('Selected Tourist Spots:', selectedTouristSpots);
+
+    const observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+            console.log(mutation.target);
+            if (mutation.target === completionPage && !completionPage.classList.contains('hidden')) {
+                console.log('Completion page is visible');
+                console.log(selectedTouristSpots);
+                if (selectedTouristSpots.length > 0) {
+                    initMapAndMarkers(selectedTouristSpots);
+                    console.info('Kakao map initialized successfully.');
+                    drawCarRoute(selectedTouristSpots);
+                    setTimeout(() => {
+                        map.relayout();
+                        map.setCenter(new kakao.maps.LatLng(selectedTouristSpots[0].mapy, selectedTouristSpots[0].mapx));
+                    }, 100);
+                } else {
+                    console.log('selected 오류');
+                    alert('저장된 코스가 없습니다.');
+                }
+            }
+        });
+    });
+
+    observer.observe(completionPage, { attributes: true, attributeFilter: ['class'] });
+    // 완료 버튼 클릭 시 /users/mypage로 이동
+    document.querySelector('#completionPage .complete-btn').addEventListener('click', function () {
+        window.location.href = '/users/mypage';
+    });
+});
+
+// selectedTouristSpots 배열을 로컬 스토리지에 저장
+localStorage.setItem('selectedTouristSpots', JSON.stringify(selectedTouristSpots));
 
 // 페이지 로드 시 로컬 스토리지에서 값 불러오기
 document.addEventListener('DOMContentLoaded', function () {
     selectedTouristSpots = JSON.parse(localStorage.getItem('selectedTouristSpots')) || [];
     console.log('Loaded Selected Tourist Spots from localStorage:', selectedTouristSpots);
 });
+
+// 여행 완료 페이지에서 로컬 스토리지 값 불러오기
+function loadSelectedTouristSpots() {
+    // 로컬 스토리지에서 값을 불러옴
+    selectedTouristSpots = JSON.parse(localStorage.getItem('selectedTouristSpots')) || [];
+    console.log('Loaded Selected Tourist Spots from localStorage:', selectedTouristSpots);
+
+    const completionPage = document.getElementById('completionPage');
+
+    if (completionPage && selectedTouristSpots.length > 0) {
+        initMapAndMarkers(selectedTouristSpots);
+        drawCarRoute(selectedTouristSpots);
+        console.info('Kakao map initialized successfully.');
+    } else {
+        console.log('Selected tourist spots not found or empty');
+        alert('저장된 코스가 없습니다.');
+    }
+}
