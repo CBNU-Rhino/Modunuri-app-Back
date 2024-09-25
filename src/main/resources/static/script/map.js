@@ -30,6 +30,9 @@ function loadSavedPlaces() {
                     .catch(error => console.error("Error fetching tourist information:", error)); // 에러 처리
             });
         })
+        .then(() => {
+            initializeSortable(); // 저장된 목록이 불러온 후에 드래그 앤 드롭 기능 적용
+        })
         .catch(error => console.error('Error loading saved places:', error)); // 에러 처리
 }
 
@@ -38,8 +41,6 @@ function displaySavedPlace(touristDetail) {
     const savedPlaces = document.querySelector('#saved-places'); // 저장된 관광지를 표시할 HTML 요소 선택
     const placeBox = document.createElement('div'); // 새로운 div 요소 생성
     placeBox.classList.add('place-box'); // 'place-box' 클래스를 추가
-    placeBox.setAttribute('draggable', 'true'); // 드래그 가능 속성 추가
-    placeBox.setAttribute('ondragstart', 'drag(event)'); // 드래그 시작 시 실행할 이벤트 설정
     placeBox.id = `place-${touristDetail.contentid}`; // 관광지 ID로 박스에 고유 ID를 부여
 
     // 관광지의 이미지나 기본 이미지 설정
@@ -62,6 +63,68 @@ function displaySavedPlace(touristDetail) {
     savedPlaces.appendChild(placeBox); // 생성된 박스를 savedPlaces 영역에 추가
 }
 
+// Sortable.js로 드래그 앤 드롭 기능 초기화
+function initializeSortable() {
+    const savedPlacesContainer = document.getElementById('saved-places');
+    const scheduleContainer = document.getElementById('schedule');
+
+    // Sortable 인스턴스 생성 (저장된 관광지 목록)
+    Sortable.create(savedPlacesContainer, {
+        group: {
+            name: 'places',  // 그룹 이름 지정
+            pull: true,      // 컨테이너에서 요소를 이동할 수 있음
+            put: false       // 다른 컨테이너에 드롭 불가
+        },
+        animation: 150, // 드래그 시 애니메이션 속도 (ms)
+        ghostClass: 'ghost', // 드래그 중인 요소에 추가되는 클래스
+        onEnd: function (evt) {
+            console.log('Element moved in saved places', evt.item); // 요소가 이동한 후 이벤트
+        }
+    });
+
+    // Sortable 인스턴스 생성 (일정 컨테이너)
+    Sortable.create(scheduleContainer, {
+        group: {
+            name: 'places',  // 같은 그룹으로 설정하여 서로 이동 가능
+            pull: false,     // 일정 컨테이너로 들어오는 것만 허용
+            put: true        // 저장된 장소에서 일정으로 드롭 가능
+        },
+        animation: 150, // 드래그 시 애니메이션 속도 (ms)
+        ghostClass: 'ghost', // 드래그 중인 요소에 추가되는 클래스
+        onAdd: function (evt) { // 일정 컨테이너로 추가될 때 발생
+            const placeId = evt.item.id.split('-')[1]; // 관광지 ID 추출
+            console.log('Element added to schedule', placeId);
+
+            // 관광지가 일정에 추가되면 마커와 경로를 추가
+            fetch(`/touristSpot/Json/tourist-information?contentId=${placeId}&contentTypeId=${favoritePlaces[placeId]}`)
+                .then(response => response.json())
+                .then(data => {
+                    addMarkerAndRoute(data.touristDetail); // 마커 및 경로 추가
+                    const coords = new kakao.maps.LatLng(data.touristDetail.mapy, data.touristDetail.mapx);
+                    map.setCenter(coords); // 지도 중심을 해당 관광지의 좌표로 이동
+                })
+                .catch(error => console.error("Error fetching tourist information:", error));
+        },
+        onEnd: function (evt) {
+            console.log('Element position changed within schedule', evt.item); // 일정 내에서 위치가 변경된 경우
+        }
+    });
+}
+
+
+// 마커 및 경로 추가 함수
+function addMarkerAndRouteAfterDrop(placeId) {
+    // 관광지가 일정에 추가되면 마커와 경로 추가
+    fetch(`/touristSpot/Json/tourist-information?contentId=${placeId}&contentTypeId=${favoritePlaces[placeId]}`)
+        .then(response => response.json())
+        .then(data => {
+            addMarkerAndRoute(data.touristDetail); // 마커 및 경로 추가
+            const coords = new kakao.maps.LatLng(data.touristDetail.mapy, data.touristDetail.mapx);
+            map.setCenter(coords); // 지도 중심을 해당 관광지의 좌표로 이동
+        })
+        .catch(error => console.error("Error fetching tourist information:", error));
+}
+
 // 마커 추가 및 경로 그리기
 function addMarkerAndRoute(touristDetail) {
     const coords = new kakao.maps.LatLng(touristDetail.mapy, touristDetail.mapx); // 관광지의 좌표를 설정
@@ -80,7 +143,8 @@ function addMarkerAndRoute(touristDetail) {
 
     infowindow.open(map, marker); // 마커 위에 인포윈도우 표시
 
-    // 경로와 마커를 저장 객체에 추가 (ID로 관리)
+    // 기존 마커 제거 후 새 마커 추가
+    removeMarker(placeId);
     scheduleRoutes[placeId] = coords; // 경로 객체에 관광지 좌표 저장
     markers[placeId] = marker; // 마커 객체에 마커 저장
 }
@@ -170,63 +234,6 @@ async function getCarDirection() {
     currentPathPolyline.setMap(map); // 지도에 경로 표시
 }
 
-// 드래그 앤 드롭 기능 (드래그 가능 설정)
-function allowDrop(ev) {
-    ev.preventDefault(); // 드롭을 허용하기 위해 기본 동작을 막음
-}
-
-function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id); // 드래그된 요소의 ID 저장
-}
-
-// 드래그 중인 항목을 어디에 놓을지 계산하는 함수
-function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll(".place-box:not(.dragging)")];
-    // 드래그 중인 항목을 놓을 위치를 찾기 위한 계산
-    return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect(); // 각 항목의 위치와 크기를 가져옴
-        const offset = y - box.top - box.height / 2; // 드래그 위치와 리스트 항목 사이의 거리 계산
-
-        // offset이 0보다 작고, 가장 가까운 항목이면 업데이트
-        if (offset < 0 && offset > closest.offset) {
-            return { offset: offset, element: child };
-        } else {
-            return closest;
-        }
-    }, { offset: Number.NEGATIVE_INFINITY }).element; // 반환값: 가장 가까운 항목
-}
-
-// 드롭 시 동작 정의
-function drop(ev) {
-    ev.preventDefault(); // 기본 동작을 막음
-    const data = ev.dataTransfer.getData("text"); // 드래그된 요소의 ID 가져옴
-    const targetContainer = ev.target; // 드롭된 영역 가져오기
-    const placeId = data.split('-')[1]; // place-1234 형식에서 관광지 ID 추출
-
-    if (targetContainer.classList.contains('drop-area')) { // 드롭된 영역이 지정된 'drop-area'인지 확인
-        const placeElement = document.getElementById(data); // 드래그된 요소 가져오기
-        if (placeElement) {
-            targetContainer.appendChild(placeElement); // 드래그된 요소를 드롭된 영역에 추가
-
-            if (targetContainer.id === 'saved-places') {
-                removeMarker(placeId); // 저장된 장소 영역에 드롭하면 마커 제거
-            } else {
-                // 드래그된 장소가 일정 영역에 추가될 경우, 마커 추가
-                fetch(`/touristSpot/Json/tourist-information?contentId=${placeId}&contentTypeId=${favoritePlaces[placeId]}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        addMarkerAndRoute(data.touristDetail); // 마커 및 경로 추가
-                        const coords = new kakao.maps.LatLng(data.touristDetail.mapy, data.touristDetail.mapx);
-                        map.setCenter(coords); // 지도 중심을 해당 관광지의 좌표로 이동
-                    })
-                    .catch(error => console.error("Error fetching tourist information:", error));
-            }
-        } else {
-            console.error("Invalid element ID:", data); // 요소가 없을 때의 오류 처리
-        }
-    }
-}
-
 // 경로 지우기 기능
 function clearRoute() {
     if (currentPathPolyline) {
@@ -237,20 +244,6 @@ function clearRoute() {
 // 페이지 로드 시 저장된 관광지 목록 불러오기 및 모달 설정
 document.addEventListener('DOMContentLoaded', function () {
     loadSavedPlaces(); // 저장된 장소 로드
-
-    // 드래그 가능한 요소에 드래그 이벤트 추가
-    document.querySelectorAll('.place-box').forEach(placeBox => {
-        placeBox.addEventListener('dragstart', onDragStart); // 드래그 시작 시
-        placeBox.addEventListener('dragover', onDragOver);   // 드래그가 진행될 때
-        placeBox.addEventListener('dragenter', onDragEnter); // 드래그가 다른 요소 위로 들어갈 때
-        placeBox.addEventListener('drop', onDrop); // 드래그를 마치고 드롭할 때
-    });
-
-    // 드롭 가능 영역에 드롭 이벤트 추가
-    document.querySelectorAll('.drop-area').forEach(dropArea => {
-        dropArea.addEventListener('dragover', allowDrop); // 드롭 가능 영역에서 드래그를 허용
-        dropArea.addEventListener('drop', drop); // 드래그 완료 시 실행
-    });
 
     // 모달 관련 요소 선택
     modal = document.querySelector('.modal');
@@ -299,122 +292,4 @@ function openTouristModal(contentId, contentTypeId) {
             modalBackdrop.classList.add('on');
         })
         .catch(error => console.error('Error fetching tourist detail:', error));
-}
-
-// 드래그 중인 항목을 어디에 놓을지 계산하는 함수
-function getDragAfterElement(container, y) {
-    // 드래그 중이지 않은 모든 요소들을 가져옴
-    const draggableElements = [...container.querySelectorAll(".place-box:not(.dragging)")];
-
-    // 드래그 중인 항목을 놓을 위치를 찾기 위한 계산
-    return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect(); // 각 항목의 위치와 크기를 가져옴
-        const offset = y - box.top - box.height / 2; // 드래그 위치와 리스트 항목 사이의 거리 계산
-
-        // offset이 0보다 작고, 가장 가까운 항목이면 업데이트
-        if (offset < 0 && offset > closest.offset) {
-            return { offset: offset, element: child };
-        } else {
-            return closest;
-        }
-    }, { offset: Number.NEGATIVE_INFINITY }).element; // 반환값: 가장 가까운 항목
-}
-
-// 드래그 시작 시 선택된 요소 저장
-let selectedElement = null; // 선택된 요소 저장 변수
-let selectedElementIndex = null; // 선택된 요소의 인덱스 저장 변수
-
-function onDragStart(event) {
-    selectedElement = event.target; // 드래그된 요소를 저장
-    selectedElementIndex = [...selectedElement.parentNode.children].indexOf(selectedElement); // 선택된 요소의 인덱스 저장
-    selectedElement.classList.add('dragging'); // 드래그 시 시각적 효과 적용
-}
-
-function onDragOver(event) {
-    event.preventDefault(); // 드롭을 허용하기 위해 기본 동작을 막음
-}
-
-function onDrop(event) {
-    event.preventDefault(); // 기본 동작 막기
-
-    const targetElement = event.target.closest('.place-box'); // 드롭된 대상 요소 찾기
-    if (!targetElement || targetElement === selectedElement) return; // 유효하지 않은 타겟이면 무시
-
-    const targetElementIndex = [...targetElement.parentNode.children].indexOf(targetElement); // 타겟 요소의 인덱스 가져오기
-    const selectedElementIndex = [...selectedElement.parentNode.children].indexOf(selectedElement); // 선택된 요소의 인덱스 가져오기
-
-    // 선택된 요소가 타겟 요소 위나 아래로 이동하는지 확인
-    if (targetElementIndex > selectedElementIndex) {
-        targetElement.after(selectedElement); // 타겟 요소 아래로 이동
-        moveElement(targetElement, selectedElement, "down"); // 이동 애니메이션 적용
-    } else {
-        targetElement.before(selectedElement); // 타겟 요소 위로 이동
-        moveElement(targetElement, selectedElement, "up"); // 이동 애니메이션 적용
-    }
-
-    // 애니메이션 리셋 후 초기화
-    requestAnimationFrame(() => {
-        selectedElement.classList.remove('dragging'); // 드래그 스타일 제거
-    });
-}
-
-// 두 요소의 시각적 이동 애니메이션 처리
-function moveElement(targetElement, selectedElement, direction) {
-    const targetElementTop = targetElement.getBoundingClientRect().top;
-    const selectedElementTop = selectedElement.getBoundingClientRect().top;
-    const distance = targetElementTop - selectedElementTop;
-
-    // 애니메이션을 통해 선택된 요소와 타겟 요소의 위치 변경
-    if (direction === "down") {
-        selectedElement.style.transform = `translateY(${distance}px)`;
-        targetElement.style.transform = `translateY(${-distance}px)`;
-    } else {
-        selectedElement.style.transform = `translateY(${distance}px)`;
-        targetElement.style.transform = `translateY(${-distance}px)`;
-    }
-
-    // 일정 시간이 지나면 위치 고정
-    setTimeout(() => {
-        selectedElement.style.transform = '';
-        targetElement.style.transform = '';
-    }, 300); // 300ms 후 애니메이션 종료
-}
-
-// 두 요소의 위치를 바꾸는 함수
-function changePosition(targetElement) {
-    if (!targetElement) {
-        console.error("targetElement is not defined."); // 대상 요소가 없으면 오류 처리
-        return;
-    }
-
-    const targetElementTop = targetElement.getBoundingClientRect().top;
-    const selectedElementTop = selectedElement.getBoundingClientRect().top;
-
-    const distance = targetElementTop - selectedElementTop;
-
-    // 애니메이션을 통해 두 요소가 움직이는 것을 시각적으로 표현
-    selectedElement.style.transform = `translateY(${distance}px)`;
-    targetElement.style.transform = `translateY(${-distance}px)`;
-
-    // 애니메이션 적용
-    addAnimation(selectedElement);
-    addAnimation(targetElement);
-
-    // 일정 시간이 지나면 실제 DOM 위치를 변경
-    setTimeout(() => {
-        if (distance > 0) {
-            targetElement.after(selectedElement); // 타겟 요소 뒤로 선택된 요소 이동
-        } else {
-            targetElement.before(selectedElement); // 타겟 요소 앞으로 선택된 요소 이동
-        }
-
-        // 위치 변경 후 transform 속성을 초기화
-        selectedElement.style.transform = '';
-        targetElement.style.transform = '';
-    }, 300); // 애니메이션 지속 시간
-}
-
-// 애니메이션 클래스 적용 함수
-function addAnimation(element) {
-    element.classList.add('animation'); // 애니메이션 적용
 }
