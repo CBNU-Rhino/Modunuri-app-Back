@@ -471,10 +471,7 @@ input[type="radio"]:checked + .radio-btn {
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
-    position: fixed; /* 페이지 하단에 고정 */
-    bottom: 0;       /* 페이지의 맨 아래에 위치 */
-    left: 0;
-    z-index: 1000;   /* 푸터가 다른 콘텐츠 위에 표시되도록 설정 */
+    position: relative;
 }
 
 .footer-links ul {

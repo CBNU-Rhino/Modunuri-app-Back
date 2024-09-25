@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// 상세정보 모달 표시 함수
+// 관광지 상세정보 모달 열기
 function openTouristModal(contentId, contentTypeId) {
     fetch(`/touristSpot/Json/tourist-information?contentId=${contentId}&contentTypeId=${contentTypeId}`)
         .then(response => response.json())
@@ -261,14 +261,14 @@ function openTouristModal(contentId, contentTypeId) {
             const touristDetail = data.touristDetail;
             const accessibilityInfo = data.accessibilityInfo;
 
-            // 관광지 정보 설정
+            // 이미지, 제목, 설명 설정
             document.getElementById('modal-title').innerText = touristDetail.title || "제목 없음";
-            document.getElementById('modal-image').src = touristDetail.firstimage || '/images/placeholder.png';
-            document.getElementById('modal-overview').innerText = touristDetail.overview || "정보 없음";
-            document.getElementById('modal-address').innerText = touristDetail.addr1 || "주소 없음";
-            document.getElementById('modal-tel').innerText = touristDetail.tel || "전화번호 정보 없음";
+            document.getElementById('modal-image').src = touristDetail.firstimage || '/images/placeholder.jpg';
+            document.getElementById('modal-overview').innerText = touristDetail.overview || "설명 정보 없음";
 
-            // 추가된 정보 설정 (homepage, parking, restroom, wheelchair, stroller, blindhandicapetc, elevator)
+            // 오른쪽 정보 설정
+            document.getElementById('modal-address').innerText = touristDetail.addr1 || "주소 정보 없음";
+            document.getElementById('modal-tel').innerText = touristDetail.tel || "전화번호 정보 없음";
             document.getElementById('modal-homepage').innerHTML = touristDetail.homepage || "홈페이지 정보 없음";
             document.getElementById('modal-parking').innerText = accessibilityInfo.parking || "주차 정보 없음";
             document.getElementById('modal-restroom').innerText = accessibilityInfo.restroom || "장애인 화장실 정보 없음";
@@ -277,12 +277,13 @@ function openTouristModal(contentId, contentTypeId) {
             document.getElementById('modal-blindhandicapetc').innerText = accessibilityInfo.blindhandicapetc || "시각장애인 편의 정보 없음";
             document.getElementById('modal-elevator').innerText = accessibilityInfo.elevator || "엘리베이터 정보 없음";
 
-            // 모달 및 배경 열기
+            // 모달 및 배경 활성화
             modal.classList.add('on');
             modalBackdrop.classList.add('on');
         })
         .catch(error => console.error('Error fetching tourist detail:', error));
 }
+
 
 
 // 드래그 시작 시 선택된 요소 저장
