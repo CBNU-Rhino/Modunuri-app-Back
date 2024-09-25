@@ -73,22 +73,34 @@
 <div class="modal">
     <div class="modal-content">
         <button class="close_btn">&times;</button>
-        <h3 id="modal-title">관광지 정보</h3>
-        <img id="modal-image" src="/images/placeholder.jpg" alt="관광지 이미지" style="width: 100%; height: auto; margin-top: 10px;" />
-        <p id="modal-overview"></p>
-        <p id="modal-address"></p>
-        <p id="modal-tel"></p>
+        <div class="modal-row">
+            <!-- Left column for the image -->
+            <div class="modal-column" id="modal-left">
+                <img id="modal-image" src="/images/placeholder.jpg" alt="관광지 이미지" style="width: 100%; height: auto;" />
+            </div>
 
-        <!-- 추가된 정보 -->
-        <p><strong>홈페이지:</strong> <span id="modal-homepage"></span></p>
-        <p><strong>주차:</strong> <span id="modal-parking"></span></p>
-        <p><strong>장애인 화장실:</strong> <span id="modal-restroom"></span></p>
-        <p><strong>휠체어 정보:</strong> <span id="modal-wheelchair"></span></p>
-        <p><strong>유모차 정보:</strong> <span id="modal-stroller"></span></p>
-        <p><strong>시각장애인 편의 정보:</strong> <span id="modal-blindhandicapetc"></span></p>
-        <p><strong>엘리베이터:</strong> <span id="modal-elevator"></span></p>
+            <!-- Center column for the description -->
+            <div class="modal-column" id="modal-center">
+                <h3 id="modal-title">관광지 정보</h3>
+                <p id="modal-overview"></p>
+            </div>
+
+            <!-- Right column for additional info -->
+            <div class="modal-column" id="modal-right">
+                <p><strong>주소:</strong> <span id="modal-address"></span></p>
+                <p><strong>전화번호:</strong> <span id="modal-tel"></span></p>
+                <p><strong>홈페이지:</strong> <span id="modal-homepage"></span></p>
+                <p><strong>주차:</strong> <span id="modal-parking"></span></p>
+                <p><strong>장애인 화장실:</strong> <span id="modal-restroom"></span></p>
+                <p><strong>휠체어 정보:</strong> <span id="modal-wheelchair"></span></p>
+                <p><strong>유모차 정보:</strong> <span id="modal-stroller"></span></p>
+                <p><strong>시각장애인 편의:</strong> <span id="modal-blindhandicapetc"></span></p>
+                <p><strong>엘리베이터:</strong> <span id="modal-elevator"></span></p>
+            </div>
+        </div>
     </div>
 </div>
+
 
 <!-- Footer Section -->
 <footer class="footer">
