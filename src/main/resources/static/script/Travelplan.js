@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const accessibleFeature = travelPlan.barriers[0];  // 첫 번째 선택된 무장애 정보 (여러 개 가능 시 배열로 처리)
 
         // API 호출
-        fetch(`http://localhost:8080/touristSpot/Json/accessible-tourist-spots?region=${region}&accessibleFeature=${accessibleFeature}`)
+        fetch(`/touristSpot/Json/accessible-tourist-spots?region=${region}&accessibleFeature=${accessibleFeature}`)
             .then(response => response.json())
             .then(data => {
                 const selectBox = document.querySelector('.select-box');
