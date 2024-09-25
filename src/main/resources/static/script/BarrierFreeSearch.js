@@ -191,6 +191,10 @@ function resetFilters() {
     document.getElementById('region').value = '';
     document.getElementById('sido').innerHTML = '<option value="">시/구/군을 선택하세요</option>';
 
+    // 무장애 필터 선택 초기화 (드롭다운)
+    document.getElementById('accessibleType').value = '';  // 무장애 선택 필터 초기화
+
+
     const gallery = document.getElementById('gallery');
     gallery.style.display = 'none';
     gallery.innerHTML = ''; // 갤러리 초기화
@@ -200,9 +204,15 @@ function resetFilters() {
     localStorage.removeItem('searchState');  // 저장된 검색 상태 초기화
 }
 
-document.querySelector('.search-bar button').addEventListener('click', function() {
+// 검색 버튼 클릭 이벤트
+document.querySelector('.search-btn').addEventListener('click', function() {
     document.getElementById('gallery').style.display = 'grid';
-    searchItems();
+    searchAccessibleItems();
+});
+
+// 초기화 버튼 클릭 이벤트 추가
+document.querySelector('.reset-btn').addEventListener('click', function() {
+    resetFilters(); // 초기화 버튼 클릭 시 resetFilters 함수 실행
 });
 
 function saveSearchState(region, sigungu, accessibleType, contentTypeId, searchResults) {

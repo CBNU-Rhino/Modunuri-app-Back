@@ -9,24 +9,59 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9795bab39c2cc262f3aec7f26ec16196&libraries=services,drawing"></script>
 </head>
 <body>
+<!-- Header Section -->
+<header class="navbar">
+    <div class="logo">
+        <a href="/"> <!-- 로고 클릭 시 index.html로 이동 -->
+            <img src="/images/MODUNURI.png" class="logo img"> <!-- 이미지 추가 -->
+            <span class="a">MODUNURI</span>
+        </a>
+    </div>
 
-<!-- 공통 이전 버튼 -->
-<div class="back-button-container">
-    <img src="/images/back-btn.png" alt="이전 버튼" class="back-button">
-</div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="/touristSpot/area-search">지역별 관광지 찾기</a></li>
+            <li><a href="/touristSpot/search-by-accessibility">무장애 관광지 찾기</a></li>
+            <li><a href="/touristSpot/map">저장한 장소 보기</a></li>
+            <li><a href="/touristSpot/travelplan">여행 계획하기</a></li>
+            <li><a href="/community" id="community-link">커뮤니티</a></li>
+            <!-- 로그인 상태 확인 -->
+            <li class="nav-item-right">
+        <span th:if="${username != null}">
+        <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+        <a href="/users/mypage" class="auth-mypage">마이페이지</a>
+        <a href="/users/logout" class="auth-button">로그아웃</a>
+        </span>
+                <span th:if="${username == null}">
+        <a class="login-message">로그인을 해주세요</a>
+        <a href="/users/signup" class="auth-button">회원가입</a>
+        <a href="/users/login" class="auth-button">로그인</a>
+    </span>
+            </li>
+        </ul>
+    </nav>
+</header>
+
 
 <!-- Main Page -->
 <div id="mainPage" class="full-page">
+    <!-- 공통 이전 버튼 -->
+    <div class="back-button-container">
+        <img src="/images/back-btn.png" alt="이전 버튼" class="back-button">
+    </div>
     <h2>지금 바로 여행 계획을 세우고, 꿈꾸던 여행지로 떠나보세요</h2>
     <p>모두누리와 함께라면 순식간에 여행 준비 끝!</p>
     <div class="centered-container">
-        <img src="center_map.png" alt="여행 이미지" class="center-image">
+        <img src="/images/center_map.png" alt="여행 이미지" class="center-image">
         <button class="main-button next-btn">여행 계획하기</button>
     </div>
 </div>
 
 <!-- 지도 권역 선택 페이지 (구)기간 선택 페이지 -->
 <div id="durationPage" class="full-page hidden">
+    <div class="back-button-container">
+        <img src="/images/back-btn.png" alt="이전 버튼" class="back-button">
+    </div>
     <h2>떠나고 싶은 지역은?</h2>
     <p>원하는 지역 1곳을 선택해 주세요.</p>
     <div class="map-container">
@@ -47,6 +82,9 @@
 
 <!-- 지역 선택 페이지 -->
 <div id="regionPage" class="full-page hidden">
+    <div class="back-button-container">
+        <img src="/images/back-btn.png" alt="이전 버튼" class="back-button">
+    </div>
     <h2>여행할 지역을 선택하세요</h2>
     <p>어떤 도시로 여행을 떠나볼까요?</p>
     <div class="region-buttons"></div>
@@ -57,6 +95,9 @@
 
 <!-- 무장애 선택 페이지 -->
 <div id="barrierPage" class="full-page hidden">
+    <div class="back-button-container">
+        <img src="/images/back-btn.png" alt="이전 버튼" class="back-button">
+    </div>
     <h2>모두가 함께하는 여행을 위해, 무장애 시설을 선택하세요!</h2>
     <p>걱정 없이 즐길 수 있는 편안한 여행을 위해 무장애 시설을 선택하세요.</p>
     <div class="barrier-buttons">
@@ -74,6 +115,9 @@
 
 <!-- 4번 페이지: 관광지 리스트 페이지 -->
 <div id="selectPage" class="full-page hidden">
+    <div class="back-button-container">
+        <img src="/images/back-btn.png" alt="이전 버튼" class="back-button">
+    </div>
     <h2>마음에 드는 관광지를 선택해주세요</h2>
     <p>선택하신 내용으로 관광지를 추천해봤어요.</p>
     <div class="select-box">
@@ -84,16 +128,29 @@
 
 <!-- 5번 페이지: 여행 계획 정리 페이지 -->
 <div id="planPage" class="full-page hidden">
+    <div class="back-button-container">
+        <img src="/images/back-btn.png" alt="이전 버튼" class="back-button">
+    </div>
     <h2>여행 계획을 정리해보세요</h2>
     <p>선택한 관광지를 드래그하여 순서를 조정할 수 있습니다.</p>
 
     <!-- 여행 이름 설정 구간 -->
-    <label for="tripName">여행 이름을 정하세요:</label>
-    <input type="text" id="tripName" placeholder="여행 이름을 입력하세요">
+    <div class="parent-container"> <!-- 중앙 정렬을 위한 부모 컨테이너 -->
+        <label for="tripName"></label>
+        <input type="text" id="tripName" placeholder="여행 이름을 입력하세요">
+    </div>
 
     <!-- 드래그 가능한 관광지 리스트 -->
     <ul id="sortable">
         <!-- 선택한 관광지 목록이 드래그 가능한 상태로 여기에 표시됨 -->
+        <li>
+            <span class="list-index">1</span> <!-- 순번 표시 -->
+            <div class="left-info">
+                <strong>관광지 이름</strong>
+                <p>관광지 주소</p>
+            </div>
+        </li>
+        <!-- 추가적인 항목들이 자바스크립트에 의해 동적으로 삽입될 수 있습니다 -->
     </ul>
 
     <button class="next-btn">여행 완료</button>
@@ -101,6 +158,9 @@
 
 <!-- 완성 페이지 -->
 <div id="completionPage" class="full-page hidden">
+    <div class="back-button-container">
+        <img src="/images/back-btn.png" alt="이전 버튼" class="back-button">
+    </div>
     <h2>여행 계획이 완성되었습니다!</h2>
     <p>이제 여행을 떠날 준비가 되셨습니다.</p>
 
@@ -112,8 +172,20 @@
         <!-- 관광지들이 코스 순서대로 여기에 표시됨 -->
     </div>
 
-    <button class="complete-btn">완료</button>
+    <div class="complete-btn-container">
+        <button class="complete-btn">완료</button>
+    </div>
 </div>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-links">
+        <ul>
+            <li><p>&copy; 2024 MODUNURI</p></li>
+
+        </ul>
+    </div>
+</footer>
 
 
 

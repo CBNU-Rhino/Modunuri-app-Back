@@ -21,19 +21,19 @@
 
     <nav>
         <ul class="nav-links">
-            <li><a href="/touristSpot/area-search">지역 별 검색</a></li>
-            <li><a href="/touristSpot/search-by-accessibility">무장애 정보 검색</a></li>
-            <li><a href="/touristSpot/map">지도 보기</a></li>
-            <li><a href="/touristSpot/travelplan">여행 기록하기</a></li>
+            <li><a href="/touristSpot/area-search">지역별 관광지 찾기</a></li>
+            <li><a href="/touristSpot/search-by-accessibility">무장애 관광지 찾기</a></li>
+            <li><a href="/touristSpot/map">저장한 장소 보기</a></li>
+            <li><a href="/touristSpot/travelplan">여행 계획하기</a></li>
             <li><a href="/community" id="community-link">커뮤니티</a></li>
             <!-- 로그인 상태 확인 -->
             <li class="nav-item-right">
-        <span th:if="${username != null}">
-        <a class="login-message" th:text="${username} + '님 안녕하세요'"></a>
+        <span th:if="${currentUsername != null}">
+        <a class="login-message" th:text="${currentUsername} + '님 안녕하세요'"></a>
         <a href="/users/mypage" class="auth-mypage">마이페이지</a>
         <a href="/users/logout" class="auth-button">로그아웃</a>
         </span>
-                <span th:if="${username == null}">
+                <span th:if="${currentUsername == null}">
         <a class="login-message">로그인을 해주세요</a>
         <a href="/users/signup" class="auth-button">회원가입</a>
         <a href="/users/login" class="auth-button">로그인</a>
@@ -52,16 +52,15 @@
         <!-- Post Metadata (Author, Date, 조회수 등) -->
         <div class="post-meta">
             <span>작성자: <strong th:text="${post.author}">Author</strong></span>
-            <span>작성일: <strong th:text="${post.createdAt}">Date</strong></span>
+            <span>작성일: <strong id="postCreatedAt" th:data-iso-date="${post.createdAt}">Date</strong></span> <!-- 작성일 추가 -->
+        </div>
         </div>
 
         <!-- Post Content -->
         <div class="post-content" th:text="${post.content}">
             Loading content...
         </div>
-        <!-- Current and Post User IDs -->
-        <p>Current User ID: <span th:text="${currentUserId}">Unknown User</span></p>
-        <p>Post User ID: <span th:text="${postUserId}">Unknown Post User</span></p>
+
 
         <!-- 게시물 ID 값을 숨겨서 전달 -->
         <input type="hidden" id="postId" th:value="${postId}">
@@ -122,6 +121,24 @@
             return;
         }
 
+        // 1. 날짜만 반환하도록 수정된 formatDateTime 함수
+        function formatDateTime(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+
+            // 시간 없이 날짜만 반환 (연-월-일 형식)
+            return `${year}-${month}-${day}`;
+        }
+
+        // 2. 포스트 작성일 데이터를 읽어서 포맷팅된 날짜로 변경
+        if (postCreatedAtElement) {
+            const isoDate = postCreatedAtElement.getAttribute('data-iso-date');
+            const formattedDate = formatDateTime(isoDate); // 날짜만 포맷
+            postCreatedAtElement.textContent = formattedDate;  // 포맷팅된 날짜로 업데이트
+        }
+
         function loadComments(postId) {
             fetch(`/api/comments/post/${postId}`)
                 .then(response => response.json())
@@ -130,7 +147,7 @@
                     const currentUserId = currentUserIdElement.value; // 현재 로그인한 사용자 ID
 
                     data.forEach(comment => {
-                        const formattedDate = formatDateTime(comment.createdAt);
+                        const formattedDate = formatDateTime(comment.createdAt); // 댓글 날짜만 포맷
                         let deleteButtonHTML = '';
 
                         // 댓글 작성자와 현재 로그인한 사용자가 같으면 삭제 버튼을 추가
@@ -139,14 +156,14 @@
                         }
 
                         const commentItem = `
-                            <div class="comment-item" data-comment-id="${comment.id}">
-                                <div class="comment-author">${comment.author}</div>
-                                <div class="comment-content">${comment.content}</div>
-                                <div class="comment-meta">${formattedDate}
-                                    ${deleteButtonHTML} <!-- 삭제 버튼을 조건부로 추가 -->
-                                </div>
+                        <div class="comment-item" data-comment-id="${comment.id}">
+                            <div class="comment-author">${comment.author}</div>
+                            <div class="comment-content">${comment.content}</div>
+                            <div class="comment-meta">${formattedDate}
+                                ${deleteButtonHTML} <!-- 삭제 버튼을 조건부로 추가 -->
                             </div>
-                        `;
+                        </div>
+                    `;
                         commentList.insertAdjacentHTML('beforeend', commentItem);
                     });
 
@@ -189,65 +206,70 @@
                 });
         }
 
-        function formatDateTime(dateString) {
+    function formatDateTime(dateString) {
             const date = new Date(dateString);
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            return `${year}-${month}-${day} ${hours}:${minutes}`;
+            return `${year}-${month}-${day}`;  // 시간 없이 날짜만 반환
         }
 
-        if (postId) {
-            loadComments(postId);
-        } else {
-            console.error('Post ID를 불러오지 못했습니다.');
-        }
+
 
         // 댓글 작성 기능
         const commentButton = document.querySelector('.comment-button');
         const commentInput = document.querySelector('.comment-input');
 
         commentButton.addEventListener('click', function() {
-            const content = commentInput.value.trim();
-
-            if (!content) {
-                alert('댓글 내용을 입력하세요.');
-                return;
-            }
-            const currentUsername = currentUsernameElement.value;
-            const currentUserId = currentUserIdElement.value;
-
-            // JSON 형식으로 댓글 데이터 전송
-            fetch('/api/comments', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    postId: Number(postId),
-                    content: content,
-                    author: currentUsername,
-                    userId: currentUserId
-                })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('댓글 작성 실패');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const formattedDate = formatDateTime(data.createdAt);
-                    let deleteButtonHTML = '';
-
-                    // 댓글 작성자와 현재 로그인한 사용자가 같으면 삭제 버튼을 추가
-                    if (data.userId === currentUserIdElement.value) {
-                        deleteButtonHTML = `<button class="delete-comment-button" data-comment-id="${data.id}">삭제</button>`;
+            // AJAX 요청으로 로그인 상태 확인
+            fetch('/users/checkLogin')
+                .then(response => response.json())
+                .then(isLoggedIn => {
+                    if (!isLoggedIn) {
+                        alert('로그인이 필요합니다.');
+                        window.location.href = '/users/login';
+                        return; // 로그인하지 않은 경우 댓글 작성 중단
                     }
 
-                    const newComment = `
+                    // 로그인 상태 확인 후 댓글 작성
+                    const content = commentInput.value.trim();
+
+                    if (!content) {
+                        alert('댓글 내용을 입력하세요.');
+                        return;
+                    }
+                    const currentUsername = currentUsernameElement.value;
+                    const currentUserId = currentUserIdElement.value;
+
+                    // JSON 형식으로 댓글 데이터 전송
+                    fetch('/api/comments', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            postId: Number(postId),
+                            content: content,
+                            author: currentUsername,
+                            userId: currentUserId
+                        })
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('댓글 작성 실패');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const formattedDate = formatDateTime(data.createdAt);
+                            let deleteButtonHTML = '';
+
+                            // 댓글 작성자와 현재 로그인한 사용자가 같으면 삭제 버튼을 추가
+                            if (data.userId === currentUserIdElement.value) {
+                                deleteButtonHTML = `<button class="delete-comment-button" data-comment-id="${data.id}">삭제</button>`;
+                            }
+
+                            const newComment = `
                         <div class="comment-item" data-comment-id="${data.id}">
                             <div class="comment-author">${data.author}</div>
                             <div class="comment-content">${data.content}</div>
@@ -256,21 +278,25 @@
                             </div>
                         </div>
                     `;
-                    commentList.insertAdjacentHTML('beforeend', newComment);
-                    commentInput.value = ''; // 입력 필드 비우기
+                            commentList.insertAdjacentHTML('beforeend', newComment);
+                            commentInput.value = ''; // 입력 필드 비우기
 
-                    // 새로 추가된 댓글의 삭제 버튼에 이벤트 리스너 추가
-                    const deleteButton = document.querySelector(`.delete-comment-button[data-comment-id="${data.id}"]`);
-                    if (deleteButton) {
-                        deleteButton.addEventListener('click', function() {
-                            const commentId = this.getAttribute('data-comment-id');
-                            deleteComment(commentId);
+                            // 새로 추가된 댓글의 삭제 버튼에 이벤트 리스너 추가
+                            const deleteButton = document.querySelector(`.delete-comment-button[data-comment-id="${data.id}"]`);
+                            if (deleteButton) {
+                                deleteButton.addEventListener('click', function() {
+                                    const commentId = this.getAttribute('data-comment-id');
+                                    deleteComment(commentId);
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error adding comment:', error);
+                            alert('댓글 작성 중 오류가 발생했습니다.');
                         });
-                    }
                 })
                 .catch(error => {
-                    console.error('Error adding comment:', error);
-                    alert('댓글 작성 중 오류가 발생했습니다.');
+                    console.error('로그인 상태 확인 중 오류가 발생했습니다:', error);
                 });
         });
 

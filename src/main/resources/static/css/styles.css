@@ -1,17 +1,64 @@
-/* styles.css */
 
+/* Pretendard Thin (100) */
 @font-face {
-    font-family: 'Pretendard';
-    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff2') format('woff2'),
-    url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff') format('woff');
-    font-weight: 100 900;
+    font-family: 'Pretendard-Thin';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}
+
+/* Pretendard Light (300) */
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* Pretendard Regular (400) */
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Pretendard Medium (500) */
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Pretendard Bold (700) */
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Pretendard ExtraBold (800) */
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* Pretendard Black (900) */
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+    font-weight: 900;
     font-style: normal;
 }
 
 html, body {
     height: 100%;
     margin: 0;
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold','Pretendard-Black','Pretendard-Bold', sans-serif;
     color: #717171;
     background-color: #F5FFF5;
 }
@@ -222,7 +269,7 @@ html, body {
     background-color: #FFFFFF;
     margin: 20px auto; /* 중앙 정렬 및 여백 추가 */
     width: 100%; /* 페이지 너비의 80%를 차지 */
-    height: 400px;
+    height: 500px;
 
 }
 
@@ -290,6 +337,7 @@ html, body {
 .additional-content h2 {
     font-size: 3rem;
     margin-bottom: 10px;
+    color: #4CAF4F;
 }
 
 .additional-content p {
@@ -297,19 +345,29 @@ html, body {
     color: #555;
 }
 
-/* 이미지 컨테이너 스타일 */
 .image-container {
     display: flex;
     justify-content: space-between;
     padding: 40px;
 }
 
-/* 초기 상태: 이미지를 보이지 않게 설정 */
 .image-container a {
-    flex-basis: 30%; /* 각 이미지 크기 */
-    margin: 0 1px; /* 이미지 간의 간격을 줄임 (기존 2px에서 1px으로) */
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* 애니메이션 설정 */
+    flex-basis: 30%; /* 기본적으로 각 이미지가 30% 너비 차지 */
+    margin: 0 1px;
 }
+
+/* 큰 화면을 위한 레이아웃 조정 */
+@media (min-width: 1600px) {
+    .image-container {
+        max-width: 1400px; /* 큰 화면에서 최대 1400px로 고정 */
+        margin: 0 auto;
+    }
+    .image-container a {
+        flex-basis: 30%; /* 큰 화면에서도 30%로 유지 */
+        margin: 0 0.5vw; /* 이미지 간 간격을 상대적으로 줄임 */
+    }
+}
+
 
 /* 스크롤 애니메이션용 스타일 */
 .additional-content, .image-container a, .split-container {
@@ -463,6 +521,7 @@ html, body {
 .signup-container h1, .login-container h1 {
     text-align: center;
     margin-bottom: 20px;
+    color: #4CAF50;
 }
 
 .signup-container label, .login-container label {
@@ -566,7 +625,7 @@ button:hover {
 
 .travel-container h2 {
     font-size: 2.5rem;
-    color: #4CAF50; /* 초록색 텍스트 */
+    color: #4CAF4F; /* 초록색 텍스트 */
     margin-bottom: 20px;
 }
 

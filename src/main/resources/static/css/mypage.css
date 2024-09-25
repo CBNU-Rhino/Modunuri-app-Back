@@ -1,16 +1,64 @@
 /* styles.css */
-
+/* Pretendard Thin (100) */
 @font-face {
-    font-family: 'Pretendard';
-    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff') format('woff');
-    font-weight: 100 900;
+    font-family: 'Pretendard-Thin';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}
+
+/* Pretendard Light (300) */
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* Pretendard Regular (400) */
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Pretendard Medium (500) */
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Pretendard Bold (700) */
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Pretendard ExtraBold (800) */
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* Pretendard Black (900) */
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+    font-weight: 900;
     font-style: normal;
 }
 
 html, body {
     height: 100%;
     margin: 0;
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold','Pretendard-Black','Pretendard-Bold', sans-serif;
     color: #717171;
     background-color: #F5FFF5;
 }
@@ -214,9 +262,9 @@ html, body {
 /* 개별 관광지 박스 스타일 */
 .place-box {
     width: calc(25% - 20px); /* 박스 너비를 4개씩 맞추도록 설정 (간격을 고려한 너비 계산) */
-    border: 1px solid #ddd;
     border-radius: 10px;
     overflow: hidden;
+    border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     background-color: #fff;
@@ -337,15 +385,14 @@ html, body {
     display: flex;
     justify-content: space-between; /* 요소들을 좌우로 배치 */
     align-items: center; /* 수직 중앙 정렬 */
-    width: 100%; /* 부모 섹션을 넘지 않도록 설정 */
-    max-width: 980px; /* 최대 너비 설정 */
+    width: 95%;
     padding: 20px; /* 내부 패딩 추가 */
     border: 1px solid #ccc;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     cursor: pointer;
-    margin: 5px 0; /* 위아래 간격 추가 */
+    margin: 5px 0;  /* 위아래 간격 추가 */
     height: 100px;
 }
 

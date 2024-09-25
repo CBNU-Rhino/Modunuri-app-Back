@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/images/Favicon.png" type="image/png"> <!-- 이미지 경로를 수정하세요 -->
-    <title>지역 검색</title>
+    <title>지역별 관광지 찾기</title>
     <link rel="stylesheet" href="/css/Area_Search.css">
 </head>
 <body>
@@ -19,10 +19,10 @@
 
     <nav>
         <ul class="nav-links">
-            <li><a href="/touristSpot/area-search">지역 별 검색</a></li>
-            <li><a href="/touristSpot/search-by-accessibility">무장애 정보 검색</a></li>
-            <li><a href="/touristSpot/map">지도 보기</a></li>
-            <li><a href="/touristSpot/travelplan">여행 기록하기</a></li>
+            <li><a href="/touristSpot/area-search">지역별 관광지 찾기</a></li>
+            <li><a href="/touristSpot/search-by-accessibility">무장애 관광지 찾기</a></li>
+            <li><a href="/touristSpot/map">저장한 장소 보기</a></li>
+            <li><a href="/touristSpot/travelplan">여행 계획하기</a></li>
             <li><a href="/community" id="community-link">커뮤니티</a></li>
             <!-- 로그인 상태 확인 -->
             <li class="nav-item-right">
@@ -42,7 +42,7 @@
 </header>
 
 <div class="container">
-    <div class="header">지역 검색</div>
+    <div class="header">지역별 관광지 찾기</div>
 
     <div class="filter-section">
         <div class="dropdown">
@@ -102,17 +102,19 @@
             <input type="radio" name="category" value="39">
             <span class="radio-btn">음식점</span>
         </label>
+
     </div>
 
-    <!-- 검색 및 초기화 버튼 -->
-    <div class="search-btn">
-        <button class="search-btn">검색</button>
+    <!-- 검색 버튼을 라디오 버튼 아래에 배치 -->
+    <div class="search-btn-container">
+        <button class="search-btn">검색하기</button>
     </div>
 
     <div class="selected-area">
-        <button class="reset-btn">초기화</button>
+        <button class="reset-btn">
+            <img src="/images/reset.png" alt="Reset Icon"> 초기화
+        </button>
     </div>
-
     <!-- 결과를 보여줄 갤러리 -->
     <div id="gallery" class="gallery"></div>
 </div>

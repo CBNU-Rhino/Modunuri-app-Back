@@ -1,15 +1,64 @@
-/* styles.css */
+/* Pretendard Thin (100) */
 @font-face {
-    font-family: 'Pretendard';
-    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff') format('woff');
-    font-weight: 100 900;
+    font-family: 'Pretendard-Thin';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff') format('woff');
+    font-weight: 100;
     font-style: normal;
 }
+
+/* Pretendard Light (300) */
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* Pretendard Regular (400) */
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Pretendard Medium (500) */
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Pretendard Bold (700) */
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Pretendard ExtraBold (800) */
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* Pretendard Black (900) */
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
 
 html, body {
     height: 100%;
     margin: 0;
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold','Pretendard-Black','Pretendard-Bold', sans-serif;
     color: #717171;
     background-color: #F5FFF5;
 }
@@ -149,8 +198,9 @@ html, body {
 h1 {
     text-align: center;
     font-size: 24px;
-    color: #333;
+    color: #4CAF50;
     padding-bottom: 20px;
+    font-weight: 700;
     border-bottom: 2px solid #ddd;
 }
 
@@ -228,6 +278,7 @@ td a:hover {
     border-radius: 5px;
     font-size: 16px;
     width: 300px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .search-button {
@@ -245,6 +296,7 @@ td a:hover {
     margin-left: 5px; /* 버튼 간격 조정 */
     margin-bottom: 22px;
     height: 40px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .search-button:hover {
@@ -308,6 +360,7 @@ td a:hover {
     margin-bottom: 20px;
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .post-meta {
@@ -318,6 +371,7 @@ td a:hover {
     margin-bottom: 20px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .post-content {
@@ -326,12 +380,14 @@ td a:hover {
     line-height: 1.8;
     color: #333;
     margin-bottom: 30px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .button-group {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 20px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .button-group a {
@@ -352,6 +408,7 @@ td a:hover {
     margin-top: 30px;
     padding-top: 20px;
     border-top: 1px solid #eee;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .comment-title {
@@ -359,6 +416,7 @@ td a:hover {
     margin-bottom: 20px;
     color: #333;
     font-weight: bold;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .comment-box {
@@ -374,6 +432,7 @@ td a:hover {
     border-radius: 5px;
     font-size: 14px;
     margin-right: 10px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
 }
 
 .comment-button {
@@ -415,6 +474,21 @@ td a:hover {
     font-size: 12px;
     color: #999;
     margin-top: 5px;
+}
+
+.delete-comment-button {
+    padding: 5px 10px;
+    background-color: #89B873;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif;
+}
+
+.delete-comment-button:hover {
+    background-color: #739c61;
 }
 /* post-detail */
 

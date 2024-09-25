@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>무장애 관광지 검색</title>
+    <title>무장애 관광지 찾기</title>
     <link rel="stylesheet" href="/css/BarrierFreeSearch.css">
 
 </head>
@@ -20,10 +20,10 @@
 
     <nav>
         <ul class="nav-links">
-            <li><a href="/touristSpot/area-search">지역 별 검색</a></li>
-            <li><a href="/touristSpot/search-by-accessibility">무장애 정보 검색</a></li>
-            <li><a href="/touristSpot/map">지도 보기</a></li>
-            <li><a href="/touristSpot/travelplan">여행 기록하기</a></li>
+            <li><a href="/touristSpot/area-search">지역별 관광지 찾기</a></li>
+            <li><a href="/touristSpot/search-by-accessibility">무장애 관광지 찾기</a></li>
+            <li><a href="/touristSpot/map">저장한 장소 보기</a></li>
+            <li><a href="/touristSpot/travelplan">여행 계획하기</a></li>
             <li><a href="/community" id="community-link">커뮤니티</a></li>
             <!-- 로그인 상태 확인 -->
             <li class="nav-item-right">
@@ -44,7 +44,7 @@
 
 <!-- 무장애 검색 페이지 -->
 <div class="container">
-    <div class="header">무장애 관광지 검색</div>
+    <div class="header">무장애 관광지 찾기</div>
 
     <div class="filter-section">
         <!-- 지역 선택 -->
@@ -94,25 +94,43 @@
         </div>
     </div>
 
-    <!-- 카테고리 선택 -->
+    <!-- 체크박스 추가된 부분 (콘텐츠 타입 필터링) -->
     <div class="checkbox-container">
-        <label><input type="radio" name="category" value="12"> 관광지</label>
-        <label><input type="radio" name="category" value="14"> 문화시설</label>
-        <label><input type="radio" name="category" value="28"> 레포츠</label>
-        <label><input type="radio" name="category" value="32"> 숙박</label>
-        <label><input type="radio" name="category" value="38"> 쇼핑</label>
-        <label><input type="radio" name="category" value="39"> 음식점</label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="12">
+            <span class="radio-btn">관광지</span>
+        </label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="14">
+            <span class="radio-btn">문화시설</span>
+        </label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="28">
+            <span class="radio-btn">레포츠</span>
+        </label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="32">
+            <span class="radio-btn">숙박</span>
+        </label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="38">
+            <span class="radio-btn">쇼핑</span>
+        </label>
+        <label class="custom-radio">
+            <input type="radio" name="category" value="39">
+            <span class="radio-btn">음식점</span>
+        </label>
     </div>
 
-    <!-- 검색 및 초기화 버튼 -->
-    <div class="search-bar">
-        <input type="text" placeholder="검색">
-        <button onclick="searchAccessibleItems()">
-            <img src="../../static/images/search-icon.png" alt="검색 버튼" style="width: 20px; height: 20px;">
-        </button>
+    <!-- 검색 버튼을 라디오 버튼 아래에 배치 -->
+    <div class="search-btn-container">
+        <button class="search-btn">검색하기</button>
     </div>
+
     <div class="selected-area">
-        <button onclick="resetFilters()">초기화</button>
+        <button class="reset-btn">
+            <img src="/images/reset.png" alt="Reset Icon"> 초기화
+        </button>
     </div>
 
     <!-- 검색 결과를 표시할 갤러리 -->

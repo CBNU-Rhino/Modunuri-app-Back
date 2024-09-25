@@ -1,16 +1,64 @@
-/* styles.css */
-
+/* Pretendard Thin (100) */
 @font-face {
-    font-family: 'Pretendard';
-    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard.woff') format('woff');
-    font-weight: 100 900;
+    font-family: 'Pretendard-Thin';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff') format('woff');
+    font-weight: 100;
     font-style: normal;
 }
+
+/* Pretendard Light (300) */
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* Pretendard Regular (400) */
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Pretendard Medium (500) */
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Pretendard Bold (700) */
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Pretendard ExtraBold (800) */
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* Pretendard Black (900) */
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
 
 html, body {
     height: 100%;
     margin: 0;
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold','Pretendard-Black','Pretendard-Bold', sans-serif;
     color: #717171;
     background-color: #F5FFF5;
 }
@@ -105,6 +153,8 @@ html, body {
     width: 100px; /* 동일한 너비 설정 */
     box-sizing: border-box;
     margin-left: 5px; /* 버튼 간격 조정 */
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif; /* 라디오 버튼과 동일한 폰트 적용 */
+    appearance: none;
 }
 
 .auth-button:hover {
@@ -171,7 +221,7 @@ html, body {
 
 .tour-list h2 {
     margin-bottom: 15px;
-    color: #333;
+    color: #4CAF50;
 }
 
 .saved-places {
@@ -207,7 +257,7 @@ html, body {
 
 .day h3 {
     font-size: 20px;
-    color: #333;
+    color: #717171;
 }
 
 .drop-area {
@@ -321,6 +371,7 @@ button {
     font-size: 14px;
     border-radius: 4px;
     margin-top: 20px; /* 버튼 위쪽에 20px 여백 추가 */
+    font-family: 'Pretendard-Medium', 'Pretendard-ExtraBold', 'Pretendard-Black', 'Pretendard-Bold', sans-serif; /* 라디오 버튼과 동일한 폰트 적용 */
 }
 
 button:hover {

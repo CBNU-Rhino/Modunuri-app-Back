@@ -52,42 +52,40 @@ document.addEventListener('DOMContentLoaded', function () {
     // next-btn 클릭 시 다음 페이지로 이동
     document.querySelectorAll('.next-btn').forEach(btn => {
         btn.addEventListener('click', function () {
-            // selectedRegion이 null일 경우 페이지 전환을 막음
             if (!selectedRegion && currentPageIndex === 1) {
                 alert("권역을 선택해주세요.");
-                return; // 권역이 선택되지 않으면 페이지 전환하지 않음
+                return;
             }
 
             if (currentPageIndex < pages.length - 1) {
                 currentPageIndex++;
                 showPage(currentPageIndex);
                 if (currentPageIndex === 2) {
-                    // 2번 지역 선택 페이지에서 버튼 업데이트
                     updateRegionButtons(selectedRegion);
                 }
                 if (currentPageIndex === 4) {
-                    // 4번 페이지: 관광지 리스트 생성
                     generateTouristSpots();
                 }
                 if (currentPageIndex === 5) {
-                    // 5번 페이지: 선택한 관광지 정렬하기
                     generateSortableList();
-                    initializeDragEvents(); // 드래그 기능 활성화
+                    initializeDragEvents();
                 }
                 if (currentPageIndex === 6) {
-                    loadSelectedTouristSpots(); // 여행 완료 페이지에 도착하면 로컬 스토리지에서 값 불러오기
+                    loadSelectedTouristSpots();
                     finalizeTripName();
                 }
             }
         });
     });
 
-    // 이전 버튼 클릭 시 이전 페이지로 이동
-    document.querySelector('.back-button').addEventListener('click', function () {
-        if (currentPageIndex > 0) {
-            currentPageIndex--;
-            showPage(currentPageIndex);
-        }
+    // 모든 백버튼을 선택하고 각 버튼에 이벤트 리스너를 추가
+    document.querySelectorAll('.back-button').forEach(button => {
+        button.addEventListener('click', function () {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                showPage(currentPageIndex);
+            }
+        });
     });
 
     // 권역 선택 관련 스크립트 추가
@@ -178,14 +176,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     const spotElement = document.createElement('div');
                     spotElement.classList.add('spot-item');
 
-                    // 이미지가 없는 경우 placeholder 이미지로 대체
-                    const imageUrl = spot.firstimage ? spot.firstimage : '/images/placeholder.png'; // placeholder 이미지 경로 설정
+                    // 이미지가 없는 경우 대체 이미지로 설정
+                    const imageUrl = (spot.firstimage && spot.firstimage.trim() !== '')
+                        ? spot.firstimage
+                        : '/images/placeholder.jpg'; // 대체 이미지 경로 설정
 
                     spotElement.innerHTML = `
-        <img src="${imageUrl}" alt="관광지 이미지" onerror="this.onerror=null; this.src='/images/placeholder.png';">
-        <h3>${spot.title}</h3>
-        <p>${spot.addr1}</p>
-    `; // 백틱을 제대로 닫습니다
+                    <img src="${imageUrl}" alt="관광지 이미지">
+                    <h3>${spot.title}</h3>
+                    <p>${spot.addr1}</p>
+                `;
 
                     // 클릭 이벤트: 선택/해제
                     spotElement.addEventListener('click', function () {
@@ -205,77 +205,96 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 5번 페이지에서 선택한 관광지 목록을 드래그 가능한 리스트로 표시
+    // 관광지 목록을 드래그 앤 드롭으로 정렬하는 함수
     function generateSortableList() {
         const sortableList = document.getElementById('sortable');
         sortableList.innerHTML = ''; // 기존 항목 초기화
+
         travelPlan.selectedPlaces.forEach((place, index) => {
             const listItem = document.createElement('li');
-            listItem.classList.add('list-item');
-            listItem.setAttribute('data-content-id', place.contentid);  // contentId 저장
-            listItem.setAttribute('data-content-type-id', place.contenttypeid);  // contentTypeId 저장
-            listItem.setAttribute('data-mapx', place.mapx);  // 경도 저장
-            listItem.setAttribute('data-mapy', place.mapy);  // 위도 저장
-            listItem.setAttribute('data-title', place.title);  // title 저장
-            listItem.innerHTML = `
-        <div class="content">
-            <div class="left-info">
-                <strong>${place.title}</strong>
-                <p>${place.addr1}</p>
-            </div>
-        </div>
-        `;
+            listItem.classList.add('list-item', 'draggable');
+            listItem.setAttribute('draggable', 'true');
+            listItem.setAttribute('data-content-id', place.contentid);
+            listItem.setAttribute('data-content-type-id', place.contenttypeid);
+            listItem.setAttribute('data-mapx', place.mapx);
+            listItem.setAttribute('data-mapy', place.mapy);
+            listItem.setAttribute('data-title', place.title);
 
+            // 순번을 포함하는 HTML 구조
+            listItem.innerHTML = `
+                <div class="content">
+                    <span class="item-number">${index + 1}</span> <!-- 순번 표시 -->
+                    <div class="left-info">
+                        <strong>${place.title}</strong>
+                        <p>${place.addr1}</p>
+                    </div>
+                </div>
+            `;
             sortableList.appendChild(listItem);
         });
 
-        console.log("Sortable list items:", document.querySelectorAll('.list-item'));  // 항목들이 제대로 추가되었는지 확인
-
-        initializeDragEvents(); // 드래그 앤 드롭 기능 활성화
+        // 드래그 앤 드롭 이벤트 활성화
+        initializeDragAndDrop();
     }
 
-    // 드래그 앤 드롭 기능 활성화
-    function initializeDragEvents() {
-        let draggedItem = null;
-
-        document.querySelectorAll('.list-item').forEach(item => {
-            const dragHandle = item.querySelector('.drag-handle');
-
-            dragHandle.addEventListener('mousedown', function (event) {
-                draggedItem = item;
-                item.classList.add('dragging');
-
-                document.addEventListener('mousemove', onMouseMove);
-                document.addEventListener('mouseup', onMouseUp);
-            });
-
-            function onMouseMove(event) {
-                if (!draggedItem) return;
-
-                draggedItem.style.position = 'absolute';
-                draggedItem.style.top = `${event.clientY - draggedItem.offsetHeight / 2}px`;
-                draggedItem.style.left = `${event.clientX - draggedItem.offsetWidth / 2}px`;
-            }
-
-            function onMouseUp() {
-                if (!draggedItem) return;
-
-                draggedItem.classList.remove('dragging');
-                draggedItem.style.position = '';
-                draggedItem.style.top = '';
-                draggedItem.style.left = '';
-                draggedItem = null;
-
-                document.removeEventListener('mousemove', onMouseMove);
-                document.removeEventListener('mouseup', onMouseUp);
-            }
+    // 순번을 업데이트하는 함수
+    function updateItemNumbers() {
+        const listItems = document.querySelectorAll('#sortable .list-item');
+        listItems.forEach((item, index) => {
+            const numberElement = item.querySelector('.item-number');
+            numberElement.textContent = index + 1; // 순번 갱신
         });
     }
 
-    // 6번 페이지: 여행 이름 설정 및 여행 완료 처리
+    // 드래그 앤 드롭 기능을 추가하는 함수
+    function initializeDragAndDrop() {
+        const draggables = document.querySelectorAll(".draggable");
+        const container = document.getElementById("sortable");
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener("dragstart", () => {
+                draggable.classList.add("dragging");
+            });
+
+            draggable.addEventListener("dragend", () => {
+                draggable.classList.remove("dragging");
+                updateItemNumbers(); // 드래그 완료 후 순번 업데이트
+            });
+        });
+
+        container.addEventListener("dragover", e => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(container, e.clientY);
+            const draggable = document.querySelector(".dragging");
+            if (afterElement == null) {
+                container.appendChild(draggable);
+            } else {
+                container.insertBefore(draggable, afterElement);
+            }
+        });
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll(".draggable:not(.dragging)")];
+
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+    }
+
+
+// 여행 이름 설정 및 완료 처리
     function finalizeTripName() {
         const tripNameInput = document.getElementById('tripName').value;
         if (tripNameInput.trim() === "") {
-            travelPlan.tripName = `${userId}의 멋진 여행`; // 기본 여행 이름 설정
+            travelPlan.tripName = `${userId}의 멋진 여행`;
         } else {
             travelPlan.tripName = tripNameInput;
         }
