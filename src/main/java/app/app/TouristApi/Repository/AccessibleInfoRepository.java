@@ -25,7 +25,8 @@ public interface AccessibleInfoRepository extends JpaRepository<AccessibleInfo, 
             "OR (ai.brailleBlock IS NOT NULL AND ai.brailleBlock <> '' AND 'braille_block' IN :accessibleTypeList) " +
             "OR (ai.stroller IS NOT NULL AND ai.stroller <> '' AND 'stroller' IN :accessibleTypeList) " +
             "OR (ai.helpDog IS NOT NULL AND ai.helpDog <> '' AND 'help_dog' IN :accessibleTypeList)" +
-            "OR (ai.blindHandicapEtc IS NOT NULL AND ai.blindHandicapEtc <> '' AND 'blind_handicap_etc' IN :accessibleTypeList))")
+            "OR (ai.blindHandicapEtc IS NOT NULL AND ai.blindHandicapEtc <> '' AND 'blind_handicap_etc' IN :accessibleTypeList))"+
+            "OR (ai.parking IS NOT NULL AND ai.parking <> '' AND 'parking' IN :accessibleTypeList)")
     List<AccessibleInfo> findByContentIdInAndAccessibleTypes(@Param("contentIdList") List<String> contentIdList,
                                                              @Param("accessibleTypeList") List<String> accessibleTypeList);
 
