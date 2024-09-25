@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/images/Favicon.png" type="image/png"> <!-- 이미지 경로를 수정하세요 -->
-    <title>저장한 장소 보기 </title>
+    <title>저장한 장소 보기</title>
     <link rel="stylesheet" href="/css/map.css">
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9795bab39c2cc262f3aec7f26ec16196&libraries=services,drawing"></script>
 </head>
@@ -63,8 +63,13 @@
             <button onclick="clearRoute()">경로 지우기</button>
         </div>
 
-        <!-- Right Panel for Map -->
-        <div id="map" style="width: 70%; height: 600px;"></div>
+        <!-- 지도 보기 섹션 -->
+        <div class="map-container">
+            <div class="map-header">
+                지도 보기
+            </div>
+            <div id="map"></div>
+        </div>
     </div>
 </div>
 

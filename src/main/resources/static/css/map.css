@@ -204,17 +204,18 @@ html, body {
     display: flex;
     justify-content: space-between;
     padding-top: 10px;
-    height: auto;
+    height: 850px; /* 전체 화면 높이의 80%를 차지 */
     margin: 0;
+    box-sizing: border-box; /* 패딩과 경계 포함한 크기 계산 */
 }
 
 /* 좌측 패널 스타일 */
 .tour-list {
-    width: 30%;
+    width: 40%;
     padding: 20px;
     background-color: white;
     border-right: 2px solid #ddd;
-    max-height: 600px; /* 높이를 600px로 고정 */
+    height: 800px; /* 부모 컨테이너에 맞춰 높이 설정 */
     overflow-y: auto;  /* 세로 스크롤 허용 */
     border-radius: 5px;
     margin-left: -20px; /* 왼쪽으로 20px 이동 */
@@ -226,7 +227,7 @@ html, body {
 }
 
 .saved-places {
-    max-height: 200px; /* 저장된 관광지 박스의 최대 높이를 300px로 설정 */
+    max-height: 300px; /* 저장된 관광지 박스의 최대 높이를 300px로 설정 */
     overflow-y: auto;  /* 스크롤 가능하게 설정 */
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 카드 그림자 */
@@ -237,7 +238,7 @@ html, body {
 
 /* 일정 드롭 영역 높이 및 스크롤 허용 */
 #schedule {
-    max-height: 150px; /* 일정 드롭 영역의 최대 높이 */
+    max-height: 300px; /* 일정 드롭 영역의 최대 높이 */
     overflow-y: auto;  /* 세로 스크롤 허용 */
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 카드 그림자 */
@@ -312,13 +313,31 @@ html, body {
     color: #777;
 }
 
+/* 지도 보기 섹션을 감싸는 컨테이너 */
+.map-container {
+    display: flex;
+    flex-direction: column; /* 상하로 배치 */
+    height: 100%; /* 부모 컨테이너의 100% 높이 차지 */
+    width: 100%;  /* 너비 100% */
+}
+
+/* 지도 보기 텍스트 스타일 */
+.map-header {
+    background-color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
 /* 지도 영역 */
 #map {
     flex-grow: 1; /* 부모 높이에 맞게 지도 크기가 자동으로 조절 */
-    width: 70%;   /* 지도 영역 너비 */
-    height: 600px; /* 고정된 높이 */
+    width: 100%;   /* 지도 영역 너비 */
+    height: 100%; /* 부모 높이에 맞춰 높이 설정 */
     border-radius: 10px;
     overflow: hidden;
+
 }
 
 /* 모달 창 스타일 */
