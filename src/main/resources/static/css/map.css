@@ -520,6 +520,39 @@ button:hover {
     cursor: pointer;
 }
 
+/* 마커 위에 표시될 관광지 이름 사각형 스타일 */
+.custom-overlay {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+/* 마커의 사각형을 중앙으로 맞추기 위한 커스텀 오버레이의 위치 조정 */
+.custom-overlay::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 6px 0;
+    border-color: #fff transparent;
+    display: block;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.custom-overlay-shadow {
+    position: absolute;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 /* Footer 스타일 */
 .footer {
     background-color: #B4D5A8;

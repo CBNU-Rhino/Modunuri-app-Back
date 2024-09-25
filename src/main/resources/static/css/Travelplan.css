@@ -687,17 +687,10 @@ p {
     font-size: 20px;
 }
 
-/* Footer */
-
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* 최소 높이를 100% 뷰포트 높이로 설정 */
-}
-
+/* Footer 스타일 */
 .footer {
     background-color: #B4D5A8;
-    color: #fff !important;
+    color: #ffffff !important; /* 텍스트 색상을 흰색으로 강제 적용 */
     text-align: center;
     padding: 20px;
     width: 100%;
@@ -716,7 +709,7 @@ p {
 }
 
 .footer-links a {
-    color: #fff;
+    color: #ffffff !important; /* 링크 텍스트 색상도 흰색으로 강제 적용 */
     text-decoration: none;
 }
 

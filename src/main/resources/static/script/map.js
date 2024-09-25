@@ -127,26 +127,39 @@ function addMarkerAndRouteAfterDrop(placeId) {
 
 // 마커 추가 및 경로 그리기
 function addMarkerAndRoute(touristDetail) {
-    const coords = new kakao.maps.LatLng(touristDetail.mapy, touristDetail.mapx); // 관광지의 좌표를 설정
-    const placeId = touristDetail.contentid; // 관광지 ID를 가져옴
+    // 관광지의 좌표 (위도와 경도)를 가져옴
+    const coords = new kakao.maps.LatLng(touristDetail.mapy, touristDetail.mapx);
+    const placeId = touristDetail.contentid; // 관광지의 고유 ID
 
-    // 마커 생성
+    // 마커 생성 (지도에 표시할 기본 마커)
     const marker = new kakao.maps.Marker({
-        map: map,
-        position: coords // 마커 위치 설정
+        position: coords,  // 마커가 표시될 위치 (관광지 좌표)
+        map: map,  // 마커를 표시할 지도 객체 (카카오 지도)
     });
 
-    // 인포윈도우 생성 (마커 클릭 시 관광지 이름을 표시)
-    var infowindow = new kakao.maps.InfoWindow({
-        content: `<div style="padding:5px;">${touristDetail.title}</div>` // 관광지 이름 표시
+    // 마커 위에 관광지 이름을 표시하는 커스텀 오버레이 내용 (HTML)
+    const overlayContent = `
+        <div style="background-color: white; border: 1px solid #ccc; padding: 5px 10px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); font-size: 12px; font-weight: bold;">
+            ${touristDetail.title}  <!-- 관광지 제목 표시 -->
+        </div>
+    `;
+
+    // 커스텀 오버레이 생성 (마커 위에 관광지 이름 표시)
+    const customOverlay = new kakao.maps.CustomOverlay({
+        position: coords,  // 오버레이가 표시될 위치 (마커와 동일한 좌표)
+        content: overlayContent,  // 표시할 HTML 내용 (관광지 이름)
+        yAnchor: 1.5,  // yAnchor로 오버레이 위치를 조정 (마커 위에 배치)
+        map: map,  // 커스텀 오버레이를 표시할 지도 객체
     });
 
-    infowindow.open(map, marker); // 마커 위에 인포윈도우 표시
+    // 경로와 마커 정보를 scheduleRoutes 및 markers 객체에 ID를 키로 저장
+    scheduleRoutes[placeId] = coords;  // 경로 정보 저장 (관광지 좌표)
+    markers[placeId] = marker;  // 마커 정보 저장
 
-    // 기존 마커 제거 후 새 마커 추가
-    removeMarker(placeId);
-    scheduleRoutes[placeId] = coords; // 경로 객체에 관광지 좌표 저장
-    markers[placeId] = marker; // 마커 객체에 마커 저장
+    // 마커를 클릭했을 때 실행되는 이벤트 리스너 추가 (관광지 상세 모달 표시)
+    kakao.maps.event.addListener(marker, 'click', function() {
+        openTouristModal(touristDetail.contentid, touristDetail.contenttypeid);  // 모달 열기 함수 호출
+    });
 }
 
 // 마커 제거 함수
