@@ -73,7 +73,7 @@ function initializeSortable() {
         group: {
             name: 'places',  // 그룹 이름 지정
             pull: true,      // 컨테이너에서 요소를 이동할 수 있음
-            put: false       // 다른 컨테이너에 드롭 불가
+            put: true        // 일정 컨테이너에서 다시 저장된 목록으로 이동 가능
         },
         animation: 150, // 드래그 시 애니메이션 속도 (ms)
         ghostClass: 'ghost', // 드래그 중인 요소에 추가되는 클래스
@@ -86,7 +86,7 @@ function initializeSortable() {
     Sortable.create(scheduleContainer, {
         group: {
             name: 'places',  // 같은 그룹으로 설정하여 서로 이동 가능
-            pull: false,     // 일정 컨테이너로 들어오는 것만 허용
+            pull: true,      // 일정 컨테이너에서 저장된 목록으로 다시 드래그 가능
             put: true        // 저장된 장소에서 일정으로 드롭 가능
         },
         animation: 150, // 드래그 시 애니메이션 속도 (ms)
