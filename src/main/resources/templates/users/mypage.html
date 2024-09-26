@@ -245,32 +245,33 @@
         for (let i = 0; i < touristCoords.length; i++) {
             const coord = touristCoords[i];
 
-            // 마커 생성
+            // 마커 생성 (기본 마커 사용)
             const markerPosition = new kakao.maps.LatLng(coord.mapy, coord.mapx);
             const marker = new kakao.maps.Marker({
-                position: markerPosition
+                position: markerPosition,
+                map: map
             });
 
-            // 마커를 지도 위에 표시
-            marker.setMap(map);
+            // 커스텀 오버레이 생성 (마커 위에 관광지 이름 표시)
+            const overlayContent = `
+            <div class="custom-overlay">${coord.title}</div>
+        `;
 
-            // 마커에 관광지 이름을 표시하는 인포윈도우 추가
-            const infowindow = new kakao.maps.InfoWindow({
-                content: `<div style="padding:10px; font-size:14px; font-weight:bold;">${coord.title}</div>`, // 패딩 및 폰트 크기 조정
-                removable: true  // 인포윈도우를 닫을 수 있도록 설정
+            const customOverlay = new kakao.maps.CustomOverlay({
+                position: markerPosition,  // 오버레이가 표시될 위치
+                content: overlayContent,   // 표시할 HTML 내용 (관광지 이름)
+                yAnchor: 1.5,  // yAnchor로 오버레이 위치를 조정 (마커 위에 배치)
+                map: map       // 커스텀 오버레이를 표시할 지도 객체
             });
 
-            // 마커가 생성되면 자동으로 인포윈도우가 열리도록 설정
-            infowindow.open(map, marker);
-
-            // 마커에 마우스를 올리면 인포윈도우 표시
+            // 마커에 마우스를 올리면 커스텀 오버레이 표시
             kakao.maps.event.addListener(marker, 'mouseover', () => {
-                infowindow.open(map, marker);
+                customOverlay.setMap(map);
             });
 
-            // 마커에서 마우스를 내리면 인포윈도우 닫기
+            // 마커에서 마우스를 내리면 커스텀 오버레이 숨김
             kakao.maps.event.addListener(marker, 'mouseout', () => {
-                infowindow.close();
+                customOverlay.setMap(null);
             });
 
             // 경로가 있다면, 경로 데이터를 가져와 지도에 경로 표시
@@ -324,6 +325,7 @@
         });
         polyline.setMap(map);
     }
+
 
     function openModal(courseName) {
         const modal = document.getElementById("course-modal");
