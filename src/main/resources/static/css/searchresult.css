@@ -505,3 +505,34 @@ html, body {
 .footer-links a:hover {
     text-decoration: underline;
 }
+
+.custom-overlay {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.custom-overlay::after {
+    content: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 6px 0;
+    border-color: #fff transparent;
+    display: block;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.custom-overlay-shadow {
+    position: absolute;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

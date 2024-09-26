@@ -30,7 +30,7 @@ public class TouristApiService {
     private final TouristInfoRepository touristInfoRepository;
     private final AccessibleInfoRepository accessibleInfoRepository;
     private final ObjectMapper objectMapper;
-    private final String serviceKey = "fHhnNwA7fGBGdq%2FTX99FNNLQJh6pa3CQTHUPpKpk%2FyNHVqEzIDueYm2EKXOq7%2BfjY4fS4KpjCEQBoG3oQ0tTaQ%3D%3D";
+    private final String serviceKey = "A8noyzCmlZ5yEUXuX2yyMHEsfDbXIwWcrwZlNoBGxXgTf86J85h9JmanpHqY93UYP6tbzd1WbX0SLAMeAC1cdA%3D%3D";
     public TouristApiService(RestTemplate restTemplate, TouristInfoRepository touristInfoRepository, AccessibleInfoRepository accessibleInfoRepository, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.touristInfoRepository = touristInfoRepository;

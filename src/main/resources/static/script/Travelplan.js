@@ -434,15 +434,31 @@ function initMapAndMarkers(touristSpots) {
 
     touristSpots.forEach((spot, index) => {
         const markerPosition = new kakao.maps.LatLng(spot.mapy, spot.mapx);
+
+        // 마커 생성 (기본 마커 사용)
         const marker = new kakao.maps.Marker({
             position: markerPosition,
             map: map
         });
 
-        const infowindow = new kakao.maps.InfoWindow({
-            content: `<div style="padding:5px;">${index + 1}. ${spot.title}</div>`
+        // 커스텀 오버레이에 적용할 HTML 내용 (CSS 클래스 사용)
+        const overlayContent = `
+            <div class="custom-overlay">
+                ${index + 1}. ${spot.title}
+                <div class="custom-overlay-shadow"></div> <!-- 그림자 적용 -->
+            </div>
+        `;
+
+        // 커스텀 오버레이 생성
+        const customOverlay = new kakao.maps.CustomOverlay({
+            position: markerPosition,  // 오버레이가 표시될 위치
+            content: overlayContent,    // 표시할 HTML 내용
+            yAnchor: 1.5,               // 마커 위에 오버레이를 배치
+            map: map                    // 오버레이를 표시할 지도
         });
-        infowindow.open(map, marker);
+
+        // 커스텀 오버레이를 지도에 표시
+        customOverlay.setMap(map);
 
         linePath.push(markerPosition);
     });
