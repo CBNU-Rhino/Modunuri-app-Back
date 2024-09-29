@@ -10,10 +10,16 @@ spring:
           mp4: video/mp4
 
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://database-1.cfgs08my6pk6.ap-northeast-2.rds.amazonaws.com:3306/db1?serverTimezone=UTC&characterEncoding=utf8
-    username: admin
-    password: chungbuk
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+      username: ${DATABASE_USER}
+      password: ${DATABASE_PASSWORD}
+
+  #datasource:
+    # driver-class-name: com.mysql.cj.jdbc.Driver
+    #url: jdbc:mysql://database-1.cfgs08my6pk6.ap-northeast-2.rds.amazonaws.com:3306/db1?serverTimezone=UTC&characterEncoding=utf8
+    #username: admin
+    #password: chungbuk
 
   jpa:
     hibernate:

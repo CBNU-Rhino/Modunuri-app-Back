@@ -120,6 +120,8 @@
             console.error('currentUsername 또는 currentUserId 요소를 찾을 수 없습니다.');
             return;
         }
+        // 댓글을 불러오는 함수 호출
+        loadComments(postId); // 이 부분을 추가하여 댓글 목록을 불러옵니다.
 
         // 1. 날짜만 반환하도록 수정된 formatDateTime 함수
         function formatDateTime(dateString) {
