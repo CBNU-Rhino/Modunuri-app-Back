@@ -39,9 +39,20 @@ public class BoardPageController {
 
     // /board/new 경로로 요청이 들어오면 new-post.html 반환
     @GetMapping("/board/new")
-    public String newPostPage() {
+    public String newPostPage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+        // 로그인한 사용자의 정보를 가져옵니다.
+        if (customUserDetails != null) {
+            String currentUserId = customUserDetails.getUsername();  // 로그인한 사용자의 ID 가져오기
+            String currentUsername = customUserDetails.getRealUsername();  // 로그인한 사용자의 실제 이름 가져오기
+            model.addAttribute("currentUserId", currentUserId);
+            model.addAttribute("currentUsername", currentUsername);
+        } else {
+            model.addAttribute("currentUserId", null); // 로그인하지 않았을 때 처리
+        }
+
         return "community/new-post";  // src/main/resources/templates/community/new-post.html 파일 반환
     }
+
     // 게시물 수정 폼 (수정 시에도 new-post.html 사용)
     @GetMapping("/board/post/{postId}/edit")
     public String editPostPage(@PathVariable Long postId, Model model) {
