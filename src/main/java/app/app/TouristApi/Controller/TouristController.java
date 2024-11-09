@@ -2,7 +2,6 @@ package app.app.TouristApi.Controller;
 
 import app.app.TouristApi.DTO.TouristInfoDTO;
 import app.app.TouristApi.DTO.TouristInfoWithAccessibilityDTO;
-import app.app.TouristApi.Entity.AccessibleInfo;
 import app.app.TouristApi.Entity.TouristInfo;
 import app.app.TouristApi.Service.TouristApiService;
 import app.app.TouristApi.Service.TouristSpotService;  // TouristSpotService 추가
