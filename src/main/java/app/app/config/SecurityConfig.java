@@ -1,6 +1,7 @@
 package app.app.config;
 
 import app.app.user.Service.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,6 +38,12 @@ public class SecurityConfig {
                         .loginProcessingUrl("/users/login")
                         .usernameParameter("userId")  // 여기를 설정
                         .passwordParameter("password")
+                        .successHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK); // 로그인 성공 시 200 반환
+                        })
+                        .failureHandler((request, response, exception) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 로그인 실패 시 401 반환
+                        })
                         .defaultSuccessUrl("/", true)
                         .failureUrl("/users/login?error=true")
                         .permitAll()
