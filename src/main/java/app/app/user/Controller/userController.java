@@ -38,22 +38,20 @@ public class userController {
         return "users/signup"; // templates/users/signup.html 파일을 반환
     }
 
-    // 회원가입 요청을 처리하는 POST 메서드
     @PostMapping("/signup")
-    public String register(@ModelAttribute UserDTO userDTO, RedirectAttributes redirectAttributes) {
+    public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
         try {
             // UserDTO를 사용하여 사용자 등록
             User newUser = userService.registerUser(
                     userDTO.getUsername(),
                     userDTO.getPassword(),
                     userDTO.getUserId());
-            redirectAttributes.addFlashAttribute("message", "회원가입이 완료되었습니다!");
-            return "redirect:/users/signup_complete"; // 회원가입 완료 페이지로 리다이렉트
+            return ResponseEntity.ok("회원가입이 완료되었습니다!"); // 200 OK 응답
         } catch (RuntimeException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/users/signup"; // 오류 시 다시 회원가입 페이지로 리다이렉트
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패: " + e.getMessage()); // 400 응답
         }
     }
+
 
     @GetMapping("/signup_complete")
     public String signupComplete() {
