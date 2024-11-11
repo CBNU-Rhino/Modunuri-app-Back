@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,16 +40,21 @@ public class userController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody UserDTO userDTO) {
+        Map<String, String> response = new HashMap<>();
         try {
             // UserDTO를 사용하여 사용자 등록
             User newUser = userService.registerUser(
                     userDTO.getUsername(),
                     userDTO.getPassword(),
                     userDTO.getUserId());
-            return ResponseEntity.ok("회원가입이 완료되었습니다!"); // 200 OK 응답
+            System.out.println("회원가입 성공");
+            response.put("message", "회원가입이 완료되었습니다!");
+            return ResponseEntity.ok(response); // 200 OK 응답과 함께 메시지를 JSON으로 반환
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패: " + e.getMessage()); // 400 응답
+            System.out.println("회원가입 실패");
+            response.put("message", "회원가입 실패: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response); // 400 응답과 메시지 반환
         }
     }
 
