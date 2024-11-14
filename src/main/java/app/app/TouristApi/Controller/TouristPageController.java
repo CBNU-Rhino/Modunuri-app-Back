@@ -12,8 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/touristSpot")
@@ -38,26 +41,29 @@ public class TouristPageController {
 
 
     @GetMapping("/tourist-information")
-    public String getTouristInformation(
+    @ResponseBody // JSON 형식으로 응답을 보냅니다.
+    public Map<String, Object> getTouristInformation(
             @RequestParam String contentId,
             @RequestParam String contentTypeId,
-            @AuthenticationPrincipal CustomUserDetails user, // 로그인한 사용자 정보 추가
-            Model model) {
+            @AuthenticationPrincipal CustomUserDetails user) { // 로그인한 사용자 정보 추가
 
         // 관광지 정보와 접근성 정보를 가져옵니다.
         TouristInfoWithAccessibilityDTO touristInfo = touristApiService.getTouristInfoWithAccessibility(contentId, contentTypeId);
 
-        // 로그인된 사용자가 있는 경우 사용자 정보를 모델에 추가
+        // 응답 데이터를 담을 Map 생성
+        Map<String, Object> response = new HashMap<>();
+
+        // 관광지 정보를 응답에 추가
+        response.put("touristInfo", touristInfo);
+
+        // 로그인된 사용자가 있는 경우 사용자 정보를 응답에 추가
         if (user != null) {
-            model.addAttribute("username", user.getRealUsername());
+            response.put("username", user.getRealUsername());
         } else {
-            model.addAttribute("username", null); // 비로그인 상태일 때
+            response.put("username", null); // 비로그인 상태일 때
         }
 
-        // 관광지 정보를 모델에 추가하여 view로 넘깁니다.
-        model.addAttribute("touristInfo", touristInfo);
-
-        return "touristSpot/searchresult"; // searchresult.html로 이동
+        return response; // JSON 형태로 응답을 반환
     }
 
     @GetMapping("/searchresult.html")
